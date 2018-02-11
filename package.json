@@ -1,0 +1,56 @@
+{
+  "name": "cs-toolkit",
+  "description": "Child Sensitivity in Poverty Alleviation Programming: An Analytical Toolkit",
+  "version": "1.0.0",
+  "author": "Sharon Kennedy <sharon.peishan.kennedy@gmail.com>",
+  "engines": {
+    "node": "^8.9.4"
+  },
+  "dependencies": {
+    "auth0-lock": "^10.24.1",
+    "axios": "^0.17.1",
+    "bootstrap": "^4.0.0-beta.2",
+    "crypto": "^1.0.1",
+    "draft-js": "^0.10.4",
+    "draftjs-to-html": "^0.8.1",
+    "firebase": "^4.9.1",
+    "gatsby": "^1.9.172",
+    "gatsby-cli": "^1.1.29",
+    "gatsby-link": "^1.6.30",
+    "gatsby-plugin-favicon": "^2.1.1",
+    "gatsby-plugin-react-helmet": "^1.0.8",
+    "gatsby-plugin-sass": "^1.0.14",
+    "gh-pages": "^1.1.0",
+    "html-to-draftjs": "^1.1.1",
+    "immutability-helper": "^2.6.0",
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-draft-wysiwyg": "^1.11.0",
+    "react-firebaseui": "^1.1.6",
+    "react-flip-move": "^3.0.1",
+    "react-fontawesome": "^1.6.1",
+    "react-images-upload": "^1.1.1",
+    "react-redux": "^5.0.6",
+    "react-select": "^1.2.1",
+    "reactstrap": "^5.0.0-alpha.4",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "main": "n/a",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+  },
+  "devDependencies": {
+    "prettier": "^1.8.2"
+  }
+}

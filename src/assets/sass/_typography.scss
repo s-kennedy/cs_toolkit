@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Gill Sans Infant';
+  src: url('../fonts/GillSansInfantStd.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Trade Gothic';
+  src: url('../fonts/TradeGothicLTBoldCondensed.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Gill Sans Infant', 'Helvetica', sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Trade Gothic';
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 3.333rem;
+  line-height: 2.077rem;
+}
+
+h2 {
+  font-size: 2.222rem;
+  line-height: 1.69em;
+}
+
+h3 {
+  font-size: 1.667rem;
+  line-height: 1.385em;
+}
+
+button, .stc-btn {
+  font-family: 'Trade Gothic';
+  text-transform: uppercase;
+  font-size: 1.111em;
+}
+
+a {
+  color: $plum;
+
+  &:active, &:hover, &:focus {
+    color: transparentize($plum, 0.1);
+  }
+}
+
+.header {
+  h3 {
+    border-bottom: 2px solid $red;
+    padding-bottom: 0.6rem;
+  }
+}
+
+.dropdown-menu {
+  button {
+    font-family: 'Gill Sans Infant', 'Helvetica', sans-serif;
+    font-size: 18px;
+    text-transform: none;
+  }
+}
