@@ -21,14 +21,14 @@ const mapDispatchToProps = (dispatch) => {
     onToggleNewPageModal: () => {
       dispatch(toggleNewPageModal())
     },
-    createPage: (pageData, token) => {
-      dispatch(createPage(pageData, token))
+    createPage: (pageData) => {
+      dispatch(createPage(pageData))
     },
-    savePage: (pageData, content, token) => {
-      dispatch(savePage(pageData, content, token))
+    savePage: (pageData, content) => {
+      dispatch(savePage(pageData, content))
     },
-    deploy: (token) => {
-      dispatch(deploy(token))
+    deploy: () => {
+      dispatch(deploy())
     }
   }
 }

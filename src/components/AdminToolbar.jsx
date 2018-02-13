@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AuthService from '../utils/AuthService'
 import CreatePageModalContainer from '../containers/CreatePageModalContainer'
 
 import {
@@ -35,7 +34,6 @@ export default class AdminToolbar extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.auth = new AuthService();
     this.savePageToDatabase = () => this._savePageToDatabase();
     this.createPage = () => this._createPage();
     this.deploy = () => this._deploy();
@@ -51,22 +49,21 @@ export default class AdminToolbar extends React.Component {
   }
 
   _savePageToDatabase () {
-    const token = this.auth.getToken();
-    this.props.savePage(this.props.pageData, this.props.content, token)
+    this.props.savePage(this.props.pageData, this.props.content)
   }
 
   _createPage(pageData) {
-    const token = this.auth.getToken();
     this.props.createPage(pageData, token)
   }
 
   _deploy() {
-    const token = this.auth.getToken();
+    // const token = this.auth.getToken();
     // this.props.deploy(token);
   }
 
   render() {
-    if (this.props.isLoggedIn && this.props.allowEditing) {
+    // if (this.props.isLoggedIn && this.props.allowEditing) {
+    if (this.props.isLoggedIn) {
       const editingText = this.props.isEditingPage ? 'Stop editing' : 'Edit this page';
 
       return (

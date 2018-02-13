@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { filter } from 'lodash'
 import Link, { navigateTo } from 'gatsby-link';
 import logo from '../assets/img/STC_Logo_Horiz.png';
-import AuthService from '../utils/AuthService'
-import { lock } from '../utils/init'
 import RegistrationModal from './RegistrationModal'
 import firebase from '../firebase/init';
 
@@ -47,8 +45,6 @@ export default class Navigation extends React.Component {
       console.log('user', user)
       if (!!user) {
         this.props.userLoggedIn()
-        this.props.onToggleRegistrationModal();
-        console.log('user logged in')
       }
     });
   }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../utils/constants'
+import firebase from '../firebase/init'
 
 // AUTHENTICATION ------------------------
 
@@ -63,27 +64,21 @@ export function savePage(pageData, content, token) {
   return dispatch => {
     dispatch(savingPage());
 
-    const pageId = pageData.id;
-    const url = `${API_URL}/pages/${pageId}`;
+    const db = firebase.firestore();
+    const title = pageData.title;
     const data = {
-      page: {
-        content: content.body,
-        page_header: content.header,
-        title: pageData.title
-      },
-      id: pageId
+      content: content.body,
+      page_header: content.header,
+      title: pageData.title
     }
 
-    axios.put(url, data, { headers: { 'Authorization': 'Bearer ' + token } })
-      .then((res) => {
-        dispatch(toggleEditing())
-        if (res.status === 200) {
-          dispatch(showNotification('Your changes have been saved.', 'success'));
-        } else {
-          dispatch(showNotification('There was an error saving your page, please try again.', 'danger'));
-        }
-      })
-     .catch((err) => dispatch(showNotification(`There was an error saving your page: ${err}`, 'danger')))
+    db.collection("pages").doc(title).set(data)
+    .then(() => {
+      console.log("Page saved!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
   }
 }
 

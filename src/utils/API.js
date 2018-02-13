@@ -1,4 +1,5 @@
 import { api } from './init'
+import firebase from '../firebase/init'
 
 export function savePage(pageId, data, token, onSuccess, onFail){
   const url = `/pages/${pageId}`;
