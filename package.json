@@ -50,6 +50,7 @@
     "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "devDependencies": {
-    "prettier": "^1.8.2"
+    "prettier": "^1.8.2",
+    "webpack-node-externals": "^1.6.0"
   }
 }

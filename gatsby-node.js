@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
   const { createNodeField } = boundActionCreators
@@ -46,7 +45,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         `
       ).then(result => {
         if (result.errors) {
-          console.log(result.errors)
+          console.log("ERROR CREATING PAGES", result.errors)
           reject(result.errors)
         }
 
@@ -67,4 +66,3 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
     )
   })
 };
-
