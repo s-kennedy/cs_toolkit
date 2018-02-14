@@ -1,6 +1,5 @@
 const crypto = require(`crypto`);
 const firebase = require(`firebase`)
-require (`firebase/firestore`)
 
 const config = {
   apiKey: "AIzaSyDV7lnBOhAucGoJZdY_m6IqdMXAs6buyB8",
@@ -12,15 +11,39 @@ const config = {
 };
 
 firebase.initializeApp(config);
-const db = firebase.firestore();
+const db = firebase.database()
+const pagesRef = db.ref('pages');
+
+const url = `https://toolkit.sharonkennedy.ca/${resourceType}`;
+
+console.log("Sourcing content from " + url)
+
+axios.get(url)
+  .then((response) => {
+    const resources = response.data;
+
+    resources.map((resource) => {
+      const page = {
+        title: resource.title,
+        slug: resource.slug,
+        template: resource.template,
+        page_type: resource.page_type,
+        page_header: resource.page_header,
+        content: resource.content
+      }
+      console.log("Saving page: ", page.title)
+      pagesRef.push(page)
+    })
+  })
 
 
 exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
   const { createNode } = boundActionCreators
 
+
   return new Promise((resolve, reject) => {
-    db.collection(resourceType).get()
-      .then((querySnapshot) => {
+    try {
+      pagesRef.once('value', (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const resource = doc.data();
           const parentNodeId = `${resourceType}-${doc.id}`
@@ -70,13 +93,14 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
           createNode(parentNode);
           createNode(contentNode);
         })
-        resolve()
       })
-      .catch(function (error) {
-        console.log(error);
-        process.exit(1)
-        reject()
-      });
+      resolve()
+
+    } catch(error) {
+      console.log(error);
+      process.exit(1)
+      reject()
+    }
   })
 };
 
