@@ -2,7 +2,6 @@ const path = require('path')
 
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
   const { createNodeField } = boundActionCreators
-
   if (node.internal.type === `pages`) {
     const nodeContent = JSON.parse(node.internal.content);
     const { template, slug, title, category } = nodeContent;

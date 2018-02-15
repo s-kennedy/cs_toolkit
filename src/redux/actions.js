@@ -64,21 +64,20 @@ export function savePage(pageData, content, token) {
   return dispatch => {
     dispatch(savingPage());
 
-    const db = firebase.firestore();
-    const title = pageData.title;
+    const db = firebase.database();
+    const id = pageData.id;
     const data = {
       content: content.body,
       page_header: content.header,
       title: pageData.title
     }
 
-    db.collection("pages").doc(title).set(data)
-    .then(() => {
+    try {
+      db.ref(`pages/${id}`).update(data);
       console.log("Page saved!");
-    })
-    .catch((error) => {
+    } catch(error) {
       console.error("Error writing document: ", error);
-    });
+    }
   }
 }
 

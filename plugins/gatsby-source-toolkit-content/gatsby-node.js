@@ -1,5 +1,6 @@
 const crypto = require(`crypto`);
 const firebase = require(`firebase`)
+const axios = require('axios')
 
 const config = {
   apiKey: "AIzaSyDV7lnBOhAucGoJZdY_m6IqdMXAs6buyB8",
@@ -10,31 +11,37 @@ const config = {
   messagingSenderId: "117348823057"
 };
 
-firebase.initializeApp(config);
+console.log('firebase apps:', firebase.apps.length)
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+// firebase.initializeApp(config);
 const db = firebase.database()
 const pagesRef = db.ref('pages');
 
-const url = `https://toolkit.sharonkennedy.ca/${resourceType}`;
+// const url = `https://toolkit.sharonkennedy.ca/pages`;
 
-console.log("Sourcing content from " + url)
+// console.log("Sourcing content from " + url)
 
-axios.get(url)
-  .then((response) => {
-    const resources = response.data;
+// axios.get(url)
+//   .then((response) => {
+//     const resources = response.data;
 
-    resources.map((resource) => {
-      const page = {
-        title: resource.title,
-        slug: resource.slug,
-        template: resource.template,
-        page_type: resource.page_type,
-        page_header: resource.page_header,
-        content: resource.content
-      }
-      console.log("Saving page: ", page.title)
-      pagesRef.push(page)
-    })
-  })
+//     resources.map((resource) => {
+//       const page = {
+//         title: resource.title,
+//         slug: resource.slug,
+//         template: resource.template,
+//         page_type: resource.page_type,
+//         page_header: resource.page_header,
+//         content: resource.content
+//       }
+//       pagesRef.push(page)
+//       console.log("Saving page: ", page.title)
+//     })
+//   })
 
 
 exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
@@ -45,11 +52,11 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
     try {
       pagesRef.once('value', (querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          const resource = doc.data();
-          const parentNodeId = `${resourceType}-${doc.id}`
-          const contentNodeId = `${resourceType}-${doc.id}-content`
+          const resource = doc.val();
+          const parentNodeId = `${resourceType}-${doc.key}`
+          const contentNodeId = `${resourceType}-${doc.key}-content`
           const parentNodeContent = {
-            id: doc.id,
+            id: doc.key,
             title: resource.title,
             slug: resource.slug,
             template: resource.template,
@@ -89,12 +96,12 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
               content: JSON.stringify(contentNodeContent)
             }
           }
-
+          console.log('CREATING NODE', parentNode)
           createNode(parentNode);
           createNode(contentNode);
         })
-      })
       resolve()
+      })
 
     } catch(error) {
       console.log(error);
