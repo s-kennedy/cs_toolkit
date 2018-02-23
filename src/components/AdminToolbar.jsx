@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CreatePageModalContainer from '../containers/CreatePageModalContainer'
+import React from "react";
+import PropTypes from "prop-types";
+import CreatePageModalContainer from "../containers/CreatePageModalContainer";
 
 import {
   Button,
@@ -8,27 +8,28 @@ import {
   Navbar,
   NavbarToggler,
   Nav,
-  NavItem } from 'reactstrap';
+  NavItem
+} from "reactstrap";
 
-import { savePage } from '../utils/API';
+import { savePage } from "../utils/API";
 
 const styles = {
   toolbar: {
-    backgroundColor: '#9A3324', //plum
-    color: '#FFF'
+    backgroundColor: "#9A3324", //plum
+    color: "#FFF"
   },
   saveBtn: {
-    backgroundColor: '#009CA6', //teal
-    color: '#FFF'
+    backgroundColor: "#009CA6", //teal
+    color: "#FFF"
   },
   deployBtn: {
-    backgroundColor: '#F2A900', //mustard
-    color: '#FFF'
+    backgroundColor: "#F2A900", //mustard
+    color: "#FFF"
   },
   navButton: {
-    marginRight: '6px'
+    marginRight: "6px"
   }
-}
+};
 
 export default class AdminToolbar extends React.Component {
   constructor(props) {
@@ -48,12 +49,12 @@ export default class AdminToolbar extends React.Component {
     });
   }
 
-  _savePageToDatabase () {
-    this.props.savePage(this.props.pageData, this.props.content)
+  _savePageToDatabase() {
+    this.props.savePage(this.props.pageData, this.props.content);
   }
 
   _createPage(pageData) {
-    this.props.createPage(pageData, token)
+    this.props.createPage(pageData, token);
   }
 
   _deploy() {
@@ -64,7 +65,9 @@ export default class AdminToolbar extends React.Component {
   render() {
     // if (this.props.isLoggedIn && this.props.allowEditing) {
     if (this.props.isLoggedIn) {
-      const editingText = this.props.isEditingPage ? 'Stop editing' : 'Edit this page';
+      const editingText = this.props.isEditingPage
+        ? "Stop editing"
+        : "Edit this page";
 
       return (
         <div>
@@ -73,41 +76,48 @@ export default class AdminToolbar extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem style={styles.navButton}>
-                  {
-                    !this.props.isEditingPage &&
-                    <Button color='white' onClick={this.props.onToggleNewPageModal}>
+                  {!this.props.isEditingPage && (
+                    <Button
+                      color="white"
+                      onClick={this.props.onToggleNewPageModal}
+                    >
                       Add new page
                     </Button>
-                  }
+                  )}
                 </NavItem>
                 <NavItem style={styles.navButton}>
-                  <Button color='white' onClick={this.props.onToggleEditing}>
+                  <Button color="white" onClick={this.props.onToggleEditing}>
                     {editingText}
                   </Button>
                 </NavItem>
                 <NavItem style={styles.navButton}>
-                  {
-                    this.props.isEditingPage &&
-                    <Button style={styles.saveBtn} onClick={this.savePageToDatabase}>
+                  {this.props.isEditingPage && (
+                    <Button
+                      style={styles.saveBtn}
+                      onClick={this.savePageToDatabase}
+                    >
                       Save changes
-                    </Button> }
+                    </Button>
+                  )}
                 </NavItem>
                 <NavItem style={styles.navButton}>
-                  {
-                    !this.props.isEditingPage &&
+                  {!this.props.isEditingPage && (
                     <Button style={styles.deployBtn} onClick={this.deploy}>
                       Deploy website
                     </Button>
-                  }
+                  )}
                 </NavItem>
               </Nav>
             </Collapse>
           </Navbar>
-          <CreatePageModalContainer pages={this.props.pages} createPage={this.createPage}/>
+          <CreatePageModalContainer
+            pages={this.props.pages}
+            createPage={this.createPage}
+          />
         </div>
       );
     } else {
-      return <div></div>
+      return <div />;
     }
   }
 }

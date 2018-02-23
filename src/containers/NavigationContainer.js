@@ -1,32 +1,35 @@
-import { connect } from 'react-redux'
-import { userLoggedIn, userLoggedOut, toggleRegistrationModal } from '../redux/actions'
+import { connect } from "react-redux";
+import {
+  userLoggedIn,
+  userLoggedOut,
+  toggleRegistrationModal
+} from "../redux/actions";
 
-import Navigation from '../components/Navigation'
+import Navigation from "../components/Navigation";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLoggedIn: state.adminTools.isLoggedIn,
-    showRegistrationModal: state.adminTools.showRegistrationModal,
-  }
-}
+    showRegistrationModal: state.adminTools.showRegistrationModal
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    userLoggedIn: (roles) => {
-      dispatch(userLoggedIn(roles))
+    userLoggedIn: roles => {
+      dispatch(userLoggedIn(roles));
     },
     userLoggedOut: () => {
-      dispatch(userLoggedOut())
+      dispatch(userLoggedOut());
     },
     onToggleRegistrationModal: () => {
-      dispatch(toggleRegistrationModal())
-    },
-  }
-}
+      dispatch(toggleRegistrationModal());
+    }
+  };
+};
 
-const NavigationContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Navigation)
+const NavigationContainer = connect(mapStateToProps, mapDispatchToProps)(
+  Navigation
+);
 
-export default NavigationContainer
+export default NavigationContainer;
