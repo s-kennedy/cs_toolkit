@@ -3,21 +3,18 @@ const firebase = require(`firebase`)
 const axios = require('axios')
 
 const config = {
-  apiKey: "AIzaSyDV7lnBOhAucGoJZdY_m6IqdMXAs6buyB8",
-  authDomain: "stc-toolkit.firebaseapp.com",
-  databaseURL: "https://stc-toolkit.firebaseio.com",
-  projectId: "stc-toolkit",
-  storageBucket: "",
-  messagingSenderId: "117348823057"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DB_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 };
 
-console.log('firebase apps:', firebase.apps.length)
-
 if (!firebase.apps.length) {
-    firebase.initializeApp(config);
+  firebase.initializeApp(config);
 }
 
-// firebase.initializeApp(config);
 const db = firebase.database()
 const pagesRef = db.ref('pages');
 
@@ -46,7 +43,6 @@ const pagesRef = db.ref('pages');
 
 exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
   const { createNode } = boundActionCreators
-
 
   return new Promise((resolve, reject) => {
     try {
@@ -96,7 +92,6 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
               content: JSON.stringify(contentNodeContent)
             }
           }
-          console.log('CREATING NODE', parentNode)
           createNode(parentNode);
           createNode(contentNode);
         })

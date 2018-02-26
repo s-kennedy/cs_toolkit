@@ -12,6 +12,7 @@
     "crypto": "^1.0.1",
     "draft-js": "^0.10.4",
     "draftjs-to-html": "^0.8.1",
+    "express": "^4.16.2",
     "firebase": "^4.9.1",
     "gatsby": "^1.9.172",
     "gatsby-cli": "^1.1.29",
@@ -47,7 +48,7 @@
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+    "deploy": "gatsby build && firebase deploy"
   },
   "devDependencies": {
     "prettier": "^1.8.2",
