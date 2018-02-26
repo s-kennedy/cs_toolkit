@@ -58,8 +58,7 @@ export default class AdminToolbar extends React.Component {
   }
 
   _deploy() {
-    // const token = this.auth.getToken();
-    // this.props.deploy(token);
+    this.props.deploy();
   }
 
   render() {

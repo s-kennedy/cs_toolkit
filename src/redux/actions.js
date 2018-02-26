@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../utils/constants'
+import { API_URL, DEPLOY_ENDPOINT } from '../utils/constants'
 import firebase from '../firebase/init'
 
 // AUTHENTICATION ------------------------
@@ -81,16 +81,20 @@ export function savePage(pageData, content, token) {
   }
 }
 
-export function deploy(token) {
+export function deploy() {
   return dispatch => {
-    const url = `${API_URL}/deploy`;
+    const url = `${DEPLOY_ENDPOINT}`;
 
-    axios.get(url, { headers: { 'Authorization': 'Bearer ' + token } })
-    .then(res => {
-      console.log(res)
-      dispatch(showNotification("The website is being deployed - this may take a few minutes.", 'success'))
-    })
-    .catch(err => dispatch(showNotification(`There was an error deploying the site: ${err}`, 'danger')))
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then((token) => {
+      axios.get(url, { headers: { 'Authorization': 'Bearer ' + token } }).then(res => {
+        console.log(res)
+        dispatch(showNotification("The website is being deployed - this may take a few minutes.", 'success'))
+      }).catch(err => {
+        dispatch(showNotification(`There was an error deploying the site: ${err}`, 'danger'))
+      })
+    }).catch(err => {
+      dispatch(showNotification(`There was an error with your authentication: ${err}`, 'danger'))
+    });
   }
 }
 
