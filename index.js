@@ -30,6 +30,8 @@ app.get('/', (req, res) => {
             `====== Child process exited with code ${code} and signal ${signal} ======`
           )
         })
+
+        child.on(`error`, err => console.log(`err:`, err))
       })
       .catch(error => {
         if (error.code == 'auth/id-token-revoked') {

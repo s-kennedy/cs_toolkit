@@ -10,6 +10,7 @@ export const emptyContentItems = {
 
 export const API_URL = 'https://toolkit.sharonkennedy.ca';
 export const DEPLOY_ENDPOINT = 'https://stc-toolkit.appspot.com';
+// export const DEPLOY_ENDPOINT = 'http://localhost:8080';
 
 export const PAGE_TYPES = [
   { label: 'About', value: 'about' },

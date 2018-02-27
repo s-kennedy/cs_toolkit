@@ -43,7 +43,6 @@ export default class Navigation extends React.Component {
 
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
-      console.log("user", user);
       if (!!user) {
         this.props.userLoggedIn();
       }
