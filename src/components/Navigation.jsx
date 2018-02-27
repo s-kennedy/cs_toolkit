@@ -44,8 +44,11 @@ export default class Navigation extends React.Component {
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        const ref = firebase.app().database().ref(`users/${user.uid}`)
-        ref.once('value').then(snapshot => {
+        const ref = firebase
+          .app()
+          .database()
+          .ref(`users/${user.uid}`);
+        ref.once("value").then(snapshot => {
           const userData = snapshot.val();
           if (userData) {
             this.props.userLoggedIn(userData);
@@ -55,11 +58,11 @@ export default class Navigation extends React.Component {
               displayName: user.displayName,
               email: user.email,
               photoURL: user.photoURL
-            }
+            };
             ref.set(newUser);
             this.props.userLoggedIn(newUser);
           }
-        })
+        });
       } else {
         this.props.userLoggedOut();
       }

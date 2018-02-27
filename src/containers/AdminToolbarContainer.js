@@ -3,7 +3,7 @@ import { toggleEditing, savePage, toggleNewPageModal, createPage, deploy } from 
 import AdminToolbar from '../components/AdminToolbar'
 
 const mapStateToProps = (state, ownProps) => {
-  const allowEditing = state.adminTools.user && state.adminTools.user.editor;
+  const allowEditing = state.adminTools.user && state.adminTools.user.isEditor;
   return {
     isLoggedIn: state.adminTools.isLoggedIn,
     isEditingPage: state.adminTools.isEditingPage,

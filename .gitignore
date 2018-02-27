@@ -14,3 +14,5 @@ firebaseServiceAccountKey.json
 firebase-config.json
 
 *.yaml
+
+firebase-debug.log
