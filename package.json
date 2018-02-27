@@ -16,6 +16,7 @@
     "express": "^4.16.2",
     "firebase": "^4.9.1",
     "firebase-admin": "^5.9.0",
+    "firebase-tools": "^3.17.4",
     "gatsby": "^1.9.172",
     "gatsby-cli": "^1.1.29",
     "gatsby-link": "^1.6.30",
