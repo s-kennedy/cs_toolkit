@@ -12,7 +12,7 @@ yarn-error.log
 .env.*
 firebaseServiceAccountKey.json
 firebase-config.json
+app.yaml
 
-*.yaml
 
 firebase-debug.log
