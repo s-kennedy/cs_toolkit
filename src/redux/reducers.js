@@ -3,7 +3,7 @@ import { emptyContentItems } from '../utils/constants';
 export const adminTools = (state={}, action) => {
   switch (action.type) {
     case 'USER_LOGGED_IN':
-      return { ...state, isLoggedIn: true, userRoles: action.userRoles }
+      return { ...state, isLoggedIn: true, user: action.user }
     case 'LOCK_FAILURE':
       return { ...state, isLoggedIn: false, error: action.err }
     case 'USER_LOGGED_OUT':

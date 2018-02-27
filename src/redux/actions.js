@@ -4,8 +4,8 @@ import firebase from '../firebase/init'
 
 // AUTHENTICATION ------------------------
 
-export function userLoggedIn(userRoles=[]) {
-  return { type: 'USER_LOGGED_IN', userRoles }
+export function userLoggedIn(user=null) {
+  return { type: 'USER_LOGGED_IN', user }
 }
 
 export function userLoggedOut() {
