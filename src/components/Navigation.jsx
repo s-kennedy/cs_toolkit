@@ -66,6 +66,10 @@ export default class Navigation extends React.Component {
       } else {
         this.props.userLoggedOut();
       }
+
+      if (this.props.showRegistrationModal) {
+        this.props.onToggleRegistrationModal()
+      }
     });
   }
 

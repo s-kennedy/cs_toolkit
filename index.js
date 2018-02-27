@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
       if (userRecord && userRecord.isEditor) {
         deployToolkit();
         console.log(
-          `***** Website deployed by ${userRecord.displayName} *****`
+          `***** Website deployment started by ${userRecord.displayName} *****`
         );
         return res.json({ status: "success" });
       }
