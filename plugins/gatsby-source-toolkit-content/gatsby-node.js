@@ -43,6 +43,8 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
           const resource = doc.val();
           const parentNodeId = `${resourceType}-${doc.key}`
           const contentNodeId = `${resourceType}-${doc.key}-content`
+          const navNodeId = `${resourceType}-${doc.key}-navigation`
+
           const parentNodeContent = {
             id: doc.key,
             title: resource.title,
@@ -54,11 +56,17 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
             header: resource.page_header,
             body: resource.content
           }
+          const navNodeContent = {
+            group: resource.navigation.group,
+            order: resource.navigation.order,
+            slug: resource.slug,
+            title: resource.navigation.displayTitle || resource.title
+          }
 
           const parentNode = {
             id: parentNodeId,
             parent: null,
-            children: [contentNodeId],
+            children: [contentNodeId, navNodeId],
             internal: {
               type: `${resourceType}`,
               contentDigest: crypto
@@ -84,8 +92,24 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
               content: JSON.stringify(contentNodeContent)
             }
           }
+
+          const navNode = {
+            id: navNodeId,
+            parent: parentNodeId,
+            children: [],
+            internal: {
+              type: `${resourceType}_nav`,
+              contentDigest: crypto
+                .createHash(`md5`)
+                .update(JSON.stringify(navNodeContent))
+                .digest(`hex`),
+              mediaType: `application/json`,
+              content: JSON.stringify(navNodeContent)
+            }
+          }
           createNode(parentNode);
           createNode(contentNode);
+          createNode(navNode);
         })
       resolve()
       })
