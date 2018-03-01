@@ -147,6 +147,23 @@ export const notifications = (state={}, action) => {
   }
 }
 
+export const navigation = (state={}, action) => {
+  switch (action.type) {
+    case 'OPEN_MENU':
+      return {
+        ...state,
+        showMenu: true
+      }
+    case 'CLOSE_MENU':
+      return {
+        ...state,
+        showMenu: false
+      }
+    default:
+      return state
+  }
+}
+
 
 
 export const appReducers = (state = {}, action) => {
@@ -155,6 +172,7 @@ export const appReducers = (state = {}, action) => {
     adminTools: adminTools(state.adminTools, action),
     pageData: pageData(state.pageData, action),
     content: content(state.content, action),
+    navigation: navigation(state.navigation, action),
   }
 }
 

@@ -2,7 +2,9 @@ import { connect } from "react-redux";
 import {
   userLoggedIn,
   userLoggedOut,
-  toggleRegistrationModal
+  toggleRegistrationModal,
+  openMenu,
+  closeMenu
 } from "../redux/actions";
 
 import Navigation from "../components/Navigation";
@@ -10,7 +12,8 @@ import Navigation from "../components/Navigation";
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.adminTools.isLoggedIn,
-    showRegistrationModal: state.adminTools.showRegistrationModal
+    showRegistrationModal: state.adminTools.showRegistrationModal,
+    showMenu: state.navigation.showMenu,
   };
 };
 
@@ -24,6 +27,12 @@ const mapDispatchToProps = dispatch => {
     },
     onToggleRegistrationModal: () => {
       dispatch(toggleRegistrationModal());
+    },
+    openMenu: () => {
+      dispatch(openMenu());
+    },
+    closeMenu: () => {
+      dispatch(closeMenu());
     }
   };
 };

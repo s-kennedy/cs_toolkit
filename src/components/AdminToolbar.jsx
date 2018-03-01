@@ -88,16 +88,16 @@ export default class AdminToolbar extends React.Component {
                     {editingText}
                   </Button>
                 </NavItem>
-                <NavItem style={styles.navButton}>
-                  {this.props.isEditingPage && (
+                {this.props.isEditingPage && (
+                  <NavItem style={styles.navButton}>
                     <Button
                       style={styles.saveBtn}
                       onClick={this.savePageToDatabase}
                     >
                       Save changes
                     </Button>
-                  )}
-                </NavItem>
+                  </NavItem>
+                )}
                 <NavItem style={styles.navButton}>
                   {!this.props.isEditingPage && (
                     <Button style={styles.deployBtn} onClick={this.deploy}>

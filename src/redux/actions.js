@@ -192,3 +192,13 @@ export function deleteContentItem(sectionIndex, contentIndex) {
 export function addSection(sectionIndex, sectionType) {
   return { type: "ADD_SECTION", sectionIndex, sectionType };
 }
+
+// NAVIGATION ------------------------
+
+export function openMenu() {
+  return { type: "OPEN_MENU" }
+}
+
+export function closeMenu() {
+  return { type: "CLOSE_MENU" }
+}

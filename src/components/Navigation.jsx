@@ -4,6 +4,7 @@ import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
 import logo from "../assets/img/STC_Logo_Horiz.png";
 import RegistrationModal from "./RegistrationModal";
+import Menu from './Menu';
 import firebase from "../firebase/init";
 
 import {
@@ -86,17 +87,19 @@ export default class Navigation extends React.Component {
 
   renderSignInUp = () => {
     return (
-      <Button color="secondary" onClick={this.props.onToggleRegistrationModal}>
+      <NavLink color="secondary" onClick={this.props.onToggleRegistrationModal}>
         Sign In / Sign Up
-      </Button>
+        <i className="fa fa-user-circle"></i>
+      </NavLink>
     );
   };
 
   renderLogOut = () => {
     return (
-      <Button color="secondary" onClick={this.logout}>
+      <NavLink color="secondary" onClick={this.logout}>
         Sign out
-      </Button>
+        <i className="fa fa-user-circle"></i>
+      </NavLink>
     );
   };
 
@@ -104,15 +107,69 @@ export default class Navigation extends React.Component {
     const aboutPages = orderBy(filter(
       this.props.pages,
       page => page.node.navigation.group === "about"
-    ), 'order')
+    ), 'node.navigation.order')
+
     const referencePages = orderBy(filter(
       this.props.pages,
       page => page.node.navigation.group === "reference"
-    ), 'order')
-    const toolkitPages = orderBy(filter(
+    ), 'node.navigation.order')
+    const bbAPages = orderBy(filter(
       this.props.pages,
-      page => page.node.navigation.group === "building_block"
-    ), 'order')
+      page => page.node.navigation.group === "building_block_a"
+    ), 'node.navigation.order')
+    const bbBPages = orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === "building_block_b"
+    ), 'node.navigation.order')
+    const bbCPages = orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === "building_block_c"
+    ), 'node.navigation.order')
+    const toolPages = orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === "tools"
+    ), 'node.navigation.order')
+    const caseStudyPages = orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === "case_study"
+    ), 'node.navigation.order')
+
+    const columns = [
+      [
+        {
+          title: 'Building Block A: Analysis',
+          pages: bbAPages,
+        },
+        {
+          title: 'Building Block B: Design',
+          pages: bbBPages
+        },
+        {
+          title: 'Building Block C: MEAL',
+          pages: bbCPages
+        },
+      ],
+      [
+        {
+          title: 'Tools',
+          pages: toolPages
+        },
+        {
+          title: 'Case Study',
+          pages: caseStudyPages
+        }
+      ],
+      [
+        {
+          title: 'Reference',
+          pages: referencePages
+        },
+        {
+          title: 'About',
+          pages: aboutPages
+        }
+      ]
+    ]
 
     return (
       <div>
@@ -120,71 +177,18 @@ export default class Navigation extends React.Component {
           <Link to="/" className="navbar-brand">
             <img style={styles.logo} src={logo} alt="Save the Children" />
           </Link>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Toolkit
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    onClick={() => navigateTo("/building-blocks/analysis")}
-                  >
-                    <div className="nav-link">Building Block A: Analysis</div>
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => navigateTo("/building-blocks/design")}
-                  >
-                    <div className="nav-link">Building Block B: Design</div>
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => navigateTo("/building-blocks/meal")}
-                  >
-                    <div className="nav-link">Building Block C: MEAL</div>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  About
-                </DropdownToggle>
-                <DropdownMenu>
-                  {aboutPages.map((page, index) => (
-                    <DropdownItem
-                      key={index}
-                      onClick={() => navigateTo(`/${page.node.slug}`)}
-                    >
-                      <div className="nav-link">{page.node.title}</div>
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </UncontrolledDropdown>
-
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Reference
-                </DropdownToggle>
-                <DropdownMenu>
-                  {referencePages.map((page, index) => (
-                    <DropdownItem
-                      key={index}
-                      onClick={() => navigateTo(`/${page.node.slug}`)}
-                    >
-                      <div className="nav-link">{page.node.title}</div>
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <NavItem>
                 {this.props.isLoggedIn
                   ? this.renderLogOut()
                   : this.renderSignInUp()}
               </NavItem>
+              <NavItem onClick={this.props.openMenu}>
+                <NavLink>Menu<i className="fa fa-bars" aria-hidden="true"></i></NavLink>
+              </NavItem>
             </Nav>
-          </Collapse>
         </Navbar>
+        <Menu open={this.props.showMenu} columns={columns} close={this.props.closeMenu} />
         <RegistrationModal
           firebase={firebase}
           isOpen={this.props.showRegistrationModal}
