@@ -14,9 +14,18 @@ export const DEPLOY_ENDPOINT = 'https://stc-toolkit.appspot.com';
 
 export const PAGE_TYPES = [
   { label: 'About', value: 'about' },
-  { label: 'Building Block', value: 'building_block' },
   { label: 'Action', value: 'action' },
   { label: 'Tool', value: 'tool' },
+  { label: 'Case Study', value: 'case_study' },
+  { label: 'Reference', value: 'reference' },
+]
+
+export const MENU_GROUPS = [
+  { label: 'About', value: 'about' },
+  { label: 'Building Block A: Analysis', value: 'building_block_a' },
+  { label: 'Building Block B: Design', value: 'building_block_b' },
+  { label: 'Building Block C: MEAL', value: 'building_block_c' },
+  { label: 'Tool', value: 'tools' },
   { label: 'Case Study', value: 'case_study' },
   { label: 'Reference', value: 'reference' },
 ]

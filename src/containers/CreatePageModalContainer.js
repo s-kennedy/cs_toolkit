@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { createPage, toggleNewPageModal } from '../redux/actions';
 
 import { Button, Modal } from 'reactstrap';
-import { PAGE_TYPES } from '../utils/constants';
+import { PAGE_TYPES, MENU_GROUPS } from '../utils/constants';
 
 const mapStateToProps = (state) => {
   return {
@@ -46,9 +46,6 @@ class CreatePageModalContainer extends React.Component {
   }
 
   render() {
-    const parentPageOptions = this.props.pages.map((page) => {
-      return { label: `${page.node.title}`, value: page.node }
-    })
     return (
       <Modal isOpen={this.props.showNewPageModal}>
         <div className="modal-header">
@@ -72,16 +69,17 @@ class CreatePageModalContainer extends React.Component {
             <input
               className='form-control'
               type='text'
+              value={this.state.page.title}
               onChange={e => this.updatePage('title', e.currentTarget.value)}
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='page_parent'>Parent page (optional):</label>
+            <label htmlFor='navigation_group'>Menu group (optional):</label>
             <Select
               name='page_parent'
-              value={ this.state.page.parent }
-              options={ parentPageOptions }
-              onChange={ selected => this.updatePage('parent', selected) }
+              value={ this.state.page.navigation_group }
+              options={ MENU_GROUPS }
+              onChange={ selected => this.updatePage('navigation_group', selected) }
             />
           </div>
         </div>
