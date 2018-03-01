@@ -6,8 +6,22 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
-      resolve: "gatsby-source-toolkit-content",
-      options: { resourceType: "pages" }
+      resolve: "gatsby-source-firebase",
+      options: {
+        credential: require("./firebaseServiceAccountKey.json"),
+        databaseURL: "https://stc-toolkit.firebaseio.com",
+        types: [
+          {
+            type: "Pages",
+            path: "pages",
+            map: node => {
+              node.content = JSON.stringify(node.content);
+
+              return node
+            },
+          }
+        ]
+      }
     },
     {
       resolve: `gatsby-plugin-sass`,

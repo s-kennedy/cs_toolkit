@@ -14,10 +14,14 @@ class HomePage extends React.Component {
 
   constructor(props) {
     super(props);
-    const pageContent = JSON.parse(this.props.data.pages.childPagesContent.internal.content)
-    console.log('pageContent', pageContent)
-    this.props.onUpdatePageContent(pageContent);
-    this.props.onUpdatePageMetaData(JSON.parse(this.props.data.pages.internal.content))
+    const { id, title, slug, page_type } = this.props.data.pages;
+    const pageData = { id, title, slug, page_type };
+    const content = {
+      header: this.props.data.pages.page_header,
+      body: JSON.parse(this.props.data.pages.content)
+    }
+    this.props.onUpdatePageContent(content);
+    this.props.onUpdatePageMetaData(pageData)
   }
 
   render() {
@@ -53,15 +57,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
 
 export const query = graphql`
   query HomePageQuery($slug: String!) {
-    pages(fields: { slug: { eq: $slug } }) {
-      internal {
-        content
+    pages(slug: { eq: $slug }) {
+      page_header {
+        image
+        range_title
+        subtitle
+        title
       }
-      childPagesContent {
-        internal {
-          content
-        }
-      }
+      id
+      content
+      title
+      slug
+      template
+      page_type
     }
   }
 `;

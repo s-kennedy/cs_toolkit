@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { filter } from "lodash";
+import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
 import logo from "../assets/img/STC_Logo_Horiz.png";
 import RegistrationModal from "./RegistrationModal";
@@ -101,18 +101,18 @@ export default class Navigation extends React.Component {
   };
 
   render() {
-    const aboutPages = filter(
+    const aboutPages = orderBy(filter(
       this.props.pages,
-      page => page.node.fields.category === "about"
-    );
-    const referencePages = filter(
+      page => page.node.navigation.group === "about"
+    ), 'order')
+    const referencePages = orderBy(filter(
       this.props.pages,
-      page => page.node.fields.category === "reference"
-    );
-    const toolkitPages = filter(
+      page => page.node.navigation.group === "reference"
+    ), 'order')
+    const toolkitPages = orderBy(filter(
       this.props.pages,
-      page => page.node.fields.category === "building_block"
-    );
+      page => page.node.navigation.group === "building_block"
+    ), 'order')
 
     return (
       <div>
@@ -154,9 +154,9 @@ export default class Navigation extends React.Component {
                   {aboutPages.map((page, index) => (
                     <DropdownItem
                       key={index}
-                      onClick={() => navigateTo(`/${page.node.fields.slug}`)}
+                      onClick={() => navigateTo(`/${page.node.slug}`)}
                     >
-                      <div className="nav-link">{page.node.fields.title}</div>
+                      <div className="nav-link">{page.node.title}</div>
                     </DropdownItem>
                   ))}
                 </DropdownMenu>
@@ -170,9 +170,9 @@ export default class Navigation extends React.Component {
                   {referencePages.map((page, index) => (
                     <DropdownItem
                       key={index}
-                      onClick={() => navigateTo(`/${page.node.fields.slug}`)}
+                      onClick={() => navigateTo(`/${page.node.slug}`)}
                     >
-                      <div className="nav-link">{page.node.fields.title}</div>
+                      <div className="nav-link">{page.node.title}</div>
                     </DropdownItem>
                   ))}
                 </DropdownMenu>

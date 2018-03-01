@@ -47,7 +47,7 @@ class CreatePageModalContainer extends React.Component {
 
   render() {
     const parentPageOptions = this.props.pages.map((page) => {
-      return { label: `${page.node.fields.title}`, value: page.node.fields }
+      return { label: `${page.node.title}`, value: page.node }
     })
     return (
       <Modal isOpen={this.props.showNewPageModal}>

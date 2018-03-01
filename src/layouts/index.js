@@ -52,11 +52,11 @@ export const query = graphql`
     allPages {
       edges {
         node {
-          fields {
-            slug
-            template
-            title
-            category
+          title
+          navigation {
+            group
+            order
+            displayTitle
           }
         }
       }

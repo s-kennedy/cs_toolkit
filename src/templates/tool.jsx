@@ -14,8 +14,14 @@ class ToolPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.onUpdatePageContent(JSON.parse(this.props.data.pages.childPagesContent.internal.content));
-    this.props.onUpdatePageMetaData(JSON.parse(this.props.data.pages.internal.content))
+    const { id, title, slug, page_type } = this.props.data.pages;
+    const pageData = { id, title, slug, page_type };
+    const content = {
+      header: this.props.data.pages.page_header,
+      body: JSON.parse(this.props.data.pages.content)
+    }
+    this.props.onUpdatePageContent(content);
+    this.props.onUpdatePageMetaData(pageData)
   }
 
   render() {
@@ -47,3 +53,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPage)
+
+export const query = graphql`
+  query ToolPageQuery($slug: String!) {
+    pages(slug: { eq: $slug }) {
+      page_header {
+        image
+        range_title
+        subtitle
+        title
+      }
+      id
+      content
+      title
+      slug
+      template
+      page_type
+    }
+  }
+`;

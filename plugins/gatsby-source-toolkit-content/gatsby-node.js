@@ -60,7 +60,7 @@ exports.sourceNodes = ({ boundActionCreators }, { resourceType }) => {
             group: resource.navigation.group,
             order: resource.navigation.order,
             slug: resource.slug,
-            title: resource.navigation.displayTitle || resource.title
+            anchor: resource.navigation.displayTitle || resource.title
           }
 
           const parentNode = {

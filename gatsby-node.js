@@ -1,18 +1,5 @@
 const path = require("path");
 
-exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
-  const { createNodeField } = boundActionCreators;
-  if (node.internal.type === `pages`) {
-    const nodeContent = JSON.parse(node.internal.content);
-    const { template, slug, title, category } = nodeContent;
-
-    createNodeField({ node, name: "template", value: template });
-    createNodeField({ node, name: "slug", value: slug });
-    createNodeField({ node, name: "title", value: title });
-    createNodeField({ node, name: "category", value: category });
-  }
-};
-
 exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators;
 
@@ -24,20 +11,23 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             allPages {
               edges {
                 node {
-                  internal {
-                    content
+                  id
+                  title
+                  slug
+                  template
+                  page_type
+                  navigation {
+                    group
+                    order
+                    displayTitle
                   }
-                  fields {
-                    slug
-                    template
+                  page_header {
+                    image
+                    range_title
+                    subtitle
                     title
-                    category
                   }
-                  childPagesContent {
-                    internal {
-                      content
-                    }
-                  }
+                  content
                 }
               }
             }
@@ -51,14 +41,14 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
         result.data.allPages.edges.forEach(edge => {
           const template = path.resolve(
-            `src/templates/${edge.node.fields.template}`
+            `src/templates/${edge.node.template}`
           );
           createPage({
-            path: edge.node.fields.slug, // required
+            path: edge.node.slug, // required
             component: template,
             layout: "index",
             context: {
-              slug: edge.node.fields.slug
+              slug: edge.node.slug
             }
           });
         });
