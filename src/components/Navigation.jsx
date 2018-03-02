@@ -88,7 +88,7 @@ export default class Navigation extends React.Component {
   renderSignInUp = () => {
     return (
       <NavLink color="secondary" onClick={this.props.onToggleRegistrationModal}>
-        Sign In / Sign Up
+        <span className="hide-on-mobile">Sign In / Sign Up</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
     );
@@ -97,76 +97,53 @@ export default class Navigation extends React.Component {
   renderLogOut = () => {
     return (
       <NavLink color="secondary" onClick={this.logout}>
-        Sign out
+        <span className="hide-on-mobile">Sign out</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
     );
   };
 
+  filterPagesByType = (type) => {
+    return orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === type
+    ), 'node.navigation.order')
+  }
+
   render() {
-    const aboutPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "about"
-    ), 'node.navigation.order')
-
-    const referencePages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "reference"
-    ), 'node.navigation.order')
-    const bbAPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "building_block_a"
-    ), 'node.navigation.order')
-    const bbBPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "building_block_b"
-    ), 'node.navigation.order')
-    const bbCPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "building_block_c"
-    ), 'node.navigation.order')
-    const toolPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "tools"
-    ), 'node.navigation.order')
-    const caseStudyPages = orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === "case_study"
-    ), 'node.navigation.order')
-
     const columns = [
       [
         {
           title: 'Building Block A: Analysis',
-          pages: bbAPages,
+          pages: this.filterPagesByType("building_block_a"),
         },
         {
           title: 'Building Block B: Design',
-          pages: bbBPages
+          pages: this.filterPagesByType("building_block_b")
         },
         {
           title: 'Building Block C: MEAL',
-          pages: bbCPages
+          pages: this.filterPagesByType("building_block_c")
         },
       ],
       [
         {
           title: 'Tools',
-          pages: toolPages
+          pages: this.filterPagesByType("tools")
         },
         {
           title: 'Case Study',
-          pages: caseStudyPages
+          pages: this.filterPagesByType("case_study")
         }
       ],
       [
         {
           title: 'Reference',
-          pages: referencePages
+          pages: this.filterPagesByType("reference")
         },
         {
           title: 'About',
-          pages: aboutPages
+          pages: this.filterPagesByType("about")
         }
       ]
     ]
@@ -184,7 +161,9 @@ export default class Navigation extends React.Component {
                   : this.renderSignInUp()}
               </NavItem>
               <NavItem onClick={this.props.openMenu}>
-                <NavLink>Menu<i className="fa fa-bars" aria-hidden="true"></i></NavLink>
+                <NavLink>
+                  <span className="hide-on-mobile">Menu</span>
+                  <i className="fa fa-bars" aria-hidden="true"></i></NavLink>
               </NavItem>
             </Nav>
         </Navbar>
