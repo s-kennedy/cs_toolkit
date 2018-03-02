@@ -1,13 +1,15 @@
 import React from 'react';
 import Select from 'react-select';
-import css from 'react-select/dist/react-select.css';
+import slugify from 'slugify';
 
 import { connect } from 'react-redux'
 import { createPage, toggleNewPageModal } from '../redux/actions';
 
 import { Button, Modal } from 'reactstrap';
 import { pageTypes, menuGroups } from '../utils/constants';
-import slugify from 'slugify';
+
+import css from 'react-select/dist/react-select.css';
+import * as defaultContentJSON from '../fixtures/pageContent.json';
 
 const mapStateToProps = (state) => {
   return {
@@ -57,19 +59,16 @@ class CreatePageModalContainer extends React.Component {
         group: this.state.page.navigationGroup.value,
         displayTitle: this.state.page.displayTitle
       },
-      content: [{
-        type: "section",
-        content: [
-          { type: "header", text: "Header placeholder" },
-          { type: "paragraph", text: "<p>Paragraph placeholder</p>" },
-        ]
-      }],
-      page_header: {
-        title: this.state.page.title,
-        subtitle: 'Subtitle placeholder',
-        range_title: 'left',
-        image: 'null'
-      }
+      content: defaultContentJSON,
+
+      // TODO: Add this back in for page types that use the pageWithHeader.jsx template
+
+      // page_header: {
+      //   title: this.state.page.title,
+      //   subtitle: 'Subtitle placeholder',
+      //   range_title: 'left',
+      //   image: 'null'
+      // }
     }
 
     this.props.createPage(pageData);

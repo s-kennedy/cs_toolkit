@@ -25,7 +25,7 @@ export const menuGroups = [
   { label: 'Building Block A: Analysis', value: 'building_block_a' },
   { label: 'Building Block B: Design', value: 'building_block_b' },
   { label: 'Building Block C: MEAL', value: 'building_block_c' },
-  { label: 'Tool', value: 'tools' },
+  { label: 'Tools', value: 'tools' },
   { label: 'Case Study', value: 'case_study' },
   { label: 'Reference', value: 'reference' },
 ]

@@ -11,8 +11,6 @@ import {
   NavItem
 } from "reactstrap";
 
-import { savePage } from "../utils/API";
-
 const styles = {
   toolbar: {
     backgroundColor: "#9A3324", //plum

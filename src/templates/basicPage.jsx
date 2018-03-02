@@ -3,9 +3,6 @@ import React from 'react';
 import PageContentContainer from '../containers/PageContentContainer'
 import PageTitleContainer from '../containers/PageTitleContainer'
 
-import { savePage } from '../utils/API';
-import { auth } from '../utils/init';
-
 import { connect } from 'react-redux'
 import { updatePageContent, updatePageMetaData } from '../redux/actions'
 
