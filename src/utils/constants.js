@@ -12,15 +12,15 @@ export const API_URL = 'https://toolkit.sharonkennedy.ca';
 export const DEPLOY_ENDPOINT = 'https://stc-toolkit.appspot.com';
 // export const DEPLOY_ENDPOINT = 'http://localhost:8080';
 
-export const PAGE_TYPES = [
-  { label: 'About', value: 'about' },
-  { label: 'Action', value: 'action' },
-  { label: 'Tool', value: 'tool' },
-  { label: 'Case Study', value: 'case_study' },
-  { label: 'Reference', value: 'reference' },
+export const pageTypes = [
+  { label: 'About', value: { type: 'about', template: 'about.jsx'}},
+  { label: 'Action', value: { type: 'action', template: 'action.jsx' }},
+  { label: 'Tool', value: { type: 'tool', template: 'tool.jsx' }},
+  { label: 'Case Study', value: { type: 'case_study', template: 'caseStudy.jsx' }},
+  { label: 'Reference', value: { type: 'reference', template: 'reference.jsx' }},
 ]
 
-export const MENU_GROUPS = [
+export const menuGroups = [
   { label: 'About', value: 'about' },
   { label: 'Building Block A: Analysis', value: 'building_block_a' },
   { label: 'Building Block B: Design', value: 'building_block_b' },

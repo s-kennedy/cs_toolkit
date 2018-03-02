@@ -36,7 +36,7 @@ export default class AdminToolbar extends React.Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.savePageToDatabase = () => this._savePageToDatabase();
-    this.createPage = () => this._createPage();
+    this.deletePage = () => this._deletePage();
     this.deploy = () => this._deploy();
     this.state = {
       isOpen: false
@@ -53,8 +53,10 @@ export default class AdminToolbar extends React.Component {
     this.props.savePage(this.props.pageData, this.props.content);
   }
 
-  _createPage(pageData) {
-    this.props.createPage(pageData, token);
+  _deletePage() {
+    if (window.confirm("Are you sure you want to delete this page?")) {
+      this.props.deletePage(this.props.pageData.id);
+    }
   }
 
   _deploy() {
@@ -73,6 +75,16 @@ export default class AdminToolbar extends React.Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
+                <NavItem style={styles.navButton}>
+                  {!this.props.isEditingPage && (
+                    <Button
+                      color="white"
+                      onClick={this.deletePage}
+                    >
+                      Delete this page
+                    </Button>
+                  )}
+                </NavItem>
                 <NavItem style={styles.navButton}>
                   {!this.props.isEditingPage && (
                     <Button
@@ -110,7 +122,7 @@ export default class AdminToolbar extends React.Component {
           </Navbar>
           <CreatePageModalContainer
             pages={this.props.pages}
-            createPage={this.createPage}
+            createPage={this.props.createPage}
           />
         </div>
       );

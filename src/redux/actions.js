@@ -36,42 +36,34 @@ export function toggleNewPageModal() {
   return { type: "TOGGLE_NEW_PAGE_MODAL" };
 }
 
-export function createPage(pageData, token) {
+export function createPage(pageData) {
   return dispatch => {
-    console.log(pageData);
-    const url = `${API_URL}/pages/`;
-    const data = {
-      page: pageData
-    };
-
-    axios
-      .post(url, data, { headers: { Authorization: "Bearer " + token } })
-      .then(res => {
-        dispatch(toggleNewPageModal());
-        if (res.status === 200) {
-          dispatch(showNotification("Your page has been created.", "success"));
-        } else {
-          dispatch(
-            showNotification(
-              "There was an error creating your page, please try again.",
-              "danger"
-            )
-          );
-        }
-      })
-      .catch(err => {
-        dispatch(toggleNewPageModal());
-        dispatch(
-          showNotification(
-            `There was an error creating your page: ${err}`,
-            "danger"
-          )
-        );
-      });
+    firebase.database().ref('pages').push(pageData, () => {
+      dispatch(toggleNewPageModal());
+      dispatch(
+        showNotification(
+          "Your page has been saved. Deploy the website to view and edit your new page.",
+          "success"
+        )
+      );
+    });
   };
 }
 
-export function savePage(pageData, content, token) {
+export function deletePage(id) {
+  return dispatch => {
+    firebase.database().ref(`pages/${id}`).remove(() => {
+      dispatch(
+        showNotification(
+          "This page has been deleted. Deploy the website to make the change public.",
+          "success"
+        )
+      );
+    });
+  };
+}
+
+export function savePage(pageData, content) {
   return dispatch => {
     dispatch(savingPage());
 

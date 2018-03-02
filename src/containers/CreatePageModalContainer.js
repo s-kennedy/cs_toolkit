@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import { createPage, toggleNewPageModal } from '../redux/actions';
 
 import { Button, Modal } from 'reactstrap';
-import { PAGE_TYPES, MENU_GROUPS } from '../utils/constants';
+import { pageTypes, menuGroups } from '../utils/constants';
+import slugify from 'slugify';
 
 const mapStateToProps = (state) => {
   return {
@@ -40,9 +41,30 @@ class CreatePageModalContainer extends React.Component {
   }
 
   _onSubmit() {
-    const data = this.state.page;
-    console.log('page data', data);
-    this.props.createPage(data);
+    const pageData = {
+      title: this.state.page.title,
+      slug: slugify(this.state.page.title, { lower: true, remove: /[$*_+~.,()'"!\-:@%^&?=]/g }),
+      page_type: this.state.page.type.value.type,
+      template: this.state.page.type.value.template,
+      navigation: {
+        group: this.state.page.navigation_group.value
+      },
+      content: [{
+        type: "section",
+        content: [
+          { type: "header", text: "Header placeholder" },
+          { type: "paragraph", text: "<p>Paragraph placeholder</p>" },
+        ]
+      }],
+      page_header: {
+        title: this.state.page.title,
+        subtitle: 'Subtitle placeholder',
+        range_title: 'left',
+        image: 'null'
+      }
+    }
+
+    this.props.createPage(pageData);
   }
 
   render() {
@@ -60,7 +82,7 @@ class CreatePageModalContainer extends React.Component {
             <Select
               name='page_type'
               value={ this.state.page.type }
-              options={ PAGE_TYPES }
+              options={ pageTypes }
               onChange={ selected => this.updatePage('type', selected) }
             />
           </div>
@@ -69,16 +91,16 @@ class CreatePageModalContainer extends React.Component {
             <input
               className='form-control'
               type='text'
-              value={this.state.page.title}
+              value={this.state.page.title || ''}
               onChange={e => this.updatePage('title', e.currentTarget.value)}
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='navigation_group'>Menu group (optional):</label>
+            <label htmlFor='navigation_group'>Menu group:</label>
             <Select
               name='page_parent'
               value={ this.state.page.navigation_group }
-              options={ MENU_GROUPS }
+              options={ menuGroups }
               onChange={ selected => this.updatePage('navigation_group', selected) }
             />
           </div>

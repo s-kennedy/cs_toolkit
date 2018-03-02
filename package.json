@@ -40,7 +40,8 @@
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "shelljs": "^0.8.1"
+    "shelljs": "^0.8.1",
+    "slugify": "^1.2.9"
   },
   "keywords": [
     "gatsby"
