@@ -71,9 +71,12 @@ export function savePage(pageData, content) {
     const id = pageData.id;
     const data = {
       content: content.body,
-      page_header: content.header,
       title: pageData.title
     };
+
+    if (!!content.header) {
+      data['page_header'] = content.header;
+    }
 
     db.ref(`pages/${id}`).update(data, () => {
       dispatch(
