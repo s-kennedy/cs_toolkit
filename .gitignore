@@ -10,7 +10,6 @@ yarn-error.log
 
 # Config files
 .env.*
-firebaseServiceAccountKey.json
 firebase-config.json
 app.yaml
 

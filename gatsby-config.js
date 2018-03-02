@@ -1,3 +1,5 @@
+const firebaseConfig = require("./firebase-config.json")
+
 module.exports = {
   siteMetadata: {
     title: `Save the Children Toolkit website`,
@@ -8,8 +10,8 @@ module.exports = {
     {
       resolve: "gatsby-source-firebase",
       options: {
-        credential: require("./firebaseServiceAccountKey.json"),
-        databaseURL: "https://stc-toolkit.firebaseio.com",
+        credential: firebaseConfig.serviceAccountKey,
+        databaseURL: firebaseConfig.databaseURL,
         types: [
           {
             type: "Pages",
