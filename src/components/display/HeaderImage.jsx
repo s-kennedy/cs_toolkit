@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron } from 'reactstrap';
+import { Jumbotron, Container } from 'reactstrap';
 import defaultImage from '../../assets/img/home_header.jpg';
 
 
@@ -15,8 +15,10 @@ const HeaderImage = (props) => {
     }
   }
   return (
-    <Jumbotron style={styles.jumbotron}>
-      {props.children}
+    <Jumbotron style={styles.jumbotron} fluid>
+      <Container fluid>
+        {props.children}
+      </Container>
     </Jumbotron>
   )
 }
