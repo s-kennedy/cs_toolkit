@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageContentContainer from '../containers/PageContentContainer'
-import PageTitleContainer from '../containers/PageTitleContainer'
+import PageHeaderContainer from '../containers/PageHeaderContainer'
 
 import { savePage } from '../utils/API';
 import { auth } from '../utils/init';
@@ -9,7 +9,7 @@ import { auth } from '../utils/init';
 import { connect } from 'react-redux'
 import { updatePageContent, updatePageMetaData } from '../redux/actions'
 
-class CaseStudyPage extends React.Component {
+class PageWithHeader extends React.Component {
   static propTypes = {};
 
   constructor(props) {
@@ -26,8 +26,8 @@ class CaseStudyPage extends React.Component {
 
   render() {
     return (
-      <div className='action'>
-        <PageTitleContainer />
+      <div className={`page-with-header ${this.props.pageData.page_type}`}>
+        <PageHeaderContainer />
         <PageContentContainer />
       </div>
     )
@@ -52,11 +52,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CaseStudyPage)
+export default connect(mapStateToProps, mapDispatchToProps)(PageWithHeader)
 
 
 export const query = graphql`
-  query CaseStudyPageQuery($slug: String!) {
+  query PageWithHeaderQuery($slug: String!) {
     pages(slug: { eq: $slug }) {
       page_header {
         image

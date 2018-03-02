@@ -9,7 +9,7 @@ import { auth } from '../utils/init';
 import { connect } from 'react-redux'
 import { updatePageContent, updatePageMetaData } from '../redux/actions'
 
-class AboutPage extends React.Component {
+class BasicPage extends React.Component {
   static propTypes = {};
 
   constructor(props) {
@@ -17,7 +17,6 @@ class AboutPage extends React.Component {
     const { id, title, slug, page_type } = this.props.data.pages;
     const pageData = { id, title, slug, page_type };
     const content = {
-      header: this.props.data.pages.page_header,
       body: JSON.parse(this.props.data.pages.content)
     }
     this.props.onUpdatePageContent(content);
@@ -26,7 +25,7 @@ class AboutPage extends React.Component {
 
   render() {
     return (
-      <div className='about'>
+      <div className={`basic-page ${this.props.pageData.page_type}`}>
         <PageTitleContainer />
         <PageContentContainer />
       </div>
@@ -52,18 +51,12 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AboutPage)
+export default connect(mapStateToProps, mapDispatchToProps)(BasicPage)
 
 
 export const query = graphql`
-  query AboutPageQuery($slug: String!) {
+  query BasicPageQuery($slug: String!) {
     pages(slug: { eq: $slug }) {
-      page_header {
-        image
-        range_title
-        subtitle
-        title
-      }
       id
       content
       title

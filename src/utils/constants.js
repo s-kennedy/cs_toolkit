@@ -13,11 +13,11 @@ export const DEPLOY_ENDPOINT = 'https://stc-toolkit.appspot.com';
 // export const DEPLOY_ENDPOINT = 'http://localhost:8080';
 
 export const pageTypes = [
-  { label: 'About', value: { type: 'about', template: 'about.jsx'}},
-  { label: 'Action', value: { type: 'action', template: 'action.jsx' }},
-  { label: 'Tool', value: { type: 'tool', template: 'tool.jsx' }},
-  { label: 'Case Study', value: { type: 'case_study', template: 'caseStudy.jsx' }},
-  { label: 'Reference', value: { type: 'reference', template: 'reference.jsx' }},
+  { label: 'About', value: { type: 'about', template: 'basicPage.jsx'}},
+  { label: 'Action', value: { type: 'action', template: 'basicPage.jsx' }},
+  { label: 'Tool', value: { type: 'tool', template: 'basicPage.jsx' }},
+  { label: 'Case Study', value: { type: 'case_study', template: 'basicPage.jsx' }},
+  { label: 'Reference', value: { type: 'reference', template: 'basicPage.jsx' }},
 ]
 
 export const menuGroups = [
