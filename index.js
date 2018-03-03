@@ -1,7 +1,7 @@
 const express = require("express");
 const shell = require("shelljs");
 const admin = require("firebase-admin");
-const serviceAccount = require("./firebaseServiceAccountKey.json");
+const serviceAccount = require("./firebase-config.json").serviceAccountKey;
 const cors = require("cors");
 
 const app = express();
