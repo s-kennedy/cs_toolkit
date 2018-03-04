@@ -19,7 +19,7 @@ const Menu = (props) => {
                         group.pages.map((page, index) => {
                           return (
                             <div key={index} className="menu-item">
-                              <a href={`${window.location.origin}/${page.node.slug}`} className="dark">{page.node.navigation.displayTitle ? page.node.navigation.displayTitle : page.node.title}</a>
+                              <a href={`/${page.node.slug}`} className="dark">{page.node.navigation.displayTitle ? page.node.navigation.displayTitle : page.node.title}</a>
                             </div>
                           )
                         })
