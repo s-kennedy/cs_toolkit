@@ -2,13 +2,17 @@ import React from 'react'
 import ImageUploader from '../../assets/js/react-images-upload/index.js';
 import EditorWrapper from './EditorWrapper';
 import firebase from "../../firebase/init";
+import { Button } from 'reactstrap';
 
-
-import '../../assets/js/react-images-upload/index.css';
+import '../../assets/sass/image_uploader.scss';
 
 const styles = {
   header: {
     display: 'flex'
+  },
+  button: {
+    textTransform: 'uppercase',
+    fontFamily: 'Trade Gothic'
   }
 }
 
@@ -29,16 +33,19 @@ class ImageEditor extends React.Component {
     this.setState({ caption })
   }
 
-  _handleImageChange(fileList) {
-    this.setState({ loading: true })
-    const image = fileList[0];
+  _handleImageChange(event) {
+    this.setState({ loading: true });
+    const image = event.target.files[0];
     const storage = firebase.storage().ref();
 
     const fileRef = storage.child(`images/${image.name}`);
 
     fileRef.put(image).then(snapshot => {
-      console.log('uploaded!!!')
-      this.setState({ source: snapshot.downloadURL, loading: false })
+      this.setState({
+        source: snapshot.downloadURL,
+        preview: snapshot.downloadURL,
+        loading: false
+      })
     });
   }
 
@@ -51,17 +58,33 @@ class ImageEditor extends React.Component {
 
     return (
       <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
-        {
-          this.state.loading && <div className="loader-container"><div className="loader">loading...</div></div>
-        }
-        <ImageUploader
-          withIcon={true}
-          withPreview={true}
-          buttonText='Choose an image'
-          imgExtension={['.jpg', '.gif', '.png']}
-          onChange={this.handleImageChange}
-        />
-        <input value={this.state.caption || ''} onChange={this.handleCaptionChange} />
+        <div className="image-uploader-container">
+          <div className="form-group">
+            <label className="btn btn-secondary" style={styles.button}>
+              Select image
+              <input
+                type="file"
+                hidden={true}
+                onChange={this.handleImageChange}
+              />
+            </label>
+            {
+              this.state.loading &&
+              <div className="loader-container">
+                <div className="loader">loading...</div>
+              </div>
+            }
+            {
+              this.state.preview &&
+              <div className="image-container">
+                <img src={this.state.preview} alt={`image preview`} />
+              </div>
+            }
+          </div>
+          <div className="form-group">
+            Caption (optional): <input className="form-control" name="caption" value={this.state.caption || ''} onChange={this.handleCaptionChange} />
+          </div>
+        </div>
       </EditorWrapper>
     )
   }
