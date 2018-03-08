@@ -121,7 +121,7 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
         />);
       default:
       console.log('No component defined for ' + obj.type)
-      return <div></div>;
+      return null;
     }
   })
 }

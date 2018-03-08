@@ -1,6 +1,8 @@
 import React from 'react'
 import ImageUploader from '../../assets/js/react-images-upload/index.js';
 import EditorWrapper from './EditorWrapper';
+import firebase from "../../firebase/init";
+
 
 import '../../assets/js/react-images-upload/index.css';
 
@@ -15,7 +17,7 @@ class ImageEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { source: this.props.source, caption: this.props.caption }
+    this.state = { source: this.props.source, caption: this.props.caption, loading: false }
     this.toggleEditing = () => this._toggleEditing()
     this.handleImageChange = (image) => this._handleImageChange(image)
     this.handleCaptionChange = (val) => this._handleCaptionChange(val)
@@ -27,12 +29,17 @@ class ImageEditor extends React.Component {
     this.setState({ caption })
   }
 
-  _handleImageChange(image) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      this.setState({ source: reader.result })
-    }
-    reader.readAsDataURL(image[0]);
+  _handleImageChange(fileList) {
+    this.setState({ loading: true })
+    const image = fileList[0];
+    const storage = firebase.storage().ref();
+
+    const fileRef = storage.child(`images/${image.name}`);
+
+    fileRef.put(image).then(snapshot => {
+      console.log('uploaded!!!')
+      this.setState({ source: snapshot.downloadURL, loading: false })
+    });
   }
 
   _handleDoneEditing() {
@@ -44,6 +51,9 @@ class ImageEditor extends React.Component {
 
     return (
       <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
+        {
+          this.state.loading && <div className="loader-container"><div className="loader">loading...</div></div>
+        }
         <ImageUploader
           withIcon={true}
           withPreview={true}
@@ -51,10 +61,7 @@ class ImageEditor extends React.Component {
           imgExtension={['.jpg', '.gif', '.png']}
           onChange={this.handleImageChange}
         />
-        {
-          this.props.caption &&
-          <input value={this.state.caption} onChange={this.handleCaptionChange} />
-        }
+        <input value={this.state.caption || ''} onChange={this.handleCaptionChange} />
       </EditorWrapper>
     )
   }
