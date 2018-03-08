@@ -4,6 +4,7 @@ import { map } from 'lodash'
 import Header from '../components/display/Header'
 import Paragraph from '../components/display/Paragraph'
 import Image from '../components/display/Image'
+import FileUpload from '../components/display/FileUpload'
 import CustomButton from '../components/display/CustomButton'
 import Name from '../components/display/Name'
 import Action from '../components/display/Action'
@@ -27,6 +28,8 @@ const generateContentComponents = (contentJson=[]) => {
         return <Paragraph key={index} text={obj.text} />;
       case 'image':
         return <Image key={index} source={obj.source} caption={obj.caption} />
+      case 'file':
+        return <FileUpload key={index} filepath={obj.filepath} title={obj.title} filetype={obj.filetype} />
       case 'button':
         return <CustomButton key={index} anchor={obj.anchor} link={obj.link} />
       case 'name':

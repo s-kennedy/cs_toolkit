@@ -5,6 +5,7 @@ import Header from '../components/editable/Header'
 import Paragraph from '../components/editable/Paragraph'
 import Name from '../components/editable/Name'
 import Image from '../components/editable/Image'
+import FileUpload from '../components/editable/FileUpload'
 import Button from '../components/editable/Button'
 import Action from '../components/editable/Action'
 import FontAwesome from 'react-fontawesome';
@@ -95,6 +96,18 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
           updateContent={onUpdate}
           source={obj.source}
           caption={obj.caption}
+          deleteContent={onDeleteContentItem}
+        />);
+      case 'file':
+      return (
+        <FileUpload
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          filepath={obj.filepath}
+          title={obj.title}
+          filetype={obj.filetype}
           deleteContent={onDeleteContentItem}
         />);
       case 'button':
@@ -195,6 +208,9 @@ const EditableInnerContentContainer = (props) => {
               </DropdownItem>
               <DropdownItem onClick={generateAddContentItemHandler('image')}>
                 Image
+              </DropdownItem>
+              <DropdownItem onClick={generateAddContentItemHandler('file')}>
+                File
               </DropdownItem>
               <DropdownItem onClick={generateAddContentItemHandler('button')}>
                 Button

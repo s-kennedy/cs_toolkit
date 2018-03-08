@@ -1,5 +1,6 @@
 import React from 'react'
 import EditorWrapper from './EditorWrapper';
+import DisplayFileUpload from '../display/FileUpload';
 import firebase from "../../firebase/init";
 import { Button } from 'reactstrap';
 
@@ -15,41 +16,52 @@ const styles = {
   }
 }
 
-class ImageEditor extends React.Component {
+class FileUploadEditor extends React.Component {
   static propTypes = {};
 
   constructor(props) {
     super(props);
-    this.state = { source: this.props.source, caption: this.props.caption, loading: false }
+    this.state = {
+      filepath: this.props.filepath,
+      title: this.props.title,
+      filetype: this.props.filetype,
+      loading: false
+    }
     this.toggleEditing = () => this._toggleEditing()
-    this.handleImageChange = (image) => this._handleImageChange(image)
+    this.handleFileChange = (image) => this._handleFileChange(image)
     this.handleCaptionChange = (val) => this._handleCaptionChange(val)
     this.handleDoneEditing = () => this._handleDoneEditing();
   }
 
   _handleCaptionChange(event) {
-    const caption = event.currentTarget.value;
-    this.setState({ caption })
+    const title = event.currentTarget.value;
+    this.setState({ title })
   }
 
-  _handleImageChange(event) {
+  _handleFileChange(event) {
     this.setState({ loading: true });
-    const image = event.target.files[0];
-    const storage = firebase.storage().ref();
+    const file = event.target.files[0];
+    const splitName = file.name.split('.');
+    const filetype = splitName[splitName.length - 1];
 
-    const fileRef = storage.child(`images/${image.name}`);
+    const fileRef = firebase.storage().ref().child(`files/${file.name}`);
 
-    fileRef.put(image).then(snapshot => {
+    fileRef.put(file).then(snapshot => {
       this.setState({
-        source: snapshot.downloadURL,
+        filepath: snapshot.downloadURL,
         preview: snapshot.downloadURL,
-        loading: false
+        loading: false,
+        filetype: filetype
       })
     });
   }
 
   _handleDoneEditing() {
-    this.props.doneEditing({ source: this.state.source, caption: this.state.caption })
+    this.props.doneEditing({
+      filepath: this.state.filepath,
+      title: this.state.title,
+      filetype: this.state.filetype
+    })
   }
 
   render() {
@@ -60,11 +72,11 @@ class ImageEditor extends React.Component {
         <div className="image-uploader-container">
           <div className="form-group">
             <label className="btn btn-secondary" style={styles.button}>
-              Select image
+              Select file
               <input
                 type="file"
                 hidden={true}
-                onChange={this.handleImageChange}
+                onChange={this.handleFileChange}
               />
             </label>
             {
@@ -75,13 +87,15 @@ class ImageEditor extends React.Component {
             }
             {
               this.state.preview &&
-              <div className="image-container">
-                <img src={this.state.preview} alt={`image preview`} />
-              </div>
+              <DisplayFileUpload
+                filepath={this.state.preview}
+                title={this.state.title}
+                filetype={this.state.filetype}
+              />
             }
           </div>
           <div className="form-group">
-            Caption (optional): <input className="form-control" name="caption" value={this.state.caption || ''} onChange={this.handleCaptionChange} />
+            Title to display: <input className="form-control" name="title" value={this.state.title || ''} onChange={this.handleCaptionChange} />
           </div>
         </div>
       </EditorWrapper>
@@ -89,4 +103,4 @@ class ImageEditor extends React.Component {
   }
 };
 
-export default ImageEditor;
+export default FileUploadEditor;

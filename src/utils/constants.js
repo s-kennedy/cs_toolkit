@@ -2,6 +2,7 @@ export const emptyContentItems = {
   paragraph: { 'type': 'paragraph', 'text': 'Paragraph placeholder text' },
   header: { 'type': 'header', 'text': 'Header placeholder text' },
   image: { 'type': 'image', 'source': 'Placeholder image', 'caption': 'Placeholder image'},
+  file: { 'type': 'file', 'filepath': '', 'title': 'Placeholder title', 'filetype': 'pdf'},
   section: { 'type': 'section', content: [] },
   button: { 'type': 'button', 'link': '/', 'anchor': 'Placeholder' },
   action: { 'type': 'action', 'link': '/', 'anchor': 'Placeholder' },
