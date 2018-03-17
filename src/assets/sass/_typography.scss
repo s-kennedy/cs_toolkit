@@ -14,9 +14,14 @@ body {
   line-height: 26px;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3 {
   font-family: 'Trade Gothic';
   text-transform: uppercase;
+}
+
+h4, h5 {
+  font-family: 'Gill Sans Infant', 'Helvetica', sans-serif;
+  font-weight: bolder;
 }
 
 h1 {
@@ -32,6 +37,10 @@ h2 {
 h3 {
   font-size: 1.667rem;
   line-height: 1.385em;
+}
+
+h4 {
+  font-size: 1.14rem;
 }
 
 button, .stc-btn {
