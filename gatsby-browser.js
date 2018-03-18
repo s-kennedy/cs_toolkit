@@ -6,6 +6,7 @@
 
  // You can delete this file if you're not using it
 
+import 'babel-polyfill'
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -23,8 +24,3 @@ exports.replaceRouterComponent = ({ history }) => {
 
   return ConnectedRouterWrapper
 }
-
-exports.modifyBabelrc = ({ babelrc }) => ({
-  ...babelrc,
-  plugins: babelrc.plugins.concat(['transform-runtime']),
-})
