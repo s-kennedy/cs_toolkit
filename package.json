@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-runtime": "^6.26.0",
     "bootstrap": "^4.0.0-beta.2",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
@@ -20,7 +21,6 @@
     "gatsby": "^1.9.172",
     "gatsby-cli": "^1.1.29",
     "gatsby-link": "^1.6.30",
-    "gatsby-plugin-favicon": "^2.1.1",
     "gatsby-plugin-react-helmet": "^1.0.8",
     "gatsby-plugin-sass": "^1.0.14",
     "gatsby-source-firebase": "^1.0.0",

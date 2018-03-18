@@ -13,6 +13,7 @@ import Footer from "../components/display/Footer";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import "../assets/sass/custom.scss";
+import favicon from '../assets/img/favicon.png'
 
 class TemplateWrapper extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class TemplateWrapper extends React.Component {
             keywords="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
             viewport="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
           />
+          <link rel="icon" href={favicon} type="image/x-icon" />
           <script src="https://use.fontawesome.com/ab5e247e92.js" />
         </Helmet>
         <NotificationContainer />
