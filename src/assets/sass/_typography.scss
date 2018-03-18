@@ -1,11 +1,21 @@
 @font-face {
   font-family: 'Gill Sans Infant';
-  src: url('../fonts/GillSansInfantStd.otf') format('opentype');
+  src: url('../fonts/GillSansInfantStd.eot');
+  src: url('../fonts/GillSansInfantStd.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/GillSansInfantStd.woff2') format('woff2'),
+       url('../fonts/GillSansInfantStd.woff') format('woff'),
+       url('../fonts/GillSansInfantStd.ttf')  format('truetype'),
+       url('../fonts/GillSansInfantStd.otf')  format('opentype')
 }
 
 @font-face {
   font-family: 'Trade Gothic';
-  src: url('../fonts/TradeGothicLTBoldCondensed.ttf') format('truetype');
+  src: url('../fonts/TradeGothicLTBoldCondensed.eot');
+  src: url('../fonts/TradeGothicLTBoldCondensed.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/TradeGothicLTBoldCondensed.woff2') format('woff2'),
+       url('../fonts/TradeGothicLT-BoldCondTwenty.woff') format('woff'),
+       url('../fonts/TradeGothicLTBoldCondensed.ttf')  format('truetype'),
+       url('../fonts/TradeGothicLT-BoldCondTwenty.otf')  format('opentype')
 }
 
 body {
