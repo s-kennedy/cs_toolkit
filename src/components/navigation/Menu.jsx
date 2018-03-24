@@ -3,9 +3,9 @@ import React from 'react';
 
 const Menu = (props) => {
   return (
-    <div id="full-page-menu" className={`full-page-menu ${props.open ? 'open' : 'collapsed'}`}>
+    <div id="full-page-menu" className={`full-page-menu ${props.open ? 'open' : 'collapsed'}`} aria-hidden={!props.open}>
       <div className="content-container">
-      <div id="close-menu" onClick={props.close} ><i className="fa fa-times"></i></div>
+      <button id="close-menu" onClick={props.close} ><i className="fa fa-times"></i></button>
       {
         props.columns.map((column, index) => {
           return (
@@ -19,7 +19,7 @@ const Menu = (props) => {
                         group.pages.map((page, index) => {
                           return (
                             <div key={index} className="menu-item">
-                              <a href={`/${page.node.slug}`} className="dark">{page.node.navigation.displayTitle ? page.node.navigation.displayTitle : page.node.title}</a>
+                              <a tabIndex={props.open ? '0' : '-1'} href={`/${page.node.slug}`} className="dark">{page.node.navigation.displayTitle ? page.node.navigation.displayTitle : page.node.title}</a>
                             </div>
                           )
                         })

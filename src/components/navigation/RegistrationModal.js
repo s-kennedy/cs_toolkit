@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Modal } from 'reactstrap';
-import { PAGE_TYPES } from '../utils/constants';
+import { PAGE_TYPES } from '../../utils/constants';
 import { FirebaseAuth } from 'react-firebaseui';
 
 

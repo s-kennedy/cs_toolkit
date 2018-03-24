@@ -169,6 +169,80 @@ button, .stc-btn {
   text-align: right;
 }
 
+.menu-container {
+  display: flex;
+
+  .menu-column {
+    flex: 1 0 auto;
+    position: relative;
+    width: 20rem;
+
+    a {
+      color: $black;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .menu-item {
+      padding: 0.6rem 1rem;
+      display: flex;
+      justify-content: space-between;
+
+      &:hover, :focus {
+        background-color: $light-biscuit;
+      }
+
+      &:active {
+        background-color: $biscuit;
+      }
+
+      &.header {
+        font-weight: bold;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+
+      &.indent {
+        padding-left: 2rem;
+      }
+
+      &.orange {
+        background-color: $orange;
+        color: white;
+
+        &:hover {
+          background-color: darken($orange, 10%);
+        }
+      }
+
+      &.yellow {
+        background-color: $yellow;
+        color: white;
+
+        &:hover {
+          background-color: darken($yellow, 10%);
+        }
+      }
+
+      &.teal {
+        background-color: $teal;
+        color: white;
+
+        &:hover {
+          background-color: darken($teal, 10%);
+        }
+      }
+
+      .back-btn {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
 /* RESPONSIVE FOR TABLETS */
 
 @media (max-width: 992px) {
@@ -179,5 +253,17 @@ button, .stc-btn {
 @media (max-width: 768px) {
   .hide-on-mobile {
     display: none;
+  }
+
+  .display-title {
+    max-width: 100%;
+  }
+
+  section.call-to-action {
+    padding: 3rem 1rem;
+
+    .para {
+      font-size: 2rem;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CreatePageModalContainer from "../containers/CreatePageModalContainer";
+import CreatePageModalContainer from "../../containers/CreatePageModalContainer";
 
 import {
   Button,

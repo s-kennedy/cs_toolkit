@@ -7,7 +7,7 @@ import {
   closeMenu
 } from "../redux/actions";
 
-import Navigation from "../components/Navigation";
+import Navigation from "../components/navigation/Navigation";
 
 const mapStateToProps = state => {
   return {

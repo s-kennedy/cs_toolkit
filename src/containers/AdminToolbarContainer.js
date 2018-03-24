@@ -7,7 +7,7 @@ import {
   deletePage,
   deploy
 } from '../redux/actions'
-import AdminToolbar from '../components/AdminToolbar'
+import AdminToolbar from '../components/navigation/AdminToolbar'
 
 const mapStateToProps = (state, ownProps) => {
   const allowEditing = state.adminTools.user && state.adminTools.user.isEditor;

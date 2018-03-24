@@ -5,7 +5,8 @@ import Link, { navigateTo } from "gatsby-link";
 import logo from "../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import Menu from './Menu';
-import firebase from "../firebase/init";
+import MegaMenu from './MegaMenu';
+import firebase from "../../firebase/init";
 
 import {
   Button,
@@ -36,7 +37,6 @@ export default class Navigation extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.logout = () => this._logout();
     this.state = {
       isOpen: false
     };
@@ -74,20 +74,26 @@ export default class Navigation extends React.Component {
     });
   }
 
-  _logout() {
+  logout = (e) => {
+    e.preventDefault();
     firebase.auth().signOut();
     this.props.userLoggedOut();
+  };
+
+  login = e => {
+    e.preventDefault();
+    this.props.onToggleRegistrationModal();
   }
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
 
   renderSignInUp = () => {
     return (
-      <NavLink color="secondary" onClick={this.props.onToggleRegistrationModal}>
+      <NavLink tabIndex='0' color="secondary" onClick={this.login} href='#'>
         <span className="hide-on-mobile">Sign In / Sign Up</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
@@ -96,7 +102,7 @@ export default class Navigation extends React.Component {
 
   renderLogOut = () => {
     return (
-      <NavLink color="secondary" onClick={this.logout}>
+      <NavLink tabIndex='0' color="secondary" onClick={this.logout} href='#'>
         <span className="hide-on-mobile">Sign out</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
@@ -108,66 +114,42 @@ export default class Navigation extends React.Component {
       this.props.pages,
       page => page.node.navigation.group === type
     ), 'node.navigation.order')
-  }
+  };
+
+  openMenu = (e) => {
+    e.preventDefault()
+    this.props.openMenu()
+  };
+
+  closeMenu = (e) => {
+    e.preventDefault()
+    this.props.closeMenu()
+  };
 
   render() {
-    const columns = [
-      [
-        {
-          title: 'Building Block A: Analysis',
-          pages: this.filterPagesByType("building_block_a"),
-        },
-        {
-          title: 'Building Block B: Design',
-          pages: this.filterPagesByType("building_block_b")
-        },
-        {
-          title: 'Building Block C: MEAL',
-          pages: this.filterPagesByType("building_block_c")
-        },
-      ],
-      [
-        {
-          title: 'Tools',
-          pages: this.filterPagesByType("tools")
-        },
-        {
-          title: 'Case Study',
-          pages: this.filterPagesByType("case_study")
-        }
-      ],
-      [
-        {
-          title: 'Reference',
-          pages: this.filterPagesByType("reference")
-        },
-        {
-          title: 'About',
-          pages: this.filterPagesByType("about")
-        }
-      ]
-    ]
 
     return (
       <div>
         <Navbar color="faded" light expand="md" style={styles.navbar}>
-          <Link to="/" className="navbar-brand">
-            <img style={styles.logo} src={logo} alt="Save the Children" />
-          </Link>
+            <Nav className="mr-auto" navbar>
+              <NavItem>
+                <MegaMenu pages={this.props.pages}>
+                  <span className="hide-on-mobile">Menu</span>
+                  <i className="fa fa-bars" aria-hidden="true"></i>
+                </MegaMenu>
+              </NavItem>
+            </Nav>
+            <Link to="/" className="navbar-brand">
+              <img style={styles.logo} src={logo} alt="Save the Children" />
+            </Link>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 {this.props.isLoggedIn
                   ? this.renderLogOut()
                   : this.renderSignInUp()}
               </NavItem>
-              <NavItem onClick={this.props.openMenu}>
-                <NavLink>
-                  <span className="hide-on-mobile">Menu</span>
-                  <i className="fa fa-bars" aria-hidden="true"></i></NavLink>
-              </NavItem>
             </Nav>
         </Navbar>
-        <Menu open={this.props.showMenu} columns={columns} close={this.props.closeMenu} />
         <RegistrationModal
           firebase={firebase}
           isOpen={this.props.showRegistrationModal}
