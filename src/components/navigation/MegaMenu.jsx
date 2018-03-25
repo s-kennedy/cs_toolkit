@@ -16,7 +16,7 @@ export default class MegaMenu extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
-    this.clearSubMenu = () => this._clearSubMenu()
+    this.clearSubMenu = () => this._clearSubMenu();
     this.state = {
       dropdownOpen: false
     };
@@ -29,14 +29,18 @@ export default class MegaMenu extends React.Component {
   }
 
   _clearSubMenu() {
-    this.setState({ generateSubMenu: null })
-  };
+    this.setState({ generateSubMenu: null });
+  }
 
   filterPagesByType = type => {
     return orderBy(
       filter(this.props.pages, page => page.node.navigation.group === type),
       "node.navigation.order"
     );
+  };
+
+  filterToolsByAction = (tools, action) => {
+    return filter(tools, page => page.node.navigation.action === action);
   };
 
   aboutMenu = props => {
@@ -48,7 +52,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -66,7 +74,48 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
+              <MenuItem
+                parent
+                color="yellow"
+                handleMouseOver={this.generateHandleSelect(
+                  this.analysisToolsMenu,
+                  pageTitle
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.analysisToolsMenu,
+                  pageTitle
+                )}
+                selected={this.state.selected === pageTitle}
+              >
+                {pageTitle}
+              </MenuItem>
+            </Link>
+          );
+        })}
+      </MenuColumn>
+    );
+  };
+
+  analysisToolsMenu = props => {
+    const tools = this.filterPagesByType("tools");
+    const pages = this.filterToolsByAction(tools, "actions/1");
+
+    return (
+      <MenuColumn submenu clearSubMenu={this.clearSubMenu}>
+        {pages.map((page, index) => {
+          const pageTitle =
+            page.node.navigation.displayTitle || page.node.title;
+          return (
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -84,7 +133,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -102,7 +155,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -120,7 +177,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -138,7 +199,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -156,7 +221,11 @@ export default class MegaMenu extends React.Component {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
           return (
-            <Link to={`/${page.node.slug}`} key={page.node.slug} onClick={this.toggle}>
+            <Link
+              to={`/${page.node.slug}`}
+              key={page.node.slug}
+              onClick={this.toggle}
+            >
               <MenuItem>{pageTitle}</MenuItem>
             </Link>
           );
@@ -165,8 +234,9 @@ export default class MegaMenu extends React.Component {
     );
   };
 
-  generateHandleSelect = generateMenu => {
-    return () => this.setState({ generateSubMenu: generateMenu });
+  generateHandleSelect = (generateMenu, selected) => {
+    return () =>
+      this.setState({ generateSubMenu: generateMenu, selected: selected });
   };
 
   render() {
@@ -178,8 +248,12 @@ export default class MegaMenu extends React.Component {
             <MenuColumn>
               <MenuItem
                 parent
-                handleMouseOver={this.generateHandleSelect(this.aboutMenu)}
-                handleClick={this.generateHandleSelect(this.aboutMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.aboutMenu,
+                  "About"
+                )}
+                handleClick={this.generateHandleSelect(this.aboutMenu, "About")}
+                selected={this.state.selected === "About"}
               >
                 About
               </MenuItem>
@@ -188,8 +262,15 @@ export default class MegaMenu extends React.Component {
                 indent
                 parent
                 color="yellow"
-                handleMouseOver={this.generateHandleSelect(this.analysisMenu)}
-                handleClick={this.generateHandleSelect(this.analysisMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.analysisMenu,
+                  "A: Analysis"
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.analysisMenu,
+                  "A: Analysis"
+                )}
+                selected={this.state.selected === "A: Analysis"}
               >
                 A: Analysis
               </MenuItem>
@@ -197,8 +278,15 @@ export default class MegaMenu extends React.Component {
                 indent
                 parent
                 color="orange"
-                handleMouseOver={this.generateHandleSelect(this.designMenu)}
-                handleClick={this.generateHandleSelect(this.designMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.designMenu,
+                  "B: Design"
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.designMenu,
+                  "B: Design"
+                )}
+                selected={this.state.selected === "B: Design"}
               >
                 B: Design
               </MenuItem>
@@ -206,29 +294,54 @@ export default class MegaMenu extends React.Component {
                 indent
                 parent
                 color="teal"
-                handleMouseOver={this.generateHandleSelect(this.mealMenu)}
-                handleClick={this.generateHandleSelect(this.mealMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.mealMenu,
+                  "C: MEAL"
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.mealMenu,
+                  "C: MEAL"
+                )}
+                selected={this.state.selected === "C: MEAL"}
               >
                 C: MEAL
               </MenuItem>
               <MenuItem
                 parent
-                handleMouseOver={this.generateHandleSelect(this.toolsMenu)}
-                handleClick={this.generateHandleSelect(this.toolsMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.toolsMenu,
+                  "Tools"
+                )}
+                handleClick={this.generateHandleSelect(this.toolsMenu, "Tools")}
+                selected={this.state.selected === "Tools"}
               >
                 Tools
               </MenuItem>
               <MenuItem
                 parent
-                handleMouseOver={this.generateHandleSelect(this.caseStudyMenu)}
-                handleClick={this.generateHandleSelect(this.caseStudyMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.caseStudyMenu,
+                  "Case Study"
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.caseStudyMenu,
+                  "Case Study"
+                )}
+                selected={this.state.selected === "Case Study"}
               >
                 Case Study
               </MenuItem>
               <MenuItem
                 parent
-                handleMouseOver={this.generateHandleSelect(this.referenceMenu)}
-                handleClick={this.generateHandleSelect(this.referenceMenu)}
+                handleMouseOver={this.generateHandleSelect(
+                  this.referenceMenu,
+                  "Reference"
+                )}
+                handleClick={this.generateHandleSelect(
+                  this.referenceMenu,
+                  "Reference"
+                )}
+                selected={this.state.selected === "Reference"}
               >
                 Reference
               </MenuItem>

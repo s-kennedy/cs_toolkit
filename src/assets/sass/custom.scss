@@ -190,7 +190,7 @@ button, .stc-btn {
       display: flex;
       justify-content: space-between;
 
-      &:hover, :focus {
+      &:hover, &:focus, &.selected {
         background-color: $light-biscuit;
       }
 
@@ -213,7 +213,7 @@ button, .stc-btn {
         background-color: $orange;
         color: white;
 
-        &:hover {
+        &:hover, &:focus, &.selected {
           background-color: darken($orange, 10%);
         }
       }
@@ -222,7 +222,7 @@ button, .stc-btn {
         background-color: $yellow;
         color: white;
 
-        &:hover {
+        &:hover, &:focus, &.selected{
           background-color: darken($yellow, 10%);
         }
       }
@@ -231,13 +231,15 @@ button, .stc-btn {
         background-color: $teal;
         color: white;
 
-        &:hover {
+        &:hover, &:focus, &.selected {
           background-color: darken($teal, 10%);
         }
       }
 
       .back-btn {
-        margin-left: 4px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: $light-grey;
       }
     }
   }
