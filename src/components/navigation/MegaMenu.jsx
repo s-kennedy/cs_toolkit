@@ -242,7 +242,13 @@ export default class MegaMenu extends React.Component {
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} inNavbar>
-        <DropdownToggle>{this.props.children}</DropdownToggle>
+        <DropdownToggle
+          tag="span"
+          onClick={this.toggle}
+          data-toggle="dropdown"
+          aria-expanded={this.state.dropdownOpen}>
+          {this.props.children}
+        </DropdownToggle>
         <DropdownMenu>
           <div className="menu-container">
             <MenuColumn>

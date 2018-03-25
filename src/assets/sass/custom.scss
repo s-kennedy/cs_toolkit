@@ -179,72 +179,79 @@ button, .stc-btn {
     max-height: 80vh;
     overflow: scroll;
 
-    a {
-      color: $black;
+  }
 
-      &:hover {
-        text-decoration: none;
-      }
-    }
+.nav-item {
+  a {
+    color: $black;
 
-    .menu-item {
-      padding: 0.6rem 1rem;
-      display: flex;
-      justify-content: space-between;
-
-      &:hover, &:focus, &.selected {
-        background-color: $light-biscuit;
-      }
-
-      &:active {
-        background-color: $biscuit;
-      }
-
-      &.header {
-        font-weight: bold;
-        &:hover {
-          background-color: transparent;
-        }
-      }
-
-      &.indent {
-        padding-left: 2rem;
-      }
-
-      &.orange {
-        background-color: $orange;
-        color: white;
-
-        &:hover, &:focus, &.selected {
-          background-color: darken($orange, 10%);
-        }
-      }
-
-      &.yellow {
-        background-color: $yellow;
-        color: white;
-
-        &:hover, &:focus, &.selected{
-          background-color: darken($yellow, 10%);
-        }
-      }
-
-      &.teal {
-        background-color: $teal;
-        color: white;
-
-        &:hover, &:focus, &.selected {
-          background-color: darken($teal, 10%);
-        }
-      }
-
-      .back-btn {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        color: $light-grey;
-      }
+    &:hover {
+      text-decoration: none;
     }
   }
+}
+
+}
+.menu-item {
+  padding: 0.6rem 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  &:hover, &:focus, &.selected {
+    background-color: $light-biscuit;
+  }
+
+  &:active {
+    background-color: $biscuit;
+  }
+
+  &.header {
+    font-weight: bold;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &.indent {
+    padding-left: 2rem;
+  }
+
+  &.orange {
+    background-color: $orange;
+    color: white;
+
+    &:hover, &:focus, &.selected {
+      background-color: darken($orange, 10%);
+    }
+  }
+
+  &.yellow {
+    background-color: $yellow;
+    color: white;
+
+    &:hover, &:focus, &.selected{
+      background-color: darken($yellow, 10%);
+    }
+  }
+
+  &.teal {
+    background-color: $teal;
+    color: white;
+
+    &:hover, &:focus, &.selected {
+      background-color: darken($teal, 10%);
+    }
+  }
+
+  .back-btn {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: $light-grey;
+  }
+}
+
+.navbar {
+  position: static;
 }
 
 /* RESPONSIVE FOR TABLETS */
