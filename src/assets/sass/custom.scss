@@ -176,6 +176,8 @@ button, .stc-btn {
     flex: 1 0 auto;
     position: relative;
     width: 20rem;
+    max-height: 80vh;
+    overflow: scroll;
 
     a {
       color: $black;
