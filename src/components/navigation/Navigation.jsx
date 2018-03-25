@@ -7,6 +7,7 @@ import RegistrationModal from "./RegistrationModal";
 import Menu from './Menu';
 import MegaMenu from './MegaMenu';
 import MenuItem from './MenuItem';
+import BuildingBlocksMenu from './BuildingBlocksMenu';
 import firebase from "../../firebase/init";
 
 import {
@@ -128,95 +129,26 @@ export default class Navigation extends React.Component {
   };
 
   render() {
-    const aboutPages = this.filterPagesByType('about');
-    const referencePages = this.filterPagesByType('reference');
 
     return (
       <div>
         <Navbar color="faded" light expand="md" style={styles.navbar}>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink tabIndex='0' color="secondary" onClick={this.logout} href='#'>
+              <span>Sign out</span>
+              <i className="fa fa-user-circle"></i>
+            </NavLink>
+            </NavItem>
             <Link to="/" className="navbar-brand">
               <img style={styles.logo} src={logo} alt="Save the Children" />
             </Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav>
-                    <span>About</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {
-                      aboutPages.map(page => {
-                        const pageTitle = page.node.navigation.displayTitle || page.node.title;
-                        return (
-                          <Link
-                            to={`/${page.node.slug}`}
-                            key={page.node.slug}
-                          >
-                            <MenuItem>{pageTitle}</MenuItem>
-                          </Link>
-                        )
-                      })
-                    }
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav>
-                    <span>Building Blocks</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <p>hello</p>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav>
-                    <span>Tools</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <p>hello</p>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav>
-                    <span>Case Study</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <p>hello</p>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav>
-                    <span>Reference</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {
-                      referencePages.map(page => {
-                        const pageTitle = page.node.navigation.displayTitle || page.node.title;
-                        return (
-                          <Link
-                            to={`/${page.node.slug}`}
-                            key={page.node.slug}
-                          >
-                            <MenuItem>{pageTitle}</MenuItem>
-                          </Link>
-                        )
-                      })
-                    }
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <NavItem>
-                  {this.props.isLoggedIn
-                    ? this.renderLogOut()
-                    : this.renderSignInUp()}
-                </NavItem>
-              </Nav>
-            </Collapse>
+            <NavItem>
+              {this.props.isLoggedIn
+                ? this.renderLogOut()
+                : this.renderSignInUp()}
+            </NavItem>
+          </Nav>
         </Navbar>
         <RegistrationModal
           firebase={firebase}
