@@ -1,40 +1,129 @@
 import React from 'react';
+import { filter, orderBy } from "lodash";
+import Link, { navigateTo } from "gatsby-link";
+
+import MenuItem from './MenuItem';
+import MenuColumn from './MenuColumn';
 
 
-const Menu = (props) => {
-  return (
-    <div id="full-page-menu" className={`full-page-menu ${props.open ? 'open' : 'collapsed'}`} aria-hidden={!props.open}>
-      <div className="content-container">
-      <button id="close-menu" onClick={props.close} ><i className="fa fa-times"></i></button>
-      {
-        props.columns.map((column, index) => {
+export default class Menu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: null
+    };
+  }
+
+  filterPagesByType = (type) => {
+    return orderBy(filter(
+      this.props.pages,
+      page => page.node.navigation.group === type
+    ), 'node.navigation.order')
+  };
+
+  setSelected = (selected) => {
+    this.setState({ selected })
+  }
+
+  generateSubmenu = (type, color) => {
+    const pages = this.filterPagesByType(type);
+
+    return (
+      <MenuColumn>
+        {pages.map(page => {
+          const pageTitle =
+            page.node.navigation.displayTitle || page.node.title;
+
+          const handleClick = () => {
+            navigateTo(`/${page.node.slug}`);
+            this.props.close()
+          }
+
           return (
-            <div key={index} className={`column column-${index}`}>
+              <MenuItem indent color={`light-${color}`} handleClick={handleClick}>{pageTitle}</MenuItem>
+          );
+        })}
+      </MenuColumn>
+    )
+  }
+
+  render() {
+    const mainMenuItems = [
+      {
+        title: 'About',
+        color: null,
+        indent: false,
+        submenu: 'about'
+      },
+      {
+        title: 'Building Blocks',
+        color: null,
+        indent: false,
+      },
+      {
+        title: 'A: Analysis',
+        color: 'yellow',
+        indent: true,
+        submenu: 'building_block_a'
+      },
+      {
+        title: 'B: Design',
+        color: 'orange',
+        indent: true,
+        submenu: 'building_block_b'
+      },
+      {
+        title: 'C: MEAL',
+        color: 'teal',
+        indent: true,
+        submenu: 'building_block_c'
+      },
+      {
+        title: 'Reference',
+        color: null,
+        indent: false,
+        submenu: 'reference'
+      },
+    ]
+
+    return (
+      <div id="mega-menu" className={`mega-menu ${this.props.isOpen ? 'open' : 'collapsed'}`} aria-hidden={!this.props.isOpen}>
+        <div className="content-container">
+        <button id="close-menu" onClick={this.props.close} ><i className="fas fa-times"></i></button>
+          <MenuColumn>
             {
-              column.map((group, index) => {
+              mainMenuItems.map(item => {
+                const isSelected = this.state.selected === item.title;
+                const handleClick = () => {
+                  if (isSelected) {
+                    return this.setSelected(null);
+                  }
+                  return this.setSelected(item.title)
+                }
+
                 return (
-                  <div key={index} className={`menu-section`}>
-                      <h2>{group.title}</h2>
-                      {
-                        group.pages.map((page, index) => {
-                          return (
-                            <div key={index} className="menu-item">
-                              <a tabIndex={props.open ? '0' : '-1'} href={`/${page.node.slug}`} className="dark">{page.node.navigation.displayTitle ? page.node.navigation.displayTitle : page.node.title}</a>
-                            </div>
-                          )
-                        })
-                      }
+                  <div>
+                    <MenuItem
+                      key={item.title}
+                      header
+                      color={item.color}
+                      indent={item.indent}
+                      parent={!!item.submenu}
+                      handleClick={handleClick}
+                    >
+                      {item.title}
+                    </MenuItem>
+                    {
+                      isSelected && this.generateSubmenu(item.submenu, item.color)
+                    }
                   </div>
                 )
               })
             }
-            </div>
-          )
-        })
-      }
+          </MenuColumn>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default Menu;

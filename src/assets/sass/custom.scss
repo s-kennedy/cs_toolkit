@@ -169,18 +169,6 @@ button, .stc-btn {
   text-align: right;
 }
 
-.menu-container {
-  display: flex;
-
-  .menu-column {
-    flex: 1 0 auto;
-    position: relative;
-    width: 20rem;
-    max-height: 80vh;
-    overflow: scroll;
-
-  }
-
 .nav-item {
   a {
     color: $black;
@@ -191,9 +179,22 @@ button, .stc-btn {
   }
 }
 
+.menu-column {
+  flex: 1 0 auto;
+  position: relative;
+  width: 100%;
+
+  a {
+    color: $black;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
+
 .menu-item {
-  padding: 0.6rem 1rem;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
 
@@ -207,8 +208,16 @@ button, .stc-btn {
 
   &.header {
     font-weight: bold;
-    &:hover {
+    &:hover, &:focus, &.selected {
       background-color: transparent;
+    }
+  }
+
+  &.parent {
+    cursor: pointer;
+
+    &:hover, &:focus, &.selected {
+      background-color: $light-biscuit;
     }
   }
 
@@ -223,6 +232,23 @@ button, .stc-btn {
     &:hover, &:focus, &.selected {
       background-color: darken($orange, 10%);
     }
+
+    &:active {
+      background-color: darken($orange, 15%);
+    }
+  }
+
+  &.light-orange {
+    background-color: lighten($orange, 35%);
+    color: $black;
+
+    &:hover, &:focus, &.selected{
+      background-color: lighten($orange, 31%);
+    }
+
+    &:active {
+      background-color: lighten($orange, 28%);
+    }
   }
 
   &.yellow {
@@ -231,6 +257,23 @@ button, .stc-btn {
 
     &:hover, &:focus, &.selected{
       background-color: darken($yellow, 10%);
+    }
+
+    &:active {
+      background-color: darken($yellow, 15%);
+    }
+  }
+
+  &.light-yellow {
+    background-color: lighten($yellow, 25%);
+    color: $black;
+
+    &:hover, &:focus, &.selected{
+      background-color: lighten($yellow, 15%);
+    }
+
+    &:active {
+      background-color: lighten($yellow, 10%);
     }
   }
 
@@ -241,6 +284,23 @@ button, .stc-btn {
     &:hover, &:focus, &.selected {
       background-color: darken($teal, 10%);
     }
+
+    &:active {
+      background-color: darken($teal, 15%);
+    }
+  }
+
+  &.light-teal {
+    background-color: lighten($teal, 60%);
+    color: $black;
+
+    &:hover, &:focus, &.selected{
+      background-color: lighten($teal, 55%);
+    }
+
+    &:active {
+      background-color: lighten($teal, 50%);
+    }
   }
 
   .back-btn {
@@ -250,8 +310,16 @@ button, .stc-btn {
   }
 }
 
-.navbar {
-  position: static;
+.overlay {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: transparentize($black, 0.2);
+  z-index: 2;
+}
+
+ul.mr-auto {
+  margin-left: 0;
 }
 
 /* RESPONSIVE FOR TABLETS */

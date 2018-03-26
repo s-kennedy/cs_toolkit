@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
 import logo from "../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
@@ -96,7 +95,7 @@ export default class Navigation extends React.Component {
   renderSignInUp = () => {
     return (
       <NavLink tabIndex='0' color="secondary" onClick={this.login} href='#'>
-        <span>Sign In / Sign Up</span>
+        <span className="hide-on-mobile">Sign In / Sign Up</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
     );
@@ -105,17 +104,10 @@ export default class Navigation extends React.Component {
   renderLogOut = () => {
     return (
       <NavLink tabIndex='0' color="secondary" onClick={this.logout} href='#'>
-        <span>Sign out</span>
+        <span className="hide-on-mobile">Sign out</span>
         <i className="fa fa-user-circle"></i>
       </NavLink>
     );
-  };
-
-  filterPagesByType = (type) => {
-    return orderBy(filter(
-      this.props.pages,
-      page => page.node.navigation.group === type
-    ), 'node.navigation.order')
   };
 
   openMenu = (e) => {
@@ -124,25 +116,28 @@ export default class Navigation extends React.Component {
   };
 
   closeMenu = (e) => {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     this.props.closeMenu()
   };
 
   render() {
-
     return (
       <div>
         <Navbar color="faded" light expand="md" style={styles.navbar}>
-          <Nav className="ml-auto" navbar>
+          <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink tabIndex='0' color="secondary" onClick={this.logout} href='#'>
-              <span>Sign out</span>
-              <i className="fa fa-user-circle"></i>
-            </NavLink>
+              <NavLink tabIndex='0' color="secondary" onClick={this.openMenu} href='#'>
+                <span className="hide-on-mobile">Menu</span>
+                <i className="fa fa-bars"></i>
+              </NavLink>
             </NavItem>
-            <Link to="/" className="navbar-brand">
-              <img style={styles.logo} src={logo} alt="Save the Children" />
-            </Link>
+          </Nav>
+          <Link to="/" className="navbar-brand">
+            <img style={styles.logo} src={logo} alt="Save the Children" />
+          </Link>
+          <Nav className="ml-auto" navbar>
             <NavItem>
               {this.props.isLoggedIn
                 ? this.renderLogOut()
@@ -150,6 +145,11 @@ export default class Navigation extends React.Component {
             </NavItem>
           </Nav>
         </Navbar>
+        <Menu
+          isOpen={this.props.showMenu}
+          close={this.closeMenu}
+          pages={this.props.pages}
+        />
         <RegistrationModal
           firebase={firebase}
           isOpen={this.props.showRegistrationModal}

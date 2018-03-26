@@ -246,7 +246,8 @@ export default class MegaMenu extends React.Component {
           tag="span"
           onClick={this.toggle}
           data-toggle="dropdown"
-          aria-expanded={this.state.dropdownOpen}>
+          aria-expanded={this.state.dropdownOpen}
+        >
           {this.props.children}
         </DropdownToggle>
         <DropdownMenu>

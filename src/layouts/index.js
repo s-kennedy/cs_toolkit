@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { connect } from 'react-redux'
+import { closeMenu } from "../redux/actions";
 
 import Link from "gatsby-link";
 import Helmet from "react-helmet";
@@ -23,6 +24,7 @@ class TemplateWrapper extends React.Component {
   render() {
     return (
       <div className={this.props.showMenu ? 'freeze' : ''}>
+        <div className='overlay' hidden={!this.props.showMenu} onClick={this.props.closeMenu}></div>
         <Helmet>
           <title>
             Child Sensitivity in Poverty Alleviation Programming: An Analytical
@@ -35,7 +37,8 @@ class TemplateWrapper extends React.Component {
             viewport="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
           />
           <link rel="icon" href={favicon} type="image/x-icon" />
-          <script src="https://use.fontawesome.com/ab5e247e92.js" />
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous" />
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous" />
         </Helmet>
         <NotificationContainer />
         <NavigationContainer pages={this.props.data.allPages.edges} />
@@ -54,7 +57,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    closeMenu: () => {
+      dispatch(closeMenu());
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TemplateWrapper)
