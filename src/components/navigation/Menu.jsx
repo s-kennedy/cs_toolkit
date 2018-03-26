@@ -1,12 +1,13 @@
 import React from 'react';
 import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
+import { withRouter } from 'react-router'
 
 import MenuItem from './MenuItem';
 import MenuColumn from './MenuColumn';
 
 
-export default class Menu extends React.Component {
+class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,14 +34,17 @@ export default class Menu extends React.Component {
         {pages.map(page => {
           const pageTitle =
             page.node.navigation.displayTitle || page.node.title;
+          const location = this.props.location.pathname;
+          const path = `/${page.node.slug}`;
+          const currentPage = location === path;
 
           const handleClick = () => {
-            navigateTo(`/${page.node.slug}`);
+            navigateTo(path);
             this.props.close()
           }
 
           return (
-              <MenuItem indent color={`light-${color}`} handleClick={handleClick}>{pageTitle}</MenuItem>
+              <MenuItem key={path} indent color={`light-${color}`} handleClick={handleClick} currentPage={currentPage}>{pageTitle}</MenuItem>
           );
         })}
       </MenuColumn>
@@ -110,6 +114,7 @@ export default class Menu extends React.Component {
                       indent={item.indent}
                       parent={!!item.submenu}
                       handleClick={handleClick}
+                      selected={isSelected}
                     >
                       {item.title}
                     </MenuItem>
@@ -127,3 +132,4 @@ export default class Menu extends React.Component {
   }
 }
 
+export default withRouter(Menu)

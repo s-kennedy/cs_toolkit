@@ -6,6 +6,7 @@ const MenuItem = props => {
   const parent = props.parent ? "parent" : "";
   const selected = props.selected ? "selected" : "";
   const caretClass = props.selected ? "fa-angle-up" : "fa-angle-down";
+  const current = props.currentPage ? "current" : ""
 
   return (
     <div
@@ -13,7 +14,10 @@ const MenuItem = props => {
       onMouseOver={props.handleMouseOver}
       onClick={props.handleClick}
     >
-      {props.children}
+      <div className={`${current}`}>
+        {props.currentPage && <i className="fas fa-arrow-right"></i>}
+        {props.children}
+      </div>
       {props.parent && <i className={`fa ${caretClass}`} />}
     </div>
   );

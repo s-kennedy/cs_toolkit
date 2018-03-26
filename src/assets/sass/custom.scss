@@ -308,6 +308,14 @@ button, .stc-btn {
     font-size: 0.8rem;
     color: $light-grey;
   }
+
+  .current {
+    font-weight: bold;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 .overlay {
