@@ -24,7 +24,7 @@ class TemplateWrapper extends React.Component {
   render() {
     return (
       <div className={this.props.showMenu ? 'freeze' : ''}>
-        <div className='overlay' hidden={!this.props.showMenu} onClick={this.props.closeMenu}></div>
+        <div className={`overlay ${this.props.showMenu ? 'show' : ''}`} onClick={this.props.closeMenu}></div>
         <Helmet>
           <title>
             Child Sensitivity in Poverty Alleviation Programming: An Analytical
