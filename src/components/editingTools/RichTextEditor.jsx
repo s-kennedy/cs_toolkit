@@ -5,15 +5,16 @@ import EditorWrapper from './EditorWrapper';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw, convertFromRaw, EditorState, ContentState } from 'draft-js';
 
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 class RichTextEditor extends React.Component {
   static propTypes = {};
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = { content: this.props.content }
     this.initializeEditorState = () => this._initializeEditorState();
     this.handleEditorStateChange = (state) => this._handleEditorStateChange(state)
-    this.handleDoneEditing = () => this._handleDoneEditing();
   }
 
   componentDidMount() {
@@ -21,7 +22,7 @@ class RichTextEditor extends React.Component {
   }
 
   _initializeEditorState() {
-    const blocksFromHtml = htmlToDraft(this.props.text);
+    const blocksFromHtml = htmlToDraft(this.state.content.text);
     const { contentBlocks, entityMap } = blocksFromHtml;
     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
     const editorState = EditorState.createWithContent(contentState);
@@ -32,21 +33,18 @@ class RichTextEditor extends React.Component {
   _handleEditorStateChange(editorState) {
     this.setState({
       editorState,
+      content: {
+        text: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
+      }
     });
   };
 
-  _handleDoneEditing() {
-    const newContent = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-    this.props.doneEditing(newContent);
-  }
 
   render() {
     const { editorState } = this.state;
 
     return (
-      <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
-        <Editor editorState={editorState} onEditorStateChange={this.handleEditorStateChange} />
-      </EditorWrapper>
+      <Editor editorState={editorState} onEditorStateChange={this.handleEditorStateChange} />
     )
   }
 };

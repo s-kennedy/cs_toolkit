@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { updateSectionContent } from '../redux/actions'
 import InnerContentContainer from '../containers/InnerContentContainer';
-import EditableInnerContentContainer from '../containers/EditableInnerContentContainer';
 
 
 const styles = {
@@ -32,15 +31,11 @@ const CallToActionContainer = (props) => {
   return (
     <section className={`call-to-action ${props.classes}`}>
       <div style={styles.container} className='container col-xs-12 col-sm-8'>
-        {
-          props.isEditingPage ?
-          <EditableInnerContentContainer
+          <InnerContentContainer
             sectionIndex={props.index}
             content={props.content}
             onUpdate={props.onUpdateSectionContent}
-          /> :
-          <InnerContentContainer content={props.content} />
-        }
+          />
       </div>
     </section>
   );

@@ -1,52 +1,155 @@
 import React from 'react'
 import { map } from 'lodash'
 
-import Header from '../components/display/Header'
-import Paragraph from '../components/display/Paragraph'
-import Image from '../components/display/Image'
-import FileUpload from '../components/display/FileUpload'
-import CustomButton from '../components/display/CustomButton'
-import Name from '../components/display/Name'
-import Action from '../components/display/Action'
+import Header from '../components/editable/Header'
+import Paragraph from '../components/editable/Paragraph'
+import Name from '../components/editable/Name'
+import Image from '../components/editable/Image'
+import FileUpload from '../components/editable/FileUpload'
+import Button from '../components/editable/Button'
+import Action from '../components/editable/Action'
 
-import CallToActionContainer from '../containers/CallToActionContainer'
-import SectionContainer from '../containers/SectionContainer'
-import ReferenceContainer from '../containers/ReferenceContainer'
+import SectionEditingActions from '../containers/SectionEditingActions';
 
-const generateContentComponents = (contentJson=[]) => {
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
+
+
+const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAddContentItem, onDeleteContentItem) => {
   return map(contentJson, (obj, index) => {
+    if (!obj) {
+      return console.log('Obj is undefined')
+    }
     switch (obj.type) {
-      case 'section':
-        return <SectionContainer key={index} content={obj.content} />
-      case 'call_to_action':
-        return <SectionContainer key={index} content={obj.content} cta={true} />
-      case 'reference':
-        return <ReferenceContainer key={index} content={obj.content} />
       case 'header':
-        return <Header key={index} text={obj.text} />;
+      return (
+        <Header
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          deleteContent={onDeleteContentItem}
+          text={obj.text}
+        />);
       case 'paragraph':
-        return <Paragraph key={index} text={obj.text} />;
-      case 'image':
-        return <Image key={index} source={obj.source} caption={obj.caption} />
-      case 'file':
-        return <FileUpload key={index} filepath={obj.filepath} title={obj.title} filetype={obj.filetype} />
-      case 'button':
-        return <CustomButton key={index} anchor={obj.anchor} link={obj.link} />
+      return (
+        <Paragraph
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          deleteContent={onDeleteContentItem}
+          text={obj.text}
+        />);
       case 'name':
-        return <Name key={index} text={obj.text} />
+      return (
+        <Name
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          text={obj.text}
+          deleteContent={onDeleteContentItem}
+        />);
+      case 'image':
+      return (
+        <Image
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          source={obj.source}
+          caption={obj.caption}
+          deleteContent={onDeleteContentItem}
+        />);
+      case 'file':
+      return (
+        <FileUpload
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
+          filepath={obj.filepath}
+          title={obj.title}
+          filetype={obj.filetype}
+          deleteContent={onDeleteContentItem}
+        />);
+      case 'button':
+      return (
+        <Button
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          anchor={obj.anchor}
+          link={obj.link}
+          updateContent={onUpdate}
+          deleteContent={onDeleteContentItem}
+        />);
       case 'action':
-        return <Action key={index} anchor={obj.anchor} link={obj.link} />
+      return (
+        <Action
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          anchor={obj.anchor}
+          url={obj.url}
+          updateContent={onUpdate}
+          deleteContent={onDeleteContentItem}
+        />);
+      default:
+      console.log('No component defined for ' + obj.type)
+      return null;
     }
   })
 }
 
-
 const InnerContentContainer = (props) => {
-    return (
-      <div className="inner-content">
-        { generateContentComponents(props.content) }
-      </div>
-    );
+  const styles = {
+    editActions: {
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    actionIcon: {
+      background: '#F2A900', // mustard
+      color: 'white',
+      height: '30px',
+      width: '30px',
+      borderRadius: '30px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: '1',
+      cursor: 'pointer',
+      margin: '5px',
+      border: 'none',
+    }
+  }
+
+  const handleDuplicate = () => {
+    props.onDuplicate(props.sectionIndex)
+  }
+
+  const handleDelete = () => {
+    props.onDelete(props.sectionIndex)
+  }
+
+  const generateAddContentItemHandler = (contentType) => {
+    return () => props.onAddContentItem(props.sectionIndex, contentType)
+  }
+
+  const generateAddSectionHandler = (sectionType) => {
+    return () => props.onAddSection(props.sectionIndex, sectionType)
+  }
+
+  return (
+    <div>
+      { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
+      <SectionEditingActions {...props} />
+    </div>
+  );
 }
 
 export default InnerContentContainer;

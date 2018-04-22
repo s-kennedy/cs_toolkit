@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { updateSectionContent, duplicateSection, deleteSection } from '../redux/actions'
 import InnerContentContainer from '../containers/InnerContentContainer';
-import EditableInnerContentContainer from '../containers/EditableInnerContentContainer';
 
 
 const styles = {
@@ -36,17 +35,13 @@ const ReferenceContainer = (props) => {
     return (
       <section className={`reference ${props.classes}`}>
         <div style={styles.container} className='container col-xs-12 col-sm-8'>
-        {
-          props.isEditingPage ?
-          <EditableInnerContentContainer
+          <InnerContentContainer
             sectionIndex={props.index}
             content={props.content}
             onUpdate={props.onUpdateSectionContent}
             onDelete={props.onDelete}
             onDuplicate={props.onDuplicate}
-          /> :
-          <InnerContentContainer content={props.content} />
-        }
+          />
         </div>
       </section>
     );

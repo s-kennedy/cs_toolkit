@@ -1,47 +1,43 @@
-import React from 'react'
-import EditorWrapper from './EditorWrapper';
+import React from "react";
+import EditorWrapper from "./EditorWrapper";
 
 const styles = {
   header: {
-    display: 'flex'
+    display: "flex"
   },
   input: {
-    width: '100%'
+    width: "100%",
+    fontSize: "inherit",
+    color: "#000",
+    backgroundColor: "#fff"
   }
-}
+};
 
 class PlainTextEditor extends React.Component {
   static propTypes = {};
 
   constructor(props) {
     super(props);
-    this.state = { text: this.props.text }
-    this.handleEditorChange = (event) => this._handleEditorChange(event)
-    this.handleDoneEditing = () => this._handleDoneEditing();
+    this.state = { content: this.props.content };
+    this.handleEditorChange = event => this._handleEditorChange(event);
   }
 
-  _handleEditorChange (event) {
+  _handleEditorChange(event) {
     const text = event.currentTarget.value;
-    this.setState({ text });
-  };
-
-  _handleDoneEditing() {
-    this.props.doneEditing(this.state.text)
+    this.setState({ content: { text } });
   }
 
   render() {
-    const { text } = this.state;
+    const { text } = this.state.content;
 
     return (
-      <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
-        <input
-          style={styles.input}
-          value={ text }
-          onChange={this.handleEditorChange}
-        />
-      </EditorWrapper>
-    )
+      <input
+        style={styles.input}
+        value={text}
+        onChange={this.handleEditorChange}
+      />
+    );
   }
-};
+}
 
 export default PlainTextEditor;

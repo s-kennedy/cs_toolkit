@@ -1,76 +1,60 @@
-import React from 'react';
-import FontAwesome from 'react-fontawesome';
+import React from "react";
+import FontAwesome from "react-fontawesome";
+import { connect } from "react-redux";
+import EditorWrapper from "../editingTools/EditorWrapper";
 
-const innerContentStyles = {
-  editContainer: {
-    backgroundColor: 'rgba(0,156,166,0.1)', // teal
-    position: 'relative',
-  },
-  actions: {
-    position: 'absolute',
-    left: '-15px',
-    top: '-15px',
-    display: 'flex',
-    alignItems: 'center',
-    zIndex: '1',
-  },
-  edit: {
-    color: 'white',
-    height: '30px',
-    width: '30px',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: '#009CA6', // teal
-    marginRight: '4px'
-  },
-  delete: {
-    color: 'white',
-    height: '30px',
-    width: '30px',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: '#9A3324', // plum
-    marginRight: '4px'
+class Editable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isEditing: false };
+  }
+
+  toggleEditing = () => {
+    this.setState({ isEditing: !this.state.isEditing });
+  };
+
+  handleDelete = () => {
+    this.props.deleteContent(this.props.sectionIndex, this.props.index);
+  };
+
+  handleSave = () => {
+    this.toggleEditing();
+    this.props.handleSave(this.editor.state.content);
+  };
+
+  render() {
+    if (this.props.isEditingPage) {
+      const Editor = this.props.editor;
+
+      return (
+        <EditorWrapper
+          isEditing={this.state.isEditing}
+          toggleEditing={this.toggleEditing}
+          handleDelete={this.handleDelete}
+          handleSave={this.handleSave}
+          fullWidth={this.props.fullWidth}
+        >
+          {this.state.isEditing && (
+            <Editor
+              handleChange={this.props.handleChange}
+              ref={editor => (this.editor = editor)}
+              content={this.props.content}
+              { ...this.props }
+            />
+          )}
+          {(!this.state.isEditing || !!this.props.showChildren) && this.props.children}
+        </EditorWrapper>
+      );
+    } else {
+      return this.props.children;
+    }
   }
 }
 
-const fullWidthStyles = {
-  ...innerContentStyles,
-  actions: {
-    ...innerContentStyles.actions,
-    left: '15px',
-    top: '15px'
-  }
-}
+const mapStateToProps = state => {
+  return {
+    isEditingPage: state.adminTools.isEditingPage
+  };
+};
 
-
-const Editable = (props) => {
-
-  const styles = props.fullWidth ? fullWidthStyles : innerContentStyles
-
-  const handleDelete = () => {
-    props.deleteContent(props.sectionIndex, props.index)
-  }
-
-  return (
-    <div className='edit-container' style={styles.editContainer}>
-      <div className='actions' style={styles.actions}>
-        <div className='edit-icon' style={styles.edit} onClick={props.toggleEditing}>
-          <FontAwesome name='pencil' />
-        </div>
-        <div className='delete-icon' style={styles.delete} onClick={handleDelete}>
-          <FontAwesome name='trash' />
-        </div>
-      </div>
-      {props.children}
-    </div>
-  )
-}
-
-export default Editable;
+export default connect(mapStateToProps, null)(Editable);

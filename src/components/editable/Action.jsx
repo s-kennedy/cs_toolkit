@@ -1,41 +1,36 @@
-import React from 'react'
+import React from "react";
+import Link from "gatsby-link";
 
-import DisplayAction from '../display/Action'
-import Editable from './Editable'
-import LinkEditor from '../editingTools/LinkEditor'
+import Editable from "./Editable";
+import LinkEditor from "../editingTools/LinkEditor";
 
-class Action extends React.Component {
-  static propTypes = {};
-
-  constructor(props) {
-    super(props);
-    this.state = { editing: false }
-    this.toggleEditing = () => this._toggleEditing()
-    this.doneEditing = (text) => this._doneEditing(text);
-  }
-
-  _toggleEditing() {
-    this.setState({ editing: !this.state.editing })
-  }
-
-  _doneEditing(updatedLink) {
-    this.toggleEditing();
-    this.props.updateContent(this.props.sectionIndex, this.props.index, updatedLink)
-  }
-
-  render() {
-    if (this.state.editing) {
-      return (
-        <LinkEditor doneEditing={this.doneEditing} anchor={this.props.anchor} link={this.props.link} />
-      )
-    }
-
-    return (
-      <Editable toggleEditing={this.toggleEditing} {...this.props}>
-        <DisplayAction anchor={this.props.anchor} link={this.props.link} />
-      </Editable>
-    )
+const styles = {
+  text: {
+    fontWeight: "bold"
   }
 };
 
-export default Action;
+const CustomLink = props => {
+  const handleSave = content => {
+    props.updateContent(props.sectionIndex, props.index, content)
+  }
+
+  return (
+    <div className="action-link">
+      <Editable
+        editor={LinkEditor}
+        handleSave={handleSave}
+        content={{ url: props.url, anchor: props.anchor }}
+        {...props}
+      >
+        <div className="action-link">
+          <Link to={props.url} style={styles.text}>
+            {props.anchor}
+          </Link>
+        </div>
+      </Editable>
+    </div>
+  );
+};
+
+export default CustomLink;

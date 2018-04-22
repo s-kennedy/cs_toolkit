@@ -1,42 +1,27 @@
 import React from 'react'
-import Editable from './Editable';
-import DisplayImage from '../display/Image';
-import ImageEditor from '../editingTools/ImageEditor';
+
+import Editable from './Editable'
+import ImageEditor from '../editingTools/ImageEditor'
 
 
-class Image extends React.Component {
-  static propTypes = {};
-
-  constructor(props) {
-    super(props);
-    this.state = { editing: false }
-    this.toggleEditing = () => this._toggleEditing()
-    this.doneEditing = (data) => this._doneEditing(data);
+const Image = (props) => {
+  const handleSave = content => {
+    props.updateContent(props.sectionIndex, props.index, content)
   }
 
-  _toggleEditing() {
-    this.setState({ editing: !this.state.editing })
-  }
-
-  _doneEditing(updatedContent) {
-    this.toggleEditing();
-    this.props.updateContent(this.props.sectionIndex, this.props.index, updatedContent)
-  }
-
-  render() {
-
-    if (this.state.editing) {
-      return (
-        <ImageEditor source={this.props.source} caption={this.props.caption} doneEditing={this.doneEditing} />
-      )
-    }
-
-    return (
-      <Editable toggleEditing={this.toggleEditing} {...this.props}>
-        <DisplayImage source={this.props.source} caption={this.props.caption} />
-      </Editable>
-    )
-  }
+  return (
+    <Editable
+      editor={ImageEditor}
+      handleSave={handleSave}
+      content={{ source: props.source, caption: props.caption }}
+      { ...props }
+    >
+      <div className='img edit-container'>
+        <img src={props.source} alt={props.caption} />
+        <small>{props.caption}</small>
+      </div>
+    </Editable>
+  );
 };
 
 export default Image;

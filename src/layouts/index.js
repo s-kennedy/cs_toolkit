@@ -8,7 +8,7 @@ import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
 import AdminToolbarContainer from "../containers/AdminToolbarContainer";
 import NotificationContainer from "../containers/NotificationContainer";
-import Footer from "../components/display/Footer";
+import Footer from "../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";

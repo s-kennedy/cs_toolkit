@@ -1,51 +1,39 @@
 import React from 'react'
-import Editable from './Editable';
-import DisplayFileUpload from '../display/FileUpload';
-import FileUploadEditor from '../editingTools/FileUploadEditor';
+import FontAwesome from 'react-fontawesome';
 
+import Editable from './Editable'
+import FileUploadEditor from '../editingTools/FileUploadEditor'
 
-class FileUpload extends React.Component {
-  static propTypes = {};
+const styles = {
+  text: {
+    fontWeight: 'bold'
+  },
+  icon: {
+    marginRight: '10px',
+    color: '#e70094'
+  }
+}
 
-  constructor(props) {
-    super(props);
-    this.state = { editing: false }
-    this.toggleEditing = () => this._toggleEditing()
-    this.doneEditing = (data) => this._doneEditing(data);
+const FileUpload = (props) => {
+  const handleSave = content => {
+    props.updateContent(props.sectionIndex, props.index, content)
   }
 
-  _toggleEditing() {
-    this.setState({ editing: !this.state.editing })
-  }
-
-  _doneEditing(updatedContent) {
-    this.toggleEditing();
-    this.props.updateContent(this.props.sectionIndex, this.props.index, updatedContent)
-  }
-
-  render() {
-
-    if (this.state.editing) {
-      return (
-        <FileUploadEditor
-          filepath={this.props.filepath}
-          title={this.props.title}
-          filetype={this.props.filetype}
-          doneEditing={this.doneEditing}
-        />
-      )
-    }
-
-    return (
-      <Editable toggleEditing={this.toggleEditing} {...this.props}>
-        <DisplayFileUpload
-          filepath={this.props.filepath}
-          title={this.props.title}
-          filetype={this.props.filetype}
-        />
-      </Editable>
-    )
-  }
+  return (
+    <Editable
+      editor={FileUploadEditor}
+      handleSave={handleSave}
+      content={{ filepath: props.filepath, title: props.title, filetype: props.filetype }}
+      { ...props }
+    >
+      <div className="action-link">
+        <span style={styles.icon}>
+          <FontAwesome name='file' />
+        </span>
+        <a href={props.filepath} style={styles.text} target="_blank">{props.title} {props.filetype && `(${props.filetype})`}</a>
+      </div>
+    </Editable>
+  );
 };
 
 export default FileUpload;

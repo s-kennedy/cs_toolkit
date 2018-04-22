@@ -4,13 +4,13 @@ import Editable from './Editable';
 import PlainTextEditor from '../editingTools/PlainTextEditor'
 
 
-const Title = (props) => {
+const Subtitle = (props) => {
   const handleSave = (newContent) => {
     props.updateTitle(newContent.text)
   }
 
   return (
-    <h1>
+    <h3>
       <Editable
         editor={PlainTextEditor}
         handleSave={handleSave}
@@ -19,8 +19,8 @@ const Title = (props) => {
       >
         { props.text }
       </Editable>
-    </h1>
+    </h3>
   )
 };
 
-export default Title;
+export default Subtitle;

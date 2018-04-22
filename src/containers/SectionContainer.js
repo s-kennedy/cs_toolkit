@@ -10,7 +10,6 @@ import {
   addSection
 } from '../redux/actions'
 import InnerContentContainer from '../containers/InnerContentContainer';
-import EditableInnerContentContainer from '../containers/EditableInnerContentContainer';
 
 
 const sectionStyles = {
@@ -64,9 +63,7 @@ const SectionContainer = (props) => {
     return (
       <section className={`${props.cta ? 'call-to-action' : 'section'} ${props.classes}`}>
         <div style={styles.container} className='container col-xs-12 col-sm-12 col-md-8'>
-        {
-          props.isEditingPage ?
-          <EditableInnerContentContainer
+          <InnerContentContainer
             sectionIndex={props.index}
             content={props.content}
             onUpdate={props.onUpdateSectionContent}
@@ -75,9 +72,7 @@ const SectionContainer = (props) => {
             onAddContentItem={props.onAddContentItem}
             onDeleteContentItem={props.onDeleteContentItem}
             onAddSection={props.onAddSection}
-          /> :
-          <InnerContentContainer content={props.content} />
-        }
+          />
         </div>
       </section>
     );

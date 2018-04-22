@@ -15,32 +15,36 @@ class LinkEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { anchor: this.props.anchor, link: this.props.link }
+    this.state = { content: this.props.content };
     this.handleAnchorChange = (event) => this._handleAnchorChange(event)
     this.handleLinkChange = (event) => this._handleLinkChange(event)
-    this.handleDoneEditing = () => this._handleDoneEditing();
   }
 
   _handleAnchorChange (event) {
     const anchor = event.currentTarget.value;
-    this.setState({ anchor });
+    this.setState({
+      content: {
+        ...this.state.content,
+        anchor: anchor
+      }
+    });
   };
 
   _handleLinkChange (event) {
-    const link = event.currentTarget.value;
-    this.setState({ link });
+    const url = event.currentTarget.value;
+    this.setState({
+      content: {
+        ...this.state.content,
+        url: url
+      }
+    });
   };
 
-  _handleDoneEditing() {
-    this.props.doneEditing({ anchor: this.state.anchor, link: this.state.link })
-  }
-
-
   render() {
-    const { anchor, link } = this.state;
+    const { anchor, url } = this.state.content;
 
     return (
-      <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
+      <div>
         <div>
           <label htmlFor='anchor' style={styles.label}>Link text</label>
           <input
@@ -54,12 +58,12 @@ class LinkEditor extends React.Component {
           <label htmlFor='link' style={styles.label}>Link path</label>
           <input
             name='link'
-            value={ link }
+            value={ url }
             onChange={this.handleLinkChange}
             style={styles.input}
           />
         </div>
-      </EditorWrapper>
+      </div>
     )
   }
 };

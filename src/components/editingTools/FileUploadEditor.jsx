@@ -1,8 +1,5 @@
 import React from 'react'
-import EditorWrapper from './EditorWrapper';
-import DisplayFileUpload from '../display/FileUpload';
 import firebase from "../../firebase/init";
-import { Button } from 'reactstrap';
 
 import '../../assets/sass/image_uploader.scss';
 
@@ -68,7 +65,6 @@ class FileUploadEditor extends React.Component {
     const { text } = this.state;
 
     return (
-      <EditorWrapper handleDoneEditing={this.handleDoneEditing}>
         <div className="image-uploader-container">
           <div className="form-group">
             <label className="btn btn-secondary" style={styles.button}>
@@ -98,7 +94,6 @@ class FileUploadEditor extends React.Component {
             Title to display: <input className="form-control" name="title" value={this.state.title || ''} onChange={this.handleCaptionChange} />
           </div>
         </div>
-      </EditorWrapper>
     )
   }
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { updatePageTitle } from '../redux/actions'
-import EditableTitle from '../components/editable/Title'
-import DisplayTitle from '../components/display/Title'
+import Title from '../components/display/Title'
 
 function mapStateToProps(state) {
   return {
@@ -35,11 +34,7 @@ const PageTitleContainer = (props) => {
   return (
     <div className='title-container' style={styles.titleContainer}>
       <div className='title' style={styles.title}>
-      {
-        props.isEditingPage ?
-        <EditableTitle text={props.title} updateTitle={props.onUpdateTitle} /> :
-        <DisplayTitle text={props.title} />
-      }
+        <Title text={props.title} />
       </div>
     </div>
   )
