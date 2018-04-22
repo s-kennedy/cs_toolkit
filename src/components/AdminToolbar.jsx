@@ -13,15 +13,15 @@ import {
 
 const styles = {
   toolbar: {
-    backgroundColor: "#9A3324", //plum
+    backgroundColor: "#f7a700", //yellow
     color: "#FFF"
   },
   saveBtn: {
-    backgroundColor: "#009CA6", //teal
+    backgroundColor: "#01b4aa", //teal
     color: "#FFF"
   },
   deployBtn: {
-    backgroundColor: "#F2A900", //mustard
+    backgroundColor: "#941c5b", //plum
     color: "#FFF"
   },
   navButton: {

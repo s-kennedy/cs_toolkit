@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { updatePageTitle } from '../redux/actions'
-import Title from '../components/display/Title'
+import Title from '../components/editable/Title'
 
 function mapStateToProps(state) {
   return {
