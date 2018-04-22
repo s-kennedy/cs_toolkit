@@ -57,7 +57,7 @@ nav {
           color: $dark-grey;
 
           &:hover {
-            color: $plum;
+            color: $secondary;
             background-color: transparent;
             text-decoration: underline;
           }
@@ -97,7 +97,7 @@ nav {
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    background-color: $plum;
+    background-color: $secondary;
     color: white;
     font-size: 18px;
     position: absolute;
@@ -140,7 +140,7 @@ nav {
         margin-top: 4px;
 
         a:hover, a:focus {
-          color: $plum;
+          color: $yellow;
         }
 
         &:last-of-type {

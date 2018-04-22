@@ -28,7 +28,7 @@ const PageTitleContainer = (props) => {
       margin: '2rem',
     },
     title: {
-      borderBottom: '2px solid #DA291C'
+      borderBottom: '2px solid #01b4aa'
     }
   }
 

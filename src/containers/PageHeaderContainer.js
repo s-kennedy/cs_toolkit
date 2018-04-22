@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch) {
 const styles = {
   titleWrapper: {
     display: 'flex',
-    flexDirection: 'column'
+    justifyContent: 'center'
   }
 }
 
@@ -50,8 +50,10 @@ const PageHeaderContainer = (props) => {
     return (
       <DisplayHeaderImage image={imageSrc}>
         <div style={styles.titleWrapper}>
-          <DisplayTitleWithHolder text={props.content.title} />
-          <DisplaySubtitleWithHolder text={props.content.subtitle} />
+          <DisplayTitleWithHolder>
+            <h1>{props.content.title}</h1>
+            <h3>{props.content.subtitle}</h3>
+          </DisplayTitleWithHolder>
         </div>
       </DisplayHeaderImage>
     )

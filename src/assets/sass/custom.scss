@@ -10,7 +10,7 @@
 
 section {
   &:nth-of-type(even) {
-    background-color: $light-biscuit;
+    background-color: $light-grey;
   }
 
   .inner-content > div, .edit-container {
@@ -75,23 +75,20 @@ section {
 }
 
 .display-title {
-  max-width: 60vw;
+  max-width: 50vw;
 }
 
 .headline-holder {
   line-height: 1.1;
-  background-color: white;
-  padding: 4px 20px;
-  border-radius: 8px;
-  -webkit-box-decoration-break: clone;
-  -o-box-decoration-break: clone;
-  box-decoration-break: clone;
+  background-color: rgba(255,255,255,0.7);
+  padding: 1rem 1rem 0.25rem 1rem;
+  text-align: center;
 }
 
 section.call-to-action {
   padding: 3rem;
   line-height: 1;
-  background-color: $plum;
+  background-color: $primary;
   text-align: center;
 
   .para {
@@ -108,7 +105,7 @@ section.call-to-action {
     background-color: white;
 
     a {
-      color: $plum;
+      color: $primary;
     }
 
     &:active, &:hover, &:focus {
@@ -131,10 +128,10 @@ button, .stc-btn {
   border: none;
 
   &.btn-red {
-    background-color: $red;
+    background-color: $secondary;
 
     &:active, &:hover, &:focus {
-      background-color: transparentize($red, 0.1);
+      background-color: transparentize($secondary, 0.1);
     }
 
     a {

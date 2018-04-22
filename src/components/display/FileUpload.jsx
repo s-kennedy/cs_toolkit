@@ -7,7 +7,7 @@ const styles = {
   },
   icon: {
     marginRight: '10px',
-    color: '#9A3324'
+    color: '#e70094'
   }
 }
 const Action = (props) => {

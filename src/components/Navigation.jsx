@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
-import logo from "../assets/img/STC_Logo_Horiz.png";
+import logo from "../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import Menu from './Menu';
 import firebase from "../firebase/init";
@@ -27,7 +27,7 @@ const styles = {
     boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
   },
   logo: {
-    width: "200px",
+    height: "60px",
     marginBottom: "0"
   }
 };
