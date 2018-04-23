@@ -5,7 +5,7 @@ import { map } from 'lodash';
 
 import { updatePageContent } from '../redux/actions';
 
-import Header from '../components/editable/Header'
+import PageNavigation from '../containers/PageNavigation';
 import SectionContainer from '../containers/SectionContainer';
 import ReferenceContainer from '../containers/ReferenceContainer';
 import SectionEditingActions from '../containers/SectionEditingActions';
@@ -52,6 +52,15 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
           sectionIndex={sectionIndex}
           updateContent={onUpdate}
           addContent={onAddContentItem}
+          content={obj.content}
+        />);
+      case 'page_navigation':
+      return (
+        <PageNavigation
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          updateContent={onUpdate}
           content={obj.content}
         />);
       default:

@@ -31,17 +31,17 @@ class LinkEditor extends React.Component {
   };
 
   _handleLinkChange (event) {
-    const url = event.currentTarget.value;
+    const link = event.currentTarget.value;
     this.setState({
       content: {
         ...this.state.content,
-        url: url
+        link: link
       }
     });
   };
 
   render() {
-    const { anchor, url } = this.state.content;
+    const { anchor, link } = this.state.content;
 
     return (
       <div>
@@ -58,7 +58,7 @@ class LinkEditor extends React.Component {
           <label htmlFor='link' style={styles.label}>Link path</label>
           <input
             name='link'
-            value={ url }
+            value={ link }
             onChange={this.handleLinkChange}
             style={styles.input}
           />

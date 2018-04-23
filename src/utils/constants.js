@@ -6,7 +6,22 @@ export const emptyContentItems = {
   section: { 'type': 'section', content: [] },
   button: { 'type': 'button', 'link': '/', 'anchor': 'Placeholder' },
   action: { 'type': 'action', 'link': '/', 'anchor': 'Placeholder' },
-  call_to_action: { 'type': 'call_to_action', content: [] }
+  call_to_action: { 'type': 'call_to_action', content: [] },
+  page_navigation: {
+    'type': 'page_navigation',
+    content: [
+      { 'type': 'nav_button',
+        'direction': 'prev',
+        'link': '/',
+        'anchor': 'Previous page'
+      },
+      { 'type': 'nav_button',
+        'direction': 'next',
+        'link': '/',
+        'anchor': 'Next page'
+      },
+    ]
+  }
 };
 
 export const API_URL = 'https://toolkit.sharonkennedy.ca';

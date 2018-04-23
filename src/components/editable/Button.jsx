@@ -42,7 +42,7 @@ const CustomButton = props => {
       <Editable
         editor={LinkEditor}
         handleSave={handleSave}
-        content={{ url: props.link, anchor: props.anchor }}
+        content={{ link: props.link, anchor: props.anchor }}
         {...props}
       >
         <BtnComponent link={props.link} anchor={props.anchor} />

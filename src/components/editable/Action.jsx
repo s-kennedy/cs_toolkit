@@ -16,20 +16,18 @@ const CustomLink = props => {
   }
 
   return (
-    <div className="action-link">
-      <Editable
-        editor={LinkEditor}
-        handleSave={handleSave}
-        content={{ url: props.url, anchor: props.anchor }}
-        {...props}
-      >
-        <div className="action-link">
-          <Link to={props.url} style={styles.text}>
-            {props.anchor}
-          </Link>
-        </div>
-      </Editable>
-    </div>
+    <Editable
+      editor={LinkEditor}
+      handleSave={handleSave}
+      content={{ link: props.link, anchor: props.anchor }}
+      {...props}
+    >
+      <div className="action-link">
+        <Link to={props.link} style={styles.text}>
+          {props.anchor}
+        </Link>
+      </div>
+    </Editable>
   );
 };
 

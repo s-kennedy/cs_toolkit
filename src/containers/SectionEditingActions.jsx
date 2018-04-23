@@ -95,6 +95,9 @@ const handleDuplicate = () => {
             <DropdownItem onClick={generateAddSectionHandler('call_to_action')}>
               Call To Action
             </DropdownItem>
+            <DropdownItem onClick={generateAddSectionHandler('page_navigation')}>
+              Page Navigation
+            </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       }

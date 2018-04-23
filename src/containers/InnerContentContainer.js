@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { map } from 'lodash'
 
 import Header from '../components/editable/Header'
@@ -8,6 +9,7 @@ import Image from '../components/editable/Image'
 import FileUpload from '../components/editable/FileUpload'
 import Button from '../components/editable/Button'
 import Action from '../components/editable/Action'
+import PageNavButton from '../components/editable/PageNavButton'
 
 import SectionEditingActions from '../containers/SectionEditingActions';
 
@@ -95,7 +97,19 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
           index={index}
           sectionIndex={sectionIndex}
           anchor={obj.anchor}
-          url={obj.url}
+          link={obj.link}
+          updateContent={onUpdate}
+          deleteContent={onDeleteContentItem}
+        />);
+      case 'nav_button':
+      return (
+        <PageNavButton
+          key={index}
+          index={index}
+          sectionIndex={sectionIndex}
+          anchor={obj.anchor}
+          link={obj.link}
+          direction={obj.direction}
           updateContent={onUpdate}
           deleteContent={onDeleteContentItem}
         />);
@@ -145,11 +159,19 @@ const InnerContentContainer = (props) => {
   }
 
   return (
-    <div>
+    <div style={props.styles}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
-      <SectionEditingActions {...props} />
+      {
+        props.isEditingPage &&
+        <SectionEditingActions {...props} />
+      }
     </div>
   );
 }
 
-export default InnerContentContainer;
+const mapStateToProps = (state) => {
+  return {
+    isEditingPage: state.adminTools.isEditingPage,
+  }
+}
+export default connect(mapStateToProps, null)(InnerContentContainer);
