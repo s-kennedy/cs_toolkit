@@ -21,7 +21,8 @@ const styles = {
   innerContainer:{
     display: "flex",
     justifyContent: "space-between",
-    flex: '1'
+    flex: '1',
+    position: 'relative'
   }
 };
 
@@ -55,6 +56,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const PageNagivation = props => {
+  const innerContainerStyles = (props.content.length === 2) ? styles.innerContainer : { ...styles.innerContainer, justifyContent: 'center'}
   return (
     <section className="page-navigation" style={styles.container}>
       <InnerContentContainer
@@ -66,7 +68,7 @@ const PageNagivation = props => {
         onAddContentItem={props.onAddContentItem}
         onDeleteContentItem={props.onDeleteContentItem}
         onAddSection={props.onAddSection}
-        styles={styles.innerContainer}
+        styles={innerContainerStyles}
       />
     </section>
   );
