@@ -42,9 +42,8 @@ class Menu extends React.Component {
             navigateTo(path);
             this.props.close()
           }
-
           return (
-              <MenuItem key={path} indent color={`light-${color}`} handleClick={handleClick} currentPage={currentPage}>{pageTitle}</MenuItem>
+            <MenuItem key={path} indent color={`light-${color}`} handleClick={handleClick} currentPage={currentPage}>{pageTitle}</MenuItem>
           );
         })}
       </MenuColumn>
@@ -106,9 +105,8 @@ class Menu extends React.Component {
                 }
 
                 return (
-                  <div>
+                  <div key={item.title}>
                     <MenuItem
-                      key={item.title}
                       header
                       color={item.color}
                       indent={item.indent}

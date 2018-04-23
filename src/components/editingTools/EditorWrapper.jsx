@@ -88,12 +88,12 @@ const EditorWrapper = (props) => {
         !props.isEditing &&
         <div className='actions' style={styles.actions}>
           <div className='edit-icon' style={styles.edit} onClick={props.toggleEditing}>
-            <FontAwesome name='pencil' style={styles.icon} />
+            <FontAwesome name='pencil-alt' style={styles.icon} />
           </div>
           {
             props.handleDelete &&
             <div className='delete-icon' style={styles.delete} onClick={props.handleDelete}>
-              <FontAwesome name='remove' style={styles.icon} />
+              <FontAwesome name='trash' style={styles.icon} />
             </div>
           }
         </div>
