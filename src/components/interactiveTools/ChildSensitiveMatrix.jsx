@@ -35,61 +35,54 @@ const initialTableData = [
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Children’s aspirations',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Intra-household factors',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Extra household factors and cultural factors',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Existing regulations and public service',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Geographic location',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
   {
     dimension: 'Seasonal variations',
     questionTarget: '',
     dataSources: '',
     findings: '',
-    allowDelete: true
   },
 ];
 
 const ChildSensitiveMatrix = props => {
-  const changeHandler = input => {
-    console.log(input);
+  const saveTable = data => {
+    console.log(data);
   };
 
   return (
     <EditableTable
       id="child-sensitive-matrix"
-      handleChange={changeHandler}
+      handleSave={saveTable}
       tableStructure={tableStructure}
       tableData={initialTableData}
     />

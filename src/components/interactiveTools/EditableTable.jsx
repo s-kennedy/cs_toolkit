@@ -13,6 +13,8 @@ import IconButton from 'material-ui/IconButton'
 import Button from 'material-ui/Button'
 import Paper from 'material-ui/Paper'
 
+import { withStyles } from 'material-ui/styles';
+
 const styles = {
   container: {
     overflowX: 'auto',
@@ -24,10 +26,13 @@ const styles = {
   cell: {
     whiteSpace: 'normal',
     wordWrap: 'break-word',
+    verticalAlign: 'bottom',
+  },
+  formControl: {
+    width: '100%',
   },
   input: {
     fontSize: '0.8rem',
-    width: '100%',
   },
   button: {
     marginLeft: '1rem',
@@ -39,6 +44,13 @@ const styles = {
 }
 
 class EditableTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableData: this.props.tableData || []
+    }
+  }
+
   componentDidMount() {
     if (!this.props.tableData) {
       this.createNewRow()
@@ -52,14 +64,14 @@ class EditableTable extends React.Component {
     const newRow = { ...row, [fieldName]: inputValue }
     newData.splice(rowIndex, 1, newRow)
 
-    this.props.handleChange(newData)
+    this.setState({ tableData: newData })
   }
 
   handleDeleteRow = rowIndex => () => {
     let newData = [...this.props.tableData]
     newData.splice(rowIndex, 1)
 
-    this.props.handleChange(newData)
+    this.setState({ tableData: newData })
   }
 
   defaultRowData = (row = {}) => {
@@ -70,19 +82,23 @@ class EditableTable extends React.Component {
   }
 
   createNewRow = () => {
-    const emptyRowData = this.defaultRowData({ allowDelete: true })
-    let newTableData = this.props.tableData ? [...this.props.tableData] : []
-    newTableData.push(emptyRowData)
+    const emptyRowData = this.defaultRowData()
+    let newData = this.state.tableData ? [...this.state.tableData] : []
+    newData.push(emptyRowData)
 
-    this.props.handleChange(newTableData)
+    this.setState({ tableData: newData })
+  }
+
+  saveTable = () => {
+    this.props.handleSave(this.state.tableData)
   }
 
   render() {
-    const tableData = this.props.tableData ? this.props.tableData : []
+    const { tableData } = this.state;
 
     return (
-      <Paper style={styles.container}>
-        <Table style={styles.table}>
+      <Paper className={this.props.classes.container}>
+        <Table className={this.props.classes.table}>
           <TableHead>
             <TableRow>
               {this.props.tableStructure.map(column => (
@@ -105,7 +121,7 @@ class EditableTable extends React.Component {
                       <TableCell
                         key={`${column.fieldName}-${index}`}
                         padding="dense"
-                        style={styles.cell}
+                        className={this.props.classes.cell}
                       >
                         <InputComponent
                           value={row[column.fieldName]}
@@ -113,7 +129,7 @@ class EditableTable extends React.Component {
                             column.fieldName,
                             index
                           )}
-                          style={styles.input}
+                          className={this.props.classes.input}
                         />
                       </TableCell>
                     )
@@ -122,39 +138,40 @@ class EditableTable extends React.Component {
                     <TableCell
                       key={`${column.fieldName}-${index}`}
                       padding="dense"
+                      className={this.props.classes.cell}
                     >
                       <TextField
                         type={column.type}
                         defaultValue={row[column.fieldName]}
                         onBlur={this.handleChange(column.fieldName, index)}
-                        style={styles.input}
                         multiline={true}
+                        InputProps={{ className: this.props.classes.input }}
+                        className={this.props.classes.formControl}
                       />
                     </TableCell>
                   )
                 })}
                 <TableCell padding="checkbox">
-                  {!!row.allowDelete ? (
-                    <IconButton
-                      aria-label="Delete"
-                      onClick={this.handleDeleteRow(index)}
-                    >
-                      &times;
-                    </IconButton>
-                  ) : (
-                    <small style={styles.disabled}>Imported</small>
-                  )}
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={this.handleDeleteRow(index)}
+                  >
+                    &times;
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Button style={styles.button} onClick={this.createNewRow}>
+        <Button className={this.props.classes.button} onClick={this.createNewRow}>
           Add new row
+        </Button>
+        <Button className={this.props.classes.button} color="primary" variant="raised" onClick={this.saveTable}>
+          Save
         </Button>
       </Paper>
     )
   }
 }
 
-export default EditableTable
+export default withStyles(styles)(EditableTable)
