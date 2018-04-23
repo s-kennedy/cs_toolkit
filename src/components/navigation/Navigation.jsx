@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link, { navigateTo } from "gatsby-link";
-import logo from "../assets/img/coalition-logo.png";
+import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import Menu from './Menu';
 import MegaMenu from './MegaMenu';
