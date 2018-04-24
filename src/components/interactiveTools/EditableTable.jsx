@@ -51,6 +51,12 @@ class EditableTable extends React.Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.tableData !== this.props.tableData) {
+      this.setState({ tableData: newProps.tableData })
+    }
+  }
+
   componentDidMount() {
     if (!this.props.tableData) {
       this.createNewRow()
@@ -59,7 +65,7 @@ class EditableTable extends React.Component {
 
   handleChange = (fieldName, rowIndex) => input => {
     const inputValue = input.target ? input.target.value : input
-    let newData = [...this.props.tableData]
+    let newData = [...this.state.tableData]
     const row = newData[rowIndex]
     const newRow = { ...row, [fieldName]: inputValue }
     newData.splice(rowIndex, 1, newRow)
@@ -68,7 +74,7 @@ class EditableTable extends React.Component {
   }
 
   handleDeleteRow = rowIndex => () => {
-    let newData = [...this.props.tableData]
+    let newData = [...this.state.tableData]
     newData.splice(rowIndex, 1)
 
     this.setState({ tableData: newData })
@@ -142,8 +148,8 @@ class EditableTable extends React.Component {
                     >
                       <TextField
                         type={column.type}
-                        defaultValue={row[column.fieldName]}
-                        onBlur={this.handleChange(column.fieldName, index)}
+                        value={row[column.fieldName]}
+                        onChange={this.handleChange(column.fieldName, index)}
                         multiline={true}
                         InputProps={{ className: this.props.classes.input }}
                         className={this.props.classes.formControl}

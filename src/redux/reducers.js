@@ -164,6 +164,23 @@ export const navigation = (state={}, action) => {
   }
 }
 
+export const interactiveTool = (state={}, action) => {
+  switch (action.type) {
+    case 'UPDATE_TOOL_DATA':
+      return {
+        ...state,
+        toolData: action.toolData
+      }
+    case 'TOGGLE_EDITING_TOOL':
+      return {
+        ...state,
+        isEditing: !state.isEditing
+      }
+    default:
+      return state
+  }
+}
+
 
 
 export const appReducers = (state = {}, action) => {
@@ -173,6 +190,7 @@ export const appReducers = (state = {}, action) => {
     pageData: pageData(state.pageData, action),
     content: content(state.content, action),
     navigation: navigation(state.navigation, action),
+    interactiveTool: interactiveTool(state.interactiveTool, action)
   }
 }
 

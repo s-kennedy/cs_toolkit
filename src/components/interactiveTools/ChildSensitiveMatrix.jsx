@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { uniq } from 'lodash';
+
 import EditableTable from "./EditableTable";
+import Title from '../editable/Title';
+import Subtitle from '../editable/Subtitle';
 
 const tableStructure = [
   { header: "Dimension", type: "text", fieldName: "dimension" },
@@ -32,42 +36,49 @@ const tableStructure = [
 const initialTableData = [
   {
     dimension: 'Children’s key deprivations',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Children’s aspirations',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Intra-household factors',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Extra household factors and cultural factors',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Existing regulations and public service',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Geographic location',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
   },
   {
     dimension: 'Seasonal variations',
+    questions: '',
     questionTarget: '',
     dataSources: '',
     findings: '',
@@ -75,17 +86,27 @@ const initialTableData = [
 ];
 
 const ChildSensitiveMatrix = props => {
-  const saveTable = data => {
-    console.log(data);
-  };
+  const tableData = props.tableData || initialTableData;
+  const tableTitle = props.title || 'Your title here';
+
+  const saveTitle = (title) => {
+    props.handleSave({ title })
+  }
+
+  const saveTable = (fields) => {
+    props.handleSave({ fields })
+  }
 
   return (
-    <EditableTable
-      id="child-sensitive-matrix"
-      handleSave={saveTable}
-      tableStructure={tableStructure}
-      tableData={initialTableData}
-    />
+    <div>
+      <Subtitle text={tableTitle} updateTitle={saveTitle} />
+      <EditableTable
+        id="child-sensitive-matrix"
+        handleSave={saveTable}
+        tableStructure={tableStructure}
+        tableData={tableData}
+      />
+    </div>
   );
 };
 

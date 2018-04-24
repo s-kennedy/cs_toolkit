@@ -197,3 +197,53 @@ export function openMenu() {
 export function closeMenu() {
   return { type: "CLOSE_MENU" }
 }
+
+// INTERACTIVE TOOLS ----------------------
+
+export function getToolData(toolId) {
+  return dispatch => {
+    firebase.database().ref(`interactive_tools/${toolId}`).once('value').then(snapshot => {
+      const toolData = snapshot.val();
+      dispatch(updateToolData(toolData));
+    });
+  };
+}
+
+export function saveToolData(toolId, toolData, slug) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(showNotification("Please log in to save your work.", "warning"))
+    }
+
+    const userId = state.adminTools.user.uid
+    const newToolData = { ...toolData, userId: userId }
+
+    const dataToUpdate = {
+      [`/interactive_tools/${toolId}`]: newToolData,
+      [`/users/${userId}/interactive_tools/${toolId}`]: {
+        title: toolData.title,
+        slug: slug
+      }
+    }
+
+    firebase.database().ref().update(dataToUpdate, () => {
+      dispatch(updateToolData(toolData));
+      dispatch(
+        showNotification(
+          "Your changes have been saved.",
+          "success"
+        )
+      );
+    });
+  };
+}
+
+export function updateToolData(toolData) {
+  return { type: "UPDATE_TOOL_DATA", toolData };
+}
+
+export function toggleEditingTool() {
+  return { type: "TOGGLE_EDITING_TOOL" };
+}
