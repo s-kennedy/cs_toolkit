@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import uuidv4 from "uuid/v4";
 
-import { getToolData, saveToolData, toggleEditingTool } from "../redux/actions";
+import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import ChildSensitiveMatrix from "../components/interactiveTools/ChildSensitiveMatrix";
-import Title from "../components/editable/Title";
+import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
+import Title from "../../components/editable/Title";
 
 class MatrixPage extends React.Component {
   constructor(props) {
@@ -38,8 +38,10 @@ class MatrixPage extends React.Component {
     const title = toolData.title;
 
     return (
-      <div>
-        <h1>Child Sensitive Assessment Matrix</h1>
+      <div className="interactive-tool">
+        <div className="title">
+          <h1>Child Sensitive Assessment Matrix</h1>
+        </div>
         <ChildSensitiveMatrix
           tableData={fields}
           title={title}
