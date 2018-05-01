@@ -94,42 +94,50 @@ class FlexTable extends React.Component {
           return (
             <Grid item xs={12} key={`row-${row.fieldName}`}>
               <Grid container alignItems='stretch' spacing={16} className={this.props.classes.row}>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <div style={styles.header}>
-                    {row.header}
+                    <div><strong>{row.header}</strong></div>
+                    {
+                      row.description &&
+                      <div><small>{row.description}</small></div>
+                    }
                   </div>
                 </Grid>
-                {
-                  this.state.tableData[row.fieldName].map((item, index) => {
-                    return(
-                      <Grid item xs={3} key={`${row.fieldName}-item-${index}`}>
-                        <Grid container style={styles.item}>
-                          <TextField
-                            value={item}
-                            onChange={this.handleChange(row.fieldName, index)}
-                            multiline={true}
-                            InputProps={{ className: this.props.classes.input }}
-                            className={this.props.classes.formControl}
-                          />
-                          <IconButton
-                            aria-label="Add Item"
-                            onClick={this.handleDeleteItem(row.fieldName, index)}
-                            className={this.props.classes.deleteButton}
-                          >
-                            &times;
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    )
-                  })
-                }
-                <Grid item>
-                  <IconButton
-                    aria-label="Add Item"
-                    onClick={this.handleAddItem(row.fieldName)}
-                  >
-                    +
-                  </IconButton>
+                <Grid item xs={8}>
+                  <Grid container spacing={16}>
+                    {
+                      this.state.tableData[row.fieldName].map((item, index) => {
+                        return(
+                          <Grid item xs={4} key={`${row.fieldName}-item-${index}`}>
+                            <Grid container style={styles.item}>
+                              <TextField
+                                value={item}
+                                onChange={this.handleChange(row.fieldName, index)}
+                                multiline={true}
+                                InputProps={{ className: this.props.classes.input }}
+                                className={this.props.classes.formControl}
+                              />
+                              <IconButton
+                                aria-label="Add Item"
+                                onClick={this.handleDeleteItem(row.fieldName, index)}
+                                className={this.props.classes.deleteButton}
+                              >
+                                &times;
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        )
+                      })
+                    }
+                    <Grid item>
+                      <IconButton
+                        aria-label="Add Item"
+                        onClick={this.handleAddItem(row.fieldName)}
+                      >
+                        +
+                      </IconButton>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
