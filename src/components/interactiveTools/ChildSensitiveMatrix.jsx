@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { uniq } from 'lodash';
-
 import EditableTable from "./EditableTable";
 import Title from '../editable/Title';
 import Subtitle from '../editable/Subtitle';
@@ -85,6 +83,12 @@ const initialTableData = [
   },
 ];
 
+const styles = {
+  container: {
+    marginTop: '2rem'
+  }
+}
+
 const ChildSensitiveMatrix = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || 'Your title here';
@@ -98,7 +102,7 @@ const ChildSensitiveMatrix = props => {
   }
 
   return (
-    <div>
+    <div style={styles.container}>
       <Subtitle text={tableTitle} updateTitle={saveTitle} />
       <EditableTable
         id="child-sensitive-matrix"
