@@ -51,7 +51,7 @@ const styles = {
 }
 
 const ProblemTree = props => {
-  const tableData = !!props.tableData ? props.tableData : initialTableData;
+  const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || 'Your title here';
 
   const saveTitle = (title) => {
@@ -69,7 +69,7 @@ const ProblemTree = props => {
         id="problem-tree"
         handleSave={saveTable}
         tableStructure={tableStructure}
-        tableData={initialTableData}
+        tableData={tableData}
       />
     </div>
   );
