@@ -26,7 +26,8 @@ const styles = {
   cell: {
     whiteSpace: "normal",
     wordWrap: "break-word",
-    verticalAlign: "bottom"
+    verticalAlign: "bottom",
+    minWidth: '300px'
   },
   formControl: {
     width: "100%"

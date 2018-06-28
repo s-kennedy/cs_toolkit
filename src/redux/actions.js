@@ -219,11 +219,12 @@ export function saveToolData(toolId, toolData, slug, toolType) {
 
     const userId = state.adminTools.user.uid
     const newToolData = { ...toolData, userId: userId }
+    const title = toolData.title ? toolData.title : 'No title'
 
     const dataToUpdate = {
       [`/interactive_tools/${toolId}`]: newToolData,
       [`/users/${userId}/interactive_tools/${toolId}`]: {
-        title: toolData.title,
+        title: title,
         slug: slug,
         toolType: toolType,
       }

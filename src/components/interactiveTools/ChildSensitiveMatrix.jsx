@@ -92,27 +92,33 @@ const initialTableData = [
 const styles = {
   container: {
     marginTop: '2rem'
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
   }
 }
 
 const ChildSensitiveMatrix = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || 'Your title here';
-  const toggleEditingBtn = props.isEditingPage ? 'Done editing' : 'Edit tool';
+  const toggleEditingBtn = props.isEditingPage ? 'Done editing' : 'Start Editing';
 
   const saveTitle = (title) => {
     props.handleSave({ title })
   }
 
   const saveTable = (fields) => {
-    debugger;
     props.handleSave({ fields })
   }
 
   return (
     <div style={styles.container}>
-      <Subtitle text={tableTitle} updateTitle={saveTitle} />
-      <Button onClick={props.onToggleEditing}>{toggleEditingBtn}</Button>
+      <div style={styles.header}>
+        <Subtitle text={tableTitle} updateTitle={saveTitle} disableDelete />
+        <Button onClick={props.onToggleEditing} variant="raised" color="secondary">{toggleEditingBtn}</Button>
+      </div>
       <Table
         id="child-sensitive-matrix"
         saveTable={saveTable}

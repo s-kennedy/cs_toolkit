@@ -19,8 +19,6 @@ class Editable extends React.Component {
 
   handleSave = () => {
     this.toggleEditing();
-    console.log('EDITOR STATE', this.editor.state)
-    console.log('EDITOR CONTENT', this.editor.state.content);
     this.props.handleSave(this.editor.state.content);
   };
 

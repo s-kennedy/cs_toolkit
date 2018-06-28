@@ -48,8 +48,9 @@ const styles = {
 
 const EditableTable = props => {
   const handleSave = content => {
-    console.log(content)
+    props.saveTable(content.tableData)
   }
+
   const { tableData, tableStructure } = props;
 
   return (
