@@ -16,6 +16,17 @@ import "./index.css";
 import "../assets/sass/custom.scss";
 import favicon from '../assets/img/favicon.png'
 
+const styles = {
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  body: {
+    flexGrow: '1'
+  }
+}
+
 class TemplateWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +34,7 @@ class TemplateWrapper extends React.Component {
 
   render() {
     return (
-      <div className={this.props.showMenu ? 'freeze' : ''}>
+      <div className={this.props.showMenu ? 'freeze' : ''} style={styles.page}>
         <div className={`overlay ${this.props.showMenu ? 'show' : ''}`} onClick={this.props.closeMenu}></div>
         <Helmet>
           <title>
@@ -42,8 +53,7 @@ class TemplateWrapper extends React.Component {
         </Helmet>
         <NotificationContainer />
         <NavigationContainer pages={this.props.data.allPages.edges} />
-        <AdminToolbarContainer pages={this.props.data.allPages.edges} />
-        <div>{this.props.children()}</div>
+        <div style={styles.body}>{this.props.children()}</div>
         <Footer />
       </div>
     );

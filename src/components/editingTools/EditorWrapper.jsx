@@ -91,7 +91,7 @@ const EditorWrapper = (props) => {
             <FontAwesome name='pencil-alt' style={styles.icon} />
           </div>
           {
-            props.handleDelete &&
+            (props.handleDelete && props.disableDelete !== true) &&
             <div className='delete-icon' style={styles.delete} onClick={props.handleDelete}>
               <FontAwesome name='trash' style={styles.icon} />
             </div>

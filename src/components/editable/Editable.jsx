@@ -33,6 +33,7 @@ class Editable extends React.Component {
           handleDelete={this.handleDelete}
           handleSave={this.handleSave}
           fullWidth={this.props.fullWidth}
+          disableDelete={this.props.disableDelete}
         >
           {this.state.isEditing && (
             <Editor

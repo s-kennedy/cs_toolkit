@@ -64,7 +64,7 @@ const ProblemTree = props => {
 
   return (
     <div style={styles.container}>
-      <Subtitle text={tableTitle} updateTitle={saveTitle} />
+      <Subtitle text={tableTitle} updateTitle={saveTitle} disableDelete />
       <FlexTable
         id="problem-tree"
         handleSave={saveTable}

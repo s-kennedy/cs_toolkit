@@ -6,6 +6,8 @@ import { getToolData, saveToolData, toggleEditingTool } from "../../redux/action
 
 import ProblemTree from "../../components/interactiveTools/ProblemTree";
 
+const TOOL_TYPE = 'Problem Tree'
+
 class ProblemTreePage extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,7 @@ class ProblemTreePage extends React.Component {
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug);
+    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
   };
 
   render() {
@@ -39,7 +41,7 @@ class ProblemTreePage extends React.Component {
     return (
       <div className="interactive-tool">
         <div className="title">
-          <h1>Problem Tree</h1>
+          <h1>{TOOL_TYPE}</h1>
         </div>
         <ProblemTree
           tableData={fields}
@@ -63,8 +65,8 @@ const mapDispatchToProps = dispatch => {
     getToolData: id => {
       dispatch(getToolData(id));
     },
-    saveToolData: (id, data, slug) => {
-      dispatch(saveToolData(id, data, slug));
+    saveToolData: (id, data, slug, type) => {
+      dispatch(saveToolData(id, data, slug, type));
     },
     toggleEditingTool: () => {
       dispatch(toggleEditingTool());

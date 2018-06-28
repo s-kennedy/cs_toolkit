@@ -7,6 +7,8 @@ import { getToolData, saveToolData, toggleEditingTool } from "../../redux/action
 import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
 import Title from "../../components/editable/Title";
 
+const TOOL_TYPE = 'Child Sensitive Assessment Matrix'
+
 class MatrixPage extends React.Component {
   constructor(props) {
     super(props);
@@ -29,7 +31,7 @@ class MatrixPage extends React.Component {
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug);
+    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
   };
 
   render() {
@@ -40,7 +42,7 @@ class MatrixPage extends React.Component {
     return (
       <div className="interactive-tool">
         <div className="title">
-          <h1>Child Sensitive Assessment Matrix</h1>
+          <h1>{TOOL_TYPE}</h1>
         </div>
         <ChildSensitiveMatrix
           tableData={fields}
@@ -64,8 +66,8 @@ const mapDispatchToProps = dispatch => {
     getToolData: id => {
       dispatch(getToolData(id));
     },
-    saveToolData: (id, data, slug) => {
-      dispatch(saveToolData(id, data, slug));
+    saveToolData: (id, data, slug, type) => {
+      dispatch(saveToolData(id, data, slug, type));
     },
     toggleEditingTool: () => {
       dispatch(toggleEditingTool());

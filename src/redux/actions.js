@@ -209,7 +209,7 @@ export function getToolData(toolId) {
   };
 }
 
-export function saveToolData(toolId, toolData, slug) {
+export function saveToolData(toolId, toolData, slug, toolType) {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -224,7 +224,8 @@ export function saveToolData(toolId, toolData, slug) {
       [`/interactive_tools/${toolId}`]: newToolData,
       [`/users/${userId}/interactive_tools/${toolId}`]: {
         title: toolData.title,
-        slug: slug
+        slug: slug,
+        toolType: toolType,
       }
     }
 
