@@ -14,6 +14,7 @@ const mapStateToProps = state => {
     isLoggedIn: state.adminTools.isLoggedIn,
     showRegistrationModal: state.adminTools.showRegistrationModal,
     showMenu: state.navigation.showMenu,
+    user: state.adminTools.user,
   };
 };
 

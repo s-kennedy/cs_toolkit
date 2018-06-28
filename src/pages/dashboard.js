@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { map } from "lodash";
 
 const Dashboard = props => {
-  console.log(props.user);
   const tools = props.user ? props.user.interactive_tools : {}
+
   return (
     <div className={`basic-page dashboard`}>
       <Container>
@@ -14,7 +14,7 @@ const Dashboard = props => {
           <Col xs={12}>
             <div className="title">
               <h1>Dashboard</h1>
-              {props.user && <h3>{props.user.displayName}</h3>}
+              {props.user && <h3 className="teal">{props.user.displayName}</h3>}
             </div>
           </Col>
         </Row>
@@ -27,7 +27,7 @@ const Dashboard = props => {
               map(tools, (tool, uid) => {
                 const type = tool.toolType ? tool.toolType : 'Unknown Tool'
                 return (
-                  <div>
+                  <div key={uid}>
                     <span className="tool-type">{type} - </span>
                     <Link to={`${tool.slug}?id=${uid}`}>
                       {tool.title}

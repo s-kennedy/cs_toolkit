@@ -67,6 +67,7 @@ export default class Navigation extends React.Component {
         });
       } else {
         this.props.userLoggedOut();
+        navigateTo('/')
       }
 
       if (this.props.showRegistrationModal) {
@@ -79,6 +80,7 @@ export default class Navigation extends React.Component {
     e.preventDefault();
     firebase.auth().signOut();
     this.props.userLoggedOut();
+    navigateTo('/')
   };
 
   login = e => {
@@ -102,10 +104,11 @@ export default class Navigation extends React.Component {
   };
 
   renderUserMenu = () => {
+    const accountName = this.props.user.displayName ? this.props.user.displayName : 'Account'
     return (
       <UncontrolledDropdown>
         <DropdownToggle tag="a" className="nav-link" caret>
-          Account
+          {accountName}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem tag="a" href="/dashboard">Dashboard</DropdownItem>
