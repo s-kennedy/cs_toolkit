@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import {
+  toggleEditing
+} from '../../redux/actions'
 
-import FlexTable from "./FlexTable";
+import Button from 'material-ui/Button';
+
+import FlexTable from "../editable/FlexTable";
 import Subtitle from '../editable/Subtitle';
 
 const tableStructure = [
@@ -47,12 +53,18 @@ const initialTableData = {
 const styles = {
   container: {
     marginTop: '2rem'
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
   }
 }
 
 const ProblemTree = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || 'Your title here';
+  const toggleEditingBtn = props.isEditingPage ? 'Done editing' : 'Start Editing';
 
   const saveTitle = (title) => {
     props.handleSave({ title })
@@ -64,10 +76,13 @@ const ProblemTree = props => {
 
   return (
     <div style={styles.container}>
-      <Subtitle text={tableTitle} updateTitle={saveTitle} disableDelete />
+      <div style={styles.header}>
+        <Subtitle text={tableTitle} updateTitle={saveTitle} disableDelete />
+        <Button onClick={props.onToggleEditing} variant="raised" color="secondary">{toggleEditingBtn}</Button>
+      </div>
       <FlexTable
         id="problem-tree"
-        handleSave={saveTable}
+        saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
       />
@@ -75,4 +90,19 @@ const ProblemTree = props => {
   );
 };
 
-export default ProblemTree;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onToggleEditing: () => {
+      dispatch(toggleEditing())
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isEditingPage: state.adminTools.isEditingPage
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProblemTree);
+
