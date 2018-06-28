@@ -106,7 +106,7 @@ class FlexTable extends React.Component {
                   spacing={16}
                   className={this.props.classes.row}
                 >
-                  <Grid item xs={3}>
+                  <Grid item xs={12} md={3}>
                     <div style={styles.header}>
                       <div>
                         <strong>{row.header}</strong>
@@ -118,14 +118,16 @@ class FlexTable extends React.Component {
                       )}
                     </div>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={12} md={9}>
                     <Grid container spacing={16}>
                       {this.state.tableData[row.fieldName].map(
                         (item, index) => {
                           return (
                             <Grid
                               item
-                              xs={4}
+                              xs={12}
+                              sm={6}
+                              md={4}
                               key={`${row.fieldName}-item-${index}`}
                             >
                               <Grid container style={styles.item}>

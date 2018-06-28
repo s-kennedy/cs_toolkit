@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import {
+  toggleEditing
+} from '../../redux/actions'
 
-import EditableTable from "./EditableTable";
+import Button from 'material-ui/Button';
+
+import Table from "../editable/Table";
 import Title from '../editable/Title';
 import Subtitle from '../editable/Subtitle';
 
@@ -92,21 +98,24 @@ const styles = {
 const ChildSensitiveMatrix = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || 'Your title here';
+  const toggleEditingBtn = props.isEditingPage ? 'Done editing' : 'Edit tool';
 
   const saveTitle = (title) => {
     props.handleSave({ title })
   }
 
   const saveTable = (fields) => {
+    debugger;
     props.handleSave({ fields })
   }
 
   return (
     <div style={styles.container}>
       <Subtitle text={tableTitle} updateTitle={saveTitle} />
-      <EditableTable
+      <Button onClick={props.onToggleEditing}>{toggleEditingBtn}</Button>
+      <Table
         id="child-sensitive-matrix"
-        handleSave={saveTable}
+        saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
       />
@@ -114,4 +123,18 @@ const ChildSensitiveMatrix = props => {
   );
 };
 
-export default ChildSensitiveMatrix;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onToggleEditing: () => {
+      dispatch(toggleEditing())
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isEditingPage: state.adminTools.isEditingPage
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChildSensitiveMatrix);
