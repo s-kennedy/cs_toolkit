@@ -53,9 +53,7 @@ export default class AdminToolbar extends React.Component {
   }
 
   _deletePage() {
-    if (window.confirm("Are you sure you want to delete this page?")) {
-      this.props.deletePage(this.props.pageData.id);
-    }
+    this.props.deletePage(this.props.pageData.id);
   }
 
   _deploy() {
