@@ -11,79 +11,34 @@ import Title from "../editable/Title";
 import Subtitle from "../editable/Subtitle";
 
 const tableStructure = [
-  { header: "Dimension", type: "text", fieldName: "dimension" },
   {
-    header: "What questions need to be answered?",
+    header: "Risk and/or correlating assumption(s)",
     type: "text",
-    fieldName: "questions"
+    fieldName: "riskAndAssumptions"
   },
   {
-    header: "Who are the questions aimed at?",
+    header: "Monitoring actions",
     type: "text",
-    fieldName: "questionTarget"
+    fieldName: "monitoringActions"
   },
   {
-    header:
-      "Where can you find the data if available? Which methods can you use to collect new data when needed?",
+    header: "Mitigating actions",
     type: "text",
-    fieldName: "dataSources"
+    fieldName: "mitigatingActions"
   },
   {
-    header: "Key findings",
+    header: "Person responsible for taking action(s)",
     type: "text",
-    fieldName: "findings"
+    fieldName: "personResponsible"
   }
 ];
 
 const initialTableData = [
   {
-    dimension: "Children’s key deprivations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Children’s aspirations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Intra-household factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Extra household factors and cultural factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Existing regulations and public service",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Geographic location",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Seasonal variations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskAndAssumptions: "",
+    monitoringActions: "",
+    mitigatingActions: "",
+    personResponsible: ""
   }
 ];
 
@@ -98,7 +53,7 @@ const styles = {
   }
 };
 
-const ChildSensitiveMatrix = props => {
+const RiskMitigationPlan = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || "Your title here";
   const toggleEditingBtn = props.isEditingPage
@@ -130,7 +85,7 @@ const ChildSensitiveMatrix = props => {
         </Grid>
       </Grid>
       <Table
-        id="child-sensitive-matrix"
+        id="risk-assumption-matrix"
         saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
@@ -154,6 +109,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ChildSensitiveMatrix
-);
+export default connect(mapStateToProps, mapDispatchToProps)(RiskMitigationPlan);

@@ -12,7 +12,6 @@ import Subtitle from "../editable/Subtitle";
 const tableStructure = [
   {
     header: "Impacts on Children",
-    description: "(from the situation and needs analyses)",
     fieldName: "impactsOnChildren"
   },
   {
@@ -20,34 +19,30 @@ const tableStructure = [
     fieldName: "immediateEffects"
   },
   {
-    header: "Main Problem",
-    fieldName: "mainProblem"
+    header: "Objective",
+    fieldName: "objective"
   },
   {
-    header: "Immediate Causes",
-    description: "(e.g. family level use of practices / services...)",
-    fieldName: "immediateCauses"
+    header: "Results",
+    fieldName: "results"
   },
   {
-    header: "Underlying Causes",
-    description: "(e.g. Basic service access, availability, quality...)",
-    fieldName: "underlyingCauses"
+    header: "Outputs",
+    fieldName: "outputs"
   },
   {
-    header: "Structural Causes",
-    description:
-      "Enabling Environment (e.g. culture, norms, systems, policies, resources, laws, markets...)",
-    fieldName: "structuralCauses"
+    header: "Contribution to changes in structural causes",
+    fieldName: "contribution"
   }
 ];
 
 const initialTableData = {
-  structuralCauses: [""],
-  underlyingCauses: [""],
-  immediateCauses: [""],
-  mainProblem: [""],
+  impactsOnChildren: [""],
   immediateEffects: [""],
-  impactsOnChildren: [""]
+  objective: [""],
+  results: [""],
+  outputs: [""],
+  contribution: [""]
 };
 
 const styles = {
@@ -61,7 +56,7 @@ const styles = {
   }
 };
 
-const ProblemTree = props => {
+const ObjectiveTree = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || "Your title here";
   const toggleEditingBtn = props.isEditingPage
@@ -117,4 +112,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProblemTree);
+export default connect(mapStateToProps, mapDispatchToProps)(ObjectiveTree);

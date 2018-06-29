@@ -11,79 +11,35 @@ import Title from "../editable/Title";
 import Subtitle from "../editable/Subtitle";
 
 const tableStructure = [
-  { header: "Dimension", type: "text", fieldName: "dimension" },
   {
-    header: "What questions need to be answered?",
+    header: "Priority problems and needs affecting children?",
     type: "text",
-    fieldName: "questions"
+    fieldName: "priorityProblems"
   },
   {
-    header: "Who are the questions aimed at?",
+    header: "Which groups of children are most affected?",
     type: "text",
-    fieldName: "questionTarget"
+    fieldName: "mostAffected"
+  },
+  {
+    header: "Can these issues be addressed through PA alone (yes/no)?",
+    type: "text",
+    fieldName: "paAlone"
   },
   {
     header:
-      "Where can you find the data if available? Which methods can you use to collect new data when needed?",
+      "How can a PA be complemented to address issues that are not linked to poverty?",
     type: "text",
-    fieldName: "dataSources"
-  },
-  {
-    header: "Key findings",
-    type: "text",
-    fieldName: "findings"
+    fieldName: "complemented"
   }
 ];
 
 const initialTableData = [
   {
-    dimension: "Children’s key deprivations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Children’s aspirations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Intra-household factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Extra household factors and cultural factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Existing regulations and public service",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Geographic location",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
-  },
-  {
-    dimension: "Seasonal variations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    priorityProblems: "",
+    mostAffected: "",
+    paAlone: "",
+    complemented: ""
   }
 ];
 
@@ -98,7 +54,7 @@ const styles = {
   }
 };
 
-const ChildSensitiveMatrix = props => {
+const ProblemPrioritization = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || "Your title here";
   const toggleEditingBtn = props.isEditingPage
@@ -130,7 +86,7 @@ const ChildSensitiveMatrix = props => {
         </Grid>
       </Grid>
       <Table
-        id="child-sensitive-matrix"
+        id="problem-prioritization"
         saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
@@ -155,5 +111,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ChildSensitiveMatrix
+  ProblemPrioritization
 );

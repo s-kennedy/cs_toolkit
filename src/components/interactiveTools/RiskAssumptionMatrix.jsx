@@ -11,79 +11,70 @@ import Title from "../editable/Title";
 import Subtitle from "../editable/Subtitle";
 
 const tableStructure = [
-  { header: "Dimension", type: "text", fieldName: "dimension" },
   {
-    header: "What questions need to be answered?",
+    header: "Risk Category",
     type: "text",
-    fieldName: "questions"
-  },
-  {
-    header: "Who are the questions aimed at?",
-    type: "text",
-    fieldName: "questionTarget"
+    fieldName: "riskCategory"
   },
   {
     header:
-      "Where can you find the data if available? Which methods can you use to collect new data when needed?",
+      "What are the potential risks for children due to the project interventions?",
     type: "text",
-    fieldName: "dataSources"
+    fieldName: "potentialRisks"
   },
   {
-    header: "Key findings",
+    header:
+      "What assumptions are we making related to children and the project interventions?",
     type: "text",
-    fieldName: "findings"
+    fieldName: "assumptions"
   }
 ];
 
 const initialTableData = [
   {
-    dimension: "Children’s key deprivations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Health",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Children’s aspirations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Nutrition",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Intra-household factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Intra-household dynamics",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Extra household factors and cultural factors",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Extra-household dynamics",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Existing regulations and public service",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Education",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Geographic location",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Protection",
+    potentialRisks: "",
+    assumptions: ""
   },
   {
-    dimension: "Seasonal variations",
-    questions: "",
-    questionTarget: "",
-    dataSources: "",
-    findings: ""
+    riskCategory: "Children and work",
+    potentialRisks: "",
+    assumptions: ""
+  },
+  {
+    riskCategory: "Social and psychosocial wellbeing",
+    potentialRisks: "",
+    assumptions: ""
+  },
+  {
+    riskCategory: "Other factors",
+    potentialRisks: "",
+    assumptions: ""
   }
 ];
 
@@ -98,7 +89,7 @@ const styles = {
   }
 };
 
-const ChildSensitiveMatrix = props => {
+const RiskAssumptionMatrix = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || "Your title here";
   const toggleEditingBtn = props.isEditingPage
@@ -130,7 +121,7 @@ const ChildSensitiveMatrix = props => {
         </Grid>
       </Grid>
       <Table
-        id="child-sensitive-matrix"
+        id="risk-assumption-matrix"
         saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
@@ -155,5 +146,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ChildSensitiveMatrix
+  RiskAssumptionMatrix
 );
