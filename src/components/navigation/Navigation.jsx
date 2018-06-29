@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import Link, { navigateTo } from "gatsby-link";
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import Menu from './Menu';
-import MegaMenu from './MegaMenu';
-import MenuItem from './MenuItem';
-import BuildingBlocksMenu from './BuildingBlocksMenu';
+import Menu from "./Menu";
+import MegaMenu from "./MegaMenu";
+import MenuItem from "./MenuItem";
+import BuildingBlocksMenu from "./BuildingBlocksMenu";
 import firebase from "../../firebase/init";
 
 import {
@@ -67,59 +67,67 @@ export default class Navigation extends React.Component {
         });
       } else {
         this.props.userLoggedOut();
+        navigateTo('/')
       }
 
       if (this.props.showRegistrationModal) {
-        this.props.onToggleRegistrationModal()
+        this.props.onToggleRegistrationModal();
       }
     });
   }
 
-  logout = (e) => {
+  logout = e => {
     e.preventDefault();
     firebase.auth().signOut();
     this.props.userLoggedOut();
+    navigateTo('/')
   };
 
   login = e => {
     e.preventDefault();
     this.props.onToggleRegistrationModal();
-  }
+  };
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  };
+  }
 
   renderSignInUp = () => {
     return (
-      <NavLink tabIndex='0' color="secondary" onClick={this.login} href='#'>
+      <NavLink tabIndex="0" color="secondary" onClick={this.login} href="#">
         <span className="hide-on-mobile">Sign In / Sign Up</span>
-        <i className="fa fa-user-circle"></i>
+        <i className="fa fa-user-circle" />
       </NavLink>
     );
   };
 
-  renderLogOut = () => {
+  renderUserMenu = () => {
+    const accountName = this.props.user.displayName ? this.props.user.displayName : 'Account'
     return (
-      <NavLink tabIndex='0' color="secondary" onClick={this.logout} href='#'>
-        <span className="hide-on-mobile">Sign out</span>
-        <i className="fa fa-user-circle"></i>
-      </NavLink>
+      <UncontrolledDropdown>
+        <DropdownToggle tag="a" className="nav-link" caret>
+          {accountName}
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem tag="a" href="/dashboard">Dashboard</DropdownItem>
+          <DropdownItem tag="a" href="#" onClick={this.logout}>Sign out</DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
     );
   };
 
-  openMenu = (e) => {
-    e.preventDefault()
-    this.props.openMenu()
+  openMenu = e => {
+    e.preventDefault();
+    this.props.openMenu();
   };
 
-  closeMenu = (e) => {
+  closeMenu = e => {
     if (e) {
-      e.preventDefault()
+      e.preventDefault();
     }
-    this.props.closeMenu()
+    this.props.closeMenu();
   };
 
   render() {
@@ -128,9 +136,14 @@ export default class Navigation extends React.Component {
         <Navbar color="faded" light expand="md" style={styles.navbar}>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink tabIndex='0' color="secondary" onClick={this.openMenu} href='#'>
+              <NavLink
+                tabIndex="0"
+                color="secondary"
+                onClick={this.openMenu}
+                href="#"
+              >
                 <span className="hide-on-mobile">Menu</span>
-                <i className="fa fa-bars"></i>
+                <i className="fa fa-bars" />
               </NavLink>
             </NavItem>
           </Nav>
@@ -140,7 +153,7 @@ export default class Navigation extends React.Component {
           <Nav className="ml-auto" navbar>
             <NavItem>
               {this.props.isLoggedIn
-                ? this.renderLogOut()
+                ? this.renderUserMenu()
                 : this.renderSignInUp()}
             </NavItem>
           </Nav>

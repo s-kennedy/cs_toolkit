@@ -2,6 +2,7 @@ import React from 'react';
 
 import PageContentContainer from '../containers/PageContentContainer'
 import PageHeaderContainer from '../containers/PageHeaderContainer'
+import AdminToolbarContainer from "../containers/AdminToolbarContainer";
 
 import { connect } from 'react-redux'
 import { updatePageContent, updatePageMetaData } from '../redux/actions'
@@ -24,6 +25,7 @@ class PageWithHeader extends React.Component {
   render() {
     return (
       <div className={`page-with-header ${this.props.pageData.page_type}`}>
+        <AdminToolbarContainer />
         <PageHeaderContainer />
         <PageContentContainer />
       </div>

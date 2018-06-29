@@ -169,6 +169,28 @@ button, .stc-btn {
   text-align: right;
 }
 
+.interactive-tool {
+  padding: 2rem;
+
+  .title {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid rgb(1, 180, 170)
+  }
+}
+
+.dashboard {
+  padding: 2rem;
+}
+
+.teal {
+  color: $teal;
+}
+
+.pink {
+  color: $pink;
+}
+
 
 /* RESPONSIVE FOR TABLETS */
 

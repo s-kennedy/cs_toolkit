@@ -1,12 +1,20 @@
 import React from "react";
 import Link from "gatsby-link";
+import FontAwesome from 'react-fontawesome';
 
 import Editable from "./Editable";
 import LinkEditor from "../editingTools/LinkEditor";
 
 const styles = {
+  action: {
+    display: 'flex',
+  },
   text: {
     fontWeight: "bold"
+  },
+  icon: {
+    marginRight: '10px',
+    color: '#e70094'
   }
 };
 
@@ -22,7 +30,10 @@ const CustomLink = props => {
       content={{ link: props.link, anchor: props.anchor }}
       {...props}
     >
-      <div className="action-link">
+      <div className="action-link" style={styles.action}>
+        <span style={styles.icon}>
+          <FontAwesome name='link' />
+        </span>
         <Link to={props.link} style={styles.text}>
           {props.anchor}
         </Link>
