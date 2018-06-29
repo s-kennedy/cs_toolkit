@@ -6,11 +6,13 @@
 
  // You can delete this file if you're not using it
 
+import 'babel-polyfill';
+import 'url-search-params-polyfill';
+
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import 'babel-polyfill'
 
 import createStore from './src/redux/createStore'
 

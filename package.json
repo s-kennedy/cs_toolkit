@@ -29,6 +29,8 @@
     "gatsby": "^1.9.197",
     "gatsby-cli": "^1.1.29",
     "gatsby-link": "^1.6.30",
+    "gatsby-plugin-manifest": "^1.0.27",
+    "gatsby-plugin-offline": "^1.0.18",
     "gatsby-plugin-react-helmet": "^1.0.8",
     "gatsby-plugin-sass": "^1.0.14",
     "gatsby-source-firebase": "^1.0.0",
@@ -50,7 +52,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "shelljs": "^0.8.1",
-    "slugify": "^1.2.9"
+    "slugify": "^1.2.9",
+    "url-search-params-polyfill": "^4.0.0"
   },
   "keywords": [
     "gatsby"
