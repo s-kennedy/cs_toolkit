@@ -14,7 +14,8 @@ import {
 const styles = {
   toolbar: {
     backgroundColor: "#f7a700", //yellow
-    color: "#FFF"
+    color: "#FFF",
+    zIndex: '0',
   },
   saveBtn: {
     backgroundColor: "#01b4aa", //teal
