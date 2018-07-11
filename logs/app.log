@@ -1,0 +1,4 @@
+{"level":"info","message":"App listening on port 8080!","timestamp":"2018-07-11T17:27:59.678Z"}
+{"level":"info","message":"Missing authorization token","timestamp":"2018-07-11T17:28:09.258Z"}
+{"level":"info","message":"::1 - - [11/Jul/2018:17:28:09 +0000] \"GET / HTTP/1.1\" 200 65 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36\"\n","timestamp":"2018-07-11T17:28:09.275Z"}
+{"level":"info","message":"::1 - - [11/Jul/2018:17:28:14 +0000] \"GET /favicon.ico HTTP/1.1\" 404 150 \"http://localhost:8080/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36\"\n","timestamp":"2018-07-11T17:28:14.349Z"}
