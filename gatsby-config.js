@@ -1,4 +1,4 @@
-const firebaseConfig = require("./firebase-config.json")
+const firebaseConfig = require("./config/firebase-config.json")
 
 module.exports = {
   siteMetadata: {

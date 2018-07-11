@@ -1,15 +1,18 @@
 const express = require("express");
 const shell = require("shelljs");
 const admin = require("firebase-admin");
-const serviceAccount = require("./firebase-config.json").serviceAccountKey;
+const serviceAccount = require("./config/firebase-config.json").serviceAccountKey;
 const cors = require("cors");
+const morgan = require('morgan');
+const winston = require('./config/winston');
 
 const app = express();
 app.use(cors({ credentials: true, origin: true }));
+app.use(morgan('combined', { stream: winston.stream }));
 
 let databaseUrl = process.env.FIREBASE_DB_URL;
 if (!databaseUrl) {
-  databaseUrl = require("./firebase-config.json").databaseURL;
+  databaseUrl = require("./config/firebase-config.json").databaseURL;
 }
 
 admin.initializeApp({
@@ -24,15 +27,23 @@ function deployToolkit() {
     console.log(
       `====== Child process exited with code ${code} and signal ${signal} ======`
     );
+    winston.info(
+      `====== Child process exited with code ${code} and signal ${signal} ======`
+    );
   });
 
-  child.on(`error`, err => console.log(`err:`, err));
+  child.on(`error`, err => {
+    console.log(`err:`, err);
+    winston.info(`err:`, err);
+  })
 }
 
 app.get("/", (req, res) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader) {
+    console.log('Missing authorization token')
+    winston.info('Missing authorization token')
     return res.json({
       status: "unauthorized",
       message: "Missing authorization token"
@@ -58,6 +69,10 @@ app.get("/", (req, res) => {
         console.log(
           `***** Website deployment started by ${userRecord.displayName} *****`
         );
+
+        winston.info(
+          `***** Website deployment started by ${userRecord.displayName} *****`
+        );
         return res.json({ status: "success" });
       }
       res.json({
@@ -67,6 +82,7 @@ app.get("/", (req, res) => {
     })
     .catch(error => {
       console.log("ERROR", error);
+      winston.info("ERROR", error);
       if (error.code == "auth/id-token-revoked") {
         // Token has been revoked. Inform the user to reauthenticate or signOut() the user.
         res.json({
@@ -80,4 +96,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.listen(8080, () => console.log("App listening on port 8080!"));
+app.listen(8080, () => {
+  console.log("App listening on port 8080!")
+  winston.info("App listening on port 8080!")
+});
