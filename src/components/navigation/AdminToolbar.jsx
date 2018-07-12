@@ -2,50 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import CreatePageModalContainer from "../../containers/CreatePageModalContainer";
 
-import {
-  Button,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem
-} from "reactstrap";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   toolbar: {
-    backgroundColor: "#f7a700", //yellow
-    color: "#FFF",
-    zIndex: '0',
-  },
-  saveBtn: {
-    backgroundColor: "#01b4aa", //teal
-    color: "#FFF"
-  },
-  deployBtn: {
-    backgroundColor: "#941c5b", //plum
-    color: "#FFF"
-  },
-  navButton: {
-    marginRight: "6px"
+    justifyContent: "flex-end"
   }
 };
 
-export default class AdminToolbar extends React.Component {
+class AdminToolbar extends React.Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
     this.savePageToDatabase = () => this._savePageToDatabase();
     this.deletePage = () => this._deletePage();
     this.deploy = () => this._deploy();
-    this.state = {
-      isOpen: false
-    };
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
   }
 
   _savePageToDatabase() {
@@ -68,55 +41,39 @@ export default class AdminToolbar extends React.Component {
 
       return (
         <div>
-          <Navbar style={styles.toolbar} expand="md">
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem style={styles.navButton}>
-                  {!this.props.isEditingPage && (
-                    <Button
-                      color="white"
-                      onClick={this.deletePage}
-                    >
-                      Delete this page
-                    </Button>
-                  )}
-                </NavItem>
-                <NavItem style={styles.navButton}>
-                  {!this.props.isEditingPage && (
-                    <Button
-                      color="white"
-                      onClick={this.props.onToggleNewPageModal}
-                    >
-                      Add new page
-                    </Button>
-                  )}
-                </NavItem>
-                <NavItem style={styles.navButton}>
-                  <Button color="white" onClick={this.props.onToggleEditing}>
-                    {editingText}
-                  </Button>
-                </NavItem>
-                {this.props.isEditingPage && (
-                  <NavItem style={styles.navButton}>
-                    <Button
-                      style={styles.saveBtn}
-                      onClick={this.savePageToDatabase}
-                    >
-                      Save changes
-                    </Button>
-                  </NavItem>
-                )}
-                <NavItem style={styles.navButton}>
-                  {!this.props.isEditingPage && (
-                    <Button style={styles.deployBtn} onClick={this.deploy}>
-                      Deploy website
-                    </Button>
-                  )}
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
+          <AppBar position="static" color="default">
+            <Toolbar className={this.props.classes.toolbar}>
+              {!this.props.isEditingPage && (
+                <Button color="primary" onClick={this.deletePage}>
+                  Delete this page
+                </Button>
+              )}
+
+              {!this.props.isEditingPage && (
+                <Button
+                  color="primary"
+                  onClick={this.props.onToggleNewPageModal}
+                >
+                  Add new page
+                </Button>
+              )}
+
+              <Button color="primary" onClick={this.props.onToggleEditing}>
+                {editingText}
+              </Button>
+
+              {this.props.isEditingPage && (
+                <Button color="secondary" onClick={this.savePageToDatabase}>
+                  Save changes
+                </Button>
+              )}
+              {!this.props.isEditingPage && (
+                <Button color="secondary" onClick={this.deploy}>
+                  Deploy website
+                </Button>
+              )}
+            </Toolbar>
+          </AppBar>
           <CreatePageModalContainer
             pages={this.props.pages}
             createPage={this.props.createPage}
@@ -128,3 +85,5 @@ export default class AdminToolbar extends React.Component {
     }
   }
 }
+
+export default withStyles(styles)(AdminToolbar);

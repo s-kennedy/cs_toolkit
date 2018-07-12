@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import withRoot from '../utils/withRoot';
+
 import { connect } from 'react-redux'
 import { closeMenu } from "../redux/actions";
 
@@ -74,7 +76,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TemplateWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(withRoot(TemplateWrapper))
 
 TemplateWrapper.propTypes = {
   children: PropTypes.func
