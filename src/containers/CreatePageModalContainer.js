@@ -1,11 +1,23 @@
 import React from 'react';
-import Select from 'react-select';
+// import Select from 'react-select';
 import slugify from 'slugify';
 
 import { connect } from 'react-redux'
 import { createPage, toggleNewPageModal } from '../redux/actions';
 
-import { Button, Modal } from 'reactstrap';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import { pageTypes, menuGroups } from '../utils/constants';
 
 import css from 'react-select/dist/react-select.css';
@@ -76,64 +88,74 @@ class CreatePageModalContainer extends React.Component {
 
   render() {
     return (
-      <Modal isOpen={this.props.showNewPageModal}>
+      <Dialog open={this.props.showNewPageModal} aria-labelledby="create-page-dialogue">
+        <DialogTitle id="create-page-dialogue">Add new page</DialogTitle>
 
-        <div className="modal-header">
-          <h3 className="modal-title">Create new page</h3>
-          <button type="button" className="close" aria-label="Close" onClick={this.props.onToggleNewPageModal}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div className="modal-body">
-          <div className='form-group'>
-            <label htmlFor='page_type'>Select page type:</label>
+        <DialogContent>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="page-type">Select page type</InputLabel>
             <Select
-              name='page_type'
               value={ this.state.page.type }
-              options={ pageTypes }
               onChange={ selected => this.updatePage('type', selected) }
-            />
-          </div>
+              inputProps={{
+                name: 'page-type',
+                id: 'page-type',
+              }}
+            >
+              {
+                pageTypes.map(type => (
+                  <MenuItem value={type.value}>{type.label}</MenuItem>
+                ))
+              }
+            </Select>
+          </FormControl>
 
-          <div className='form-group'>
-            <label htmlFor='page_title'>Page title:</label>
-            <input
+          <FormControl fullWidth margin="normal">
+            <TextField
               className='form-control'
               type='text'
+              label={"Page title"}
               value={this.state.page.title }
               onChange={e => this.updatePage('title', e.currentTarget.value)}
             />
-          </div>
+          </FormControl>
 
-          <div className='form-group'>
-            <label htmlFor='page_navigation_group'>Menu group:</label>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="menu-group">Select menu group</InputLabel>
             <Select
-              name='page_navigation_group'
               value={ this.state.page.navigationGroup }
-              options={ menuGroups }
               onChange={ selected => this.updatePage('navigationGroup', selected) }
-            />
-          </div>
+              inputProps={{
+                name: 'menu-group',
+                id: 'menu-group',
+              }}
+            >
+              {
+                menuGroups.map(group => (
+                  <MenuItem value={group.value}>{group.label}</MenuItem>
+                ))
+              }
+            </Select>
+          </FormControl>
 
-          <div className='form-group'>
-            <label htmlFor='page_display_title'>Title to display in menu (optional):</label>
-            <input
+          <FormControl fullWidth margin="normal">
+            <TextField
               name='page_display_title'
               className='form-control'
               type='text'
+              label={"Title to display in menu (optional)"}
               value={this.state.page.displayTitle }
               onChange={e => this.updatePage('displayTitle', e.currentTarget.value)}
             />
-          </div>
-        </div>
+          </FormControl>
+        </DialogContent>
 
-        <div className="modal-footer">
-          <Button type="button" className="btn btn-secondary" onClick={this.props.onToggleNewPageModal}>Close</Button>
-          <Button onClick={this.onSubmit}>Create Page</Button>
-        </div>
+        <DialogActions>
+          <Button color="default" onClick={this.props.onToggleNewPageModal}>Close</Button>
+          <Button color="primary" onClick={this.onSubmit}>Create Page</Button>
+        </DialogActions>
 
-      </Modal>
+      </Dialog>
     );
   }
 }

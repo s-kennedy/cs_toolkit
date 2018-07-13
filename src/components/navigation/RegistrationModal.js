@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Button, Modal } from 'reactstrap';
-import { PAGE_TYPES } from '../../utils/constants';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 import { FirebaseAuth } from 'react-firebaseui';
 
 
@@ -17,18 +17,16 @@ const RegistrationModal = (props) => {
     },
     credentialHelper: 'NONE',
   };
+
+  const { onToggleRegistrationModal, ...other } = props;
+
   return (
-    <Modal isOpen={props.isOpen}>
-      <div className="modal-header">
-        <h3 className="modal-title">Sign up / Sign in</h3>
-        <Button type="button" className="close" aria-label="Close" onClick={props.onToggleRegistrationModal}>
-          <span aria-hidden="true">&times;</span>
-        </Button>
-      </div>
+    <Dialog onClose={onToggleRegistrationModal} aria-labelledby="registration-dialogue" {...other}>
+      <DialogTitle id="registration-dialogue">Sign up / Sign in</DialogTitle>
       <div className="modal-body">
         <FirebaseAuth uiConfig={uiConfig} firebaseAuth={props.firebase.auth()} />
       </div>
-    </Modal>
+    </Dialog>
   );
 }
 

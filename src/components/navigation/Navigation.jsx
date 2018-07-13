@@ -155,7 +155,7 @@ class Navigation extends React.Component {
   render() {
     return (
       <div>
-        <AppBar color="white" position="static">
+        <AppBar color="inherit" position="static">
           <Toolbar className={this.props.classes.toolbar}>
             <Button
               tabIndex="0"
@@ -180,7 +180,7 @@ class Navigation extends React.Component {
         />
         <RegistrationModal
           firebase={firebase}
-          isOpen={this.props.showRegistrationModal}
+          open={this.props.showRegistrationModal}
           onToggleRegistrationModal={this.props.onToggleRegistrationModal}
         />
       </div>
