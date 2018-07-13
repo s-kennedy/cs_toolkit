@@ -3,43 +3,42 @@ import PropTypes from "prop-types";
 import Link, { navigateTo } from "gatsby-link";
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import Menu from "./Menu";
+import SideMenu from "./Menu";
 import MegaMenu from "./MegaMenu";
-import MenuItem from "./MenuItem";
 import BuildingBlocksMenu from "./BuildingBlocksMenu";
 import firebase from "../../firebase/init";
 
-import {
-  Button,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 const styles = {
-  navbar: {
-    boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
+  toolbar: {
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   logo: {
     height: "60px",
     marginBottom: "0"
+  },
+  iconLabel: {
+    marginRight: "4px"
   }
 };
 
-export default class Navigation extends React.Component {
+class Navigation extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      mainMenuIsOpen: false,
+      userMenuAnchorEl: null,
     };
   }
 
@@ -76,14 +75,13 @@ export default class Navigation extends React.Component {
   }
 
   logout = e => {
-    e.preventDefault();
     firebase.auth().signOut();
     this.props.userLoggedOut();
     navigateTo('/')
   };
 
   login = e => {
-    e.preventDefault();
+    this.closeUserMenu();
     this.props.onToggleRegistrationModal();
   };
 
@@ -95,71 +93,89 @@ export default class Navigation extends React.Component {
 
   renderSignInUp = () => {
     return (
-      <NavLink tabIndex="0" color="secondary" onClick={this.login} href="#">
-        <span className="hide-on-mobile">Sign In / Sign Up</span>
-        <i className="fa fa-user-circle" />
-      </NavLink>
+      <Button tabIndex="0" color="default" onClick={this.login}>
+        <span className="hide-on-mobile" style={styles.iconLabel}>Sign In / Sign Up</span>
+        <AccountCircle />
+      </Button>
     );
   };
+
+  openUserMenu = (e) => {
+    this.setState({ userMenuAnchorEl: e.currentTarget });
+  }
+
+  closeUserMenu = (e) => {
+    this.setState({ userMenuAnchorEl: null })
+  }
+
+  openMainMenu = (e) => {
+    this.setState({ mainMenuIsOpen: true });
+  }
+
+  closeMainMenu = (e) => {
+    this.setState({ mainMenuIsOpen: false })
+  }
 
   renderUserMenu = () => {
     const accountName = this.props.user.displayName ? this.props.user.displayName : 'Account'
+    const open = Boolean(this.state.userMenuAnchorEl)
+
     return (
-      <UncontrolledDropdown>
-        <DropdownToggle tag="a" className="nav-link" caret>
-          {accountName}
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem tag="a" href="/dashboard">Dashboard</DropdownItem>
-          <DropdownItem tag="a" href="#" onClick={this.logout}>Sign out</DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+      <div>
+        <Button
+          aria-owns={open ? 'menu-appbar' : null}
+          aria-haspopup="true"
+          onClick={this.openUserMenu}
+          color="default"
+        >
+          <span className="hide-on-mobile" style={styles.iconLabel}>Account</span>
+          <AccountCircle />
+        </Button>
+        <Menu
+          id="menu-appbar"
+          anchorEl={this.state.userMenuAnchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={open}
+          onClose={this.closeUserMenu}
+        >
+          <MenuItem component={Link} to={'/dashboard'} onClick={this.closeUserMenu}>Dashboard</MenuItem>
+          <MenuItem onClick={this.logout}>Sign out</MenuItem>
+        </Menu>
+      </div>
     );
-  };
-
-  openMenu = e => {
-    e.preventDefault();
-    this.props.openMenu();
-  };
-
-  closeMenu = e => {
-    if (e) {
-      e.preventDefault();
-    }
-    this.props.closeMenu();
   };
 
   render() {
     return (
       <div>
-        <Navbar color="faded" light expand="md" style={styles.navbar}>
-          <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink
-                tabIndex="0"
-                color="secondary"
-                onClick={this.openMenu}
-                href="#"
-              >
-                <span className="hide-on-mobile">Menu</span>
-                <i className="fa fa-bars" />
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <Link to="/" className="navbar-brand">
-            <img style={styles.logo} src={logo} alt="Save the Children" />
-          </Link>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
+        <AppBar color="white" position="static">
+          <Toolbar className={this.props.classes.toolbar}>
+            <Button
+              tabIndex="0"
+              color="default"
+              onClick={this.openMainMenu}
+            >
+              <span className="hide-on-mobile" style={styles.iconLabel}>Menu</span>
+              <MenuIcon />
+            </Button>
+            <Link to="/" className="navbar-brand">
+              <img style={styles.logo} src={logo} alt="Save the Children" />
+            </Link>
               {this.props.isLoggedIn
                 ? this.renderUserMenu()
                 : this.renderSignInUp()}
-            </NavItem>
-          </Nav>
-        </Navbar>
-        <Menu
-          isOpen={this.props.showMenu}
-          close={this.closeMenu}
+          </Toolbar>
+        </AppBar>
+        <SideMenu
+          isOpen={this.state.mainMenuIsOpen}
+          close={this.closeMainMenu}
           pages={this.props.pages}
         />
         <RegistrationModal
@@ -171,3 +187,5 @@ export default class Navigation extends React.Component {
     );
   }
 }
+
+export default withStyles(styles)(Navigation)
