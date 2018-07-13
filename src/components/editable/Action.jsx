@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "gatsby-link";
-import FontAwesome from 'react-fontawesome';
+import LinkIcon from '@material-ui/icons/Link'
 
 import Editable from "./Editable";
 import LinkEditor from "../editingTools/LinkEditor";
@@ -32,7 +32,7 @@ const CustomLink = props => {
     >
       <div className="action-link" style={styles.action}>
         <span style={styles.icon}>
-          <FontAwesome name='link' />
+          <LinkIcon />
         </span>
         <Link to={props.link} style={styles.text}>
           {props.anchor}

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "gatsby-link";
-import FontAwesome from 'react-fontawesome';
+import ArrowForward from "@material-ui/icons/ArrowForward"
+import ArrowBack from "@material-ui/icons/ArrowBack"
 
 import Editable from "./Editable";
 import LinkEditor from "../editingTools/LinkEditor";
@@ -25,7 +26,7 @@ const PageNavButton = props => {
     props.updateContent(props.sectionIndex, props.index, content)
   }
 
-  const icon = props.direction === 'next' ? "arrow-circle-right" : "arrow-circle-left"
+  const ArrowIcon = props.direction === 'next' ? ArrowForward : ArrowBack
   const order = props.direction === 'next' ? 1 : 0
   const iconStyles = { ...styles.icon, order: order }
 
@@ -37,7 +38,7 @@ const PageNavButton = props => {
       {...props}
     >
       <div className="page-nav" style={styles.container}>
-        <FontAwesome name={icon} style={iconStyles} />
+        <ArrowIcon style={iconStyles} />
         <Link to={props.link} style={styles.text}>
           {props.anchor}
         </Link>

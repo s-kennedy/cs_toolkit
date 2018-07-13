@@ -1,5 +1,5 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
+import FileIcon from "@material-ui/icons/Assignment"
 
 import Editable from "./Editable";
 import FileUploadEditor from "../editingTools/FileUploadEditor";
@@ -35,7 +35,7 @@ const FileUpload = props => {
     >
       <div className="action-link" style={styles.action}>
         <span style={styles.icon}>
-          <FontAwesome name="file" />
+          <FileIcon />
         </span>
         <a href={props.filepath} style={styles.text} target="_blank">
           {props.title} {props.filetype && `(${props.filetype})`}

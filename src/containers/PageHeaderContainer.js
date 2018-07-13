@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Jumbotron } from 'reactstrap';
 
 import { updatePageHeader } from '../redux/actions'
 

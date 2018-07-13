@@ -1,108 +1,150 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CopyIcon from "@material-ui/icons/ContentCopy";
+import AddIcon from "@material-ui/icons/Add";
+import IconButton from "@material-ui/core/IconButton";
+import Select from "@material-ui/core/Select";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { withStyles } from "@material-ui/core/styles";
 
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
-
-
-const SectionEditingActions = props => {
-  const styles = {
-    editActions: {
-      display: "flex",
-      justifyContent: "center",
-      position: "absolute",
-      bottom: "0",
-      right: '45%',
-      zIndex: '99'
-    },
-    actionIcon: {
-      background: "#000",
-      color: "#fff",
-      border: "1px solid #fff",
-      height: "30px",
-      width: "30px",
-      borderRadius: "30px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      cursor: "pointer",
-      margin: "5px",
-    }
-  };
-
-const handleDuplicate = () => {
-    props.onDuplicate(props.sectionIndex)
+const styles = {
+  editActions: {
+    display: "flex",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: "0",
+    right: "45%",
+    zIndex: "99"
+  },
+  button: {
+    backgroundColor: "#000",
+    color: "#fff",
+    border: "1px solid #fff",
+    height: "30px",
+    width: "30px",
+    margin: "4px",
+  },
+  icon: {
+    fontSize: "20px"
   }
-
-  const handleDelete = () => {
-    props.onDelete(props.sectionIndex)
-  }
-
-  const generateAddContentItemHandler = (contentType) => {
-    return () => props.onAddContentItem(props.sectionIndex, contentType)
-  }
-
-  const generateAddSectionHandler = (sectionType) => {
-    return () => props.onAddSection(props.sectionIndex, sectionType)
-  }
-
-  return (
-    <div className="edit-actions" style={styles.editActions}>
-      {
-        props.onDuplicate &&
-        <div className='edit-icon' style={styles.actionIcon} onClick={handleDuplicate}>
-          <FontAwesome name='clone' />
-        </div>
-      }
-      {
-        props.onDelete &&
-        <div className='edit-icon' style={styles.actionIcon} onClick={handleDelete}>
-          <FontAwesome name='trash' />
-        </div>
-      }
-      {
-        props.onAddContentItem &&
-        <UncontrolledDropdown>
-          <DropdownToggle className='edit-icon' style={styles.actionIcon}>
-            <FontAwesome name='plus' />
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={generateAddContentItemHandler('paragraph')}>
-              Paragraph
-            </DropdownItem>
-            <DropdownItem onClick={generateAddContentItemHandler('header')}>
-              Header
-            </DropdownItem>
-            <DropdownItem onClick={generateAddContentItemHandler('image')}>
-              Image
-            </DropdownItem>
-            <DropdownItem onClick={generateAddContentItemHandler('file')}>
-              File
-            </DropdownItem>
-            <DropdownItem onClick={generateAddContentItemHandler('button')}>
-              Button
-            </DropdownItem>
-            <DropdownItem onClick={generateAddContentItemHandler('action')}>
-              Action
-            </DropdownItem>
-            <DropdownItem onClick={generateAddSectionHandler('section')}>
-              Section
-            </DropdownItem>
-            <DropdownItem onClick={generateAddSectionHandler('call_to_action')}>
-              Call To Action
-            </DropdownItem>
-            <DropdownItem onClick={generateAddSectionHandler('page_navigation')}>
-              Page Navigation
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      }
-    </div>
-  );
 };
 
-export default SectionEditingActions;
+class SectionEditingActions extends React.Component {
+  state = {
+    anchorEl: null
+  };
+
+  openMenu = e => {
+    this.setState({ anchorEl: e.currentTarget });
+  };
+
+  closeMenu = e => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleDuplicate = () => {
+    this.props.onDuplicate(this.props.sectionIndex);
+  };
+
+  handleDelete = () => {
+    this.props.onDelete(this.props.sectionIndex);
+  };
+
+  generateAddContentItemHandler = contentType => {
+    return () =>
+      this.props.onAddContentItem(this.props.sectionIndex, contentType);
+  };
+
+  generateAddSectionHandler = sectionType => {
+    return () => this.props.onAddSection(this.props.sectionIndex, sectionType);
+  };
+
+  render() {
+    const open = Boolean(this.state.anchorEl);
+    return (
+      <div className="edit-actions" style={styles.editActions}>
+        {this.props.onDuplicate && (
+          <IconButton
+            className="edit-icon"
+            onClick={this.handleDuplicate}
+            className={this.props.classes.button}
+          >
+            <CopyIcon className={this.props.classes.icon} />
+          </IconButton>
+        )}
+        {this.props.onDelete && (
+          <IconButton
+            className="edit-icon"
+            onClick={this.handleDelete}
+            className={this.props.classes.button}
+          >
+            <DeleteIcon className={this.props.classes.icon} />
+          </IconButton>
+        )}
+        {this.props.onAddContentItem && (
+          <div>
+            <IconButton
+              aria-owns={open ? "menu-add-content" : null}
+              aria-haspopup="true"
+              onClick={this.openMenu}
+              className={this.props.classes.button}
+            >
+              <AddIcon className={this.props.classes.icon} />
+            </IconButton>
+            <Menu
+              id="menu-add-content"
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+              open={open}
+              onClose={this.closeMenu}
+            >
+              <MenuItem
+                onClick={this.generateAddContentItemHandler("paragraph")}
+              >
+                Paragraph
+              </MenuItem>
+              <MenuItem onClick={this.generateAddContentItemHandler("header")}>
+                Header
+              </MenuItem>
+              <MenuItem onClick={this.generateAddContentItemHandler("image")}>
+                Image
+              </MenuItem>
+              <MenuItem onClick={this.generateAddContentItemHandler("file")}>
+                File
+              </MenuItem>
+              <MenuItem onClick={this.generateAddContentItemHandler("button")}>
+                Button
+              </MenuItem>
+              <MenuItem onClick={this.generateAddContentItemHandler("action")}>
+                Action
+              </MenuItem>
+              <MenuItem onClick={this.generateAddSectionHandler("section")}>
+                Section
+              </MenuItem>
+              <MenuItem
+                onClick={this.generateAddSectionHandler("call_to_action")}
+              >
+                Call To Action
+              </MenuItem>
+              <MenuItem
+                onClick={this.generateAddSectionHandler("page_navigation")}
+              >
+                Page Navigation
+              </MenuItem>
+            </Menu>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+export default withStyles(styles)(SectionEditingActions);

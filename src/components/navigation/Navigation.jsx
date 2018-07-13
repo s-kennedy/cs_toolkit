@@ -4,7 +4,6 @@ import Link, { navigateTo } from "gatsby-link";
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import SideMenu from "./Menu";
-import MegaMenu from "./MegaMenu";
 import BuildingBlocksMenu from "./BuildingBlocksMenu";
 import firebase from "../../firebase/init";
 
@@ -72,6 +71,7 @@ class Navigation extends React.Component {
         this.props.onToggleRegistrationModal();
       }
     });
+    // this.props.userLoggedIn({ isEditor: true })
   }
 
   logout = e => {
@@ -118,7 +118,7 @@ class Navigation extends React.Component {
 
   renderUserMenu = () => {
     const accountName = this.props.user.displayName ? this.props.user.displayName : 'Account'
-    const open = Boolean(this.state.userMenuAnchorEl)
+    const open = Boolean(this.state.userMenuAnchorEl);
 
     return (
       <div>
@@ -153,6 +153,7 @@ class Navigation extends React.Component {
   };
 
   render() {
+    const open = Boolean(this.props.showRegistrationModal);
     return (
       <div>
         <AppBar color="inherit" position="static">
@@ -180,7 +181,7 @@ class Navigation extends React.Component {
         />
         <RegistrationModal
           firebase={firebase}
-          open={this.props.showRegistrationModal}
+          open={open}
           onToggleRegistrationModal={this.props.onToggleRegistrationModal}
         />
       </div>

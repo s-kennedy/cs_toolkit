@@ -3,6 +3,9 @@ import { filter, orderBy } from "lodash";
 import Link, { navigateTo } from "gatsby-link";
 import { withRouter } from 'react-router'
 
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from "@material-ui/icons/Close";
+
 import MenuItem from './MenuItem';
 import MenuColumn from './MenuColumn';
 
@@ -92,7 +95,9 @@ class Menu extends React.Component {
     return (
       <div id="mega-menu" className={`mega-menu ${this.props.isOpen ? 'open' : 'collapsed'}`} aria-hidden={!this.props.isOpen}>
         <div className="content-container">
-        <button id="close-menu" onClick={this.props.close} ><i className="fas fa-times"></i></button>
+        <IconButton id="close-menu" onClick={this.props.close}>
+          <CloseIcon />
+        </IconButton>
           <MenuColumn>
             {
               mainMenuItems.map(item => {

@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "gatsby-link";
-import { Container, Row, Col } from 'reactstrap';
 import { connect } from "react-redux";
 import { map } from "lodash";
 import Table, {
@@ -9,8 +8,8 @@ import Table, {
   TableHead,
   TableRow
 } from "material-ui/Table";
-import Paper from "material-ui/Paper";
-import Grid from "material-ui/Grid";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 const Dashboard = props => {
   const tools = props.user ? props.user.interactive_tools : {}

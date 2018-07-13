@@ -1,5 +1,7 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
 
 const innerContentStyles = {
   editContainer: {
@@ -80,7 +82,7 @@ const EditorWrapper = (props) => {
         props.isEditing &&
         <div className='actions' style={styles.actions}>
           <div className='save-icon' style={styles.save} onClick={props.handleSave}>
-            <FontAwesome name='check' style={styles.icon} />
+            <CheckIcon />
           </div>
         </div>
       }
@@ -88,12 +90,12 @@ const EditorWrapper = (props) => {
         !props.isEditing &&
         <div className='actions' style={styles.actions}>
           <div className='edit-icon' style={styles.edit} onClick={props.toggleEditing}>
-            <FontAwesome name='pencil-alt' style={styles.icon} />
+            <EditIcon />
           </div>
           {
             (props.handleDelete && props.disableDelete !== true) &&
             <div className='delete-icon' style={styles.delete} onClick={props.handleDelete}>
-              <FontAwesome name='trash' style={styles.icon} />
+              <DeleteIcon />
             </div>
           }
         </div>

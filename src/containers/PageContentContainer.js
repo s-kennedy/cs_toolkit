@@ -10,12 +10,6 @@ import SectionContainer from '../containers/SectionContainer';
 import ReferenceContainer from '../containers/ReferenceContainer';
 import SectionEditingActions from '../containers/SectionEditingActions';
 
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
-
 
 const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAddContentItem, onDeleteContentItem) => {
   return map(contentJson, (obj, index) => {

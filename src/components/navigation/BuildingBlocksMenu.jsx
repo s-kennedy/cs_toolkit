@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
 import Link from "gatsby-link";
 import MenuItemParent from "./MenuItemParent";
 import MenuItem from "./MenuItem";

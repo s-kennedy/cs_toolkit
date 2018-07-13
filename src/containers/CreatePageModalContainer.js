@@ -1,5 +1,4 @@
 import React from 'react';
-// import Select from 'react-select';
 import slugify from 'slugify';
 
 import { connect } from 'react-redux'
@@ -87,8 +86,9 @@ class CreatePageModalContainer extends React.Component {
   }
 
   render() {
+    const open = Boolean(this.props.showNewPageModal);
     return (
-      <Dialog open={this.props.showNewPageModal} aria-labelledby="create-page-dialogue">
+      <Dialog open={open  } aria-labelledby="create-page-dialogue">
         <DialogTitle id="create-page-dialogue">Add new page</DialogTitle>
 
         <DialogContent>
@@ -104,7 +104,7 @@ class CreatePageModalContainer extends React.Component {
             >
               {
                 pageTypes.map(type => (
-                  <MenuItem value={type.value}>{type.label}</MenuItem>
+                  <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
                 ))
               }
             </Select>
@@ -132,7 +132,7 @@ class CreatePageModalContainer extends React.Component {
             >
               {
                 menuGroups.map(group => (
-                  <MenuItem value={group.value}>{group.label}</MenuItem>
+                  <MenuItem key={group.value} value={group.value}>{group.label}</MenuItem>
                 ))
               }
             </Select>

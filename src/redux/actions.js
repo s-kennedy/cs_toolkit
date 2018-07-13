@@ -78,14 +78,16 @@ export function savePage(pageData, content) {
       data['page_header'] = content.header;
     }
 
-    db.ref(`pages/${id}`).update(data, () => {
-      dispatch(
+    db.ref(`pages/${id}`).update(data, (res) => {
+      return dispatch(
         showNotification(
           "Your changes have been saved. Deploy the website to make the changes public.",
           "success"
         )
       );
     });
+
+    return dispatch(showNotification("An error occured when saving your changes."))
   };
 }
 

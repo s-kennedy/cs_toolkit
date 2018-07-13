@@ -13,12 +13,6 @@ import PageNavButton from '../components/editable/PageNavButton'
 
 import SectionEditingActions from '../containers/SectionEditingActions';
 
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
-
 
 const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAddContentItem, onDeleteContentItem) => {
   return map(contentJson, (obj, index) => {

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toggleEditing } from "../../redux/actions";
 
-import Button from "material-ui/Button";
-import Grid from "material-ui/Grid";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 import GridTable from "../editable/GridTable";
 import Subtitle from "../editable/Subtitle";

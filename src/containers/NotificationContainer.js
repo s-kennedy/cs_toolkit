@@ -1,48 +1,56 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { closeNotification } from '../redux/actions';
+import React from "react";
+import { connect } from "react-redux";
+import { closeNotification } from "../redux/actions";
 
-import { Alert } from 'reactstrap';
+import Snackbar from "@material-ui/core/Snackbar";
 
 function mapStateToProps(state) {
   return {
     notificationMessage: state.notifications.message,
     notificationColor: state.notifications.color
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     closeNotification: () => {
-      dispatch(closeNotification())
+      dispatch(closeNotification());
     }
-  }
+  };
 }
 
 const styles = {
   container: {
-    position: 'fixed',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '10px',
-    zIndex: '2'
+    position: "fixed",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "10px",
+    zIndex: "2"
   },
   alert: {
-    minWidth: '50vw'
+    minWidth: "50vw"
   }
-}
+};
 
-const NotificationContainer = (props) => {
-  const showNotification = !!props.notificationMessage
+const NotificationContainer = props => {
+  const showNotification = !!props.notificationMessage;
 
   return (
-    <div className='notification-container' style={styles.container}>
-      <Alert color={props.notificationColor} isOpen={showNotification} toggle={props.closeNotification} style={styles.alert}>
-        {props.notificationMessage}
-      </Alert>
+    <div className="notification-container" style={styles.container}>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={showNotification}
+        onClose={props.closeNotification}
+        ContentProps={{
+          'aria-describedby': 'notification-id',
+        }}
+        message={<span id="notification-id">{props.notificationMessage}</span>}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  NotificationContainer
+);

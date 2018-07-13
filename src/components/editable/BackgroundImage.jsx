@@ -1,5 +1,5 @@
 import React from "react";
-import { Jumbotron, Container } from 'reactstrap';
+import Grid from "@material-ui/core/Grid";
 
 import Editable from "./Editable";
 import ImageEditor from "../editingTools/ImageEditor";
@@ -8,13 +8,14 @@ const defaultImage = "http://placehold.it/2000x1000";
 
 const BackgroundImage = props => {
   const styles = {
-    jumbotron: {
+    background: {
       display: 'flex',
       background: `url(${props.image}) no-repeat center center`,
       backgroundSize: 'cover',
       height: props.height,
       minHeight: '440px',
-      alignItems: 'flex-end'
+      alignItems: 'flex-end',
+      padding: '2rem',
     }
   }
 
@@ -31,11 +32,11 @@ const BackgroundImage = props => {
       showChildren
       fullWidth
     >
-      <Jumbotron style={styles.jumbotron} fluid>
-        <Container fluid>
+      <Grid style={styles.background} container>
+        <Grid item xs={12}>
           {props.children}
-        </Container>
-      </Jumbotron>
+        </Grid>
+      </Grid>
     </Editable>
   );
 };
