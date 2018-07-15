@@ -9,7 +9,6 @@ import { closeMenu } from "../redux/actions";
 import Link from "gatsby-link";
 import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
-import AdminToolbarContainer from "../containers/AdminToolbarContainer";
 import NotificationContainer from "../containers/NotificationContainer";
 import Footer from "../components/Footer";
 

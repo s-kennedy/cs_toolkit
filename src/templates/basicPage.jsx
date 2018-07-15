@@ -2,7 +2,6 @@ import React from 'react';
 
 import PageContentContainer from '../containers/PageContentContainer'
 import PageTitleContainer from '../containers/PageTitleContainer'
-import AdminToolbarContainer from "../containers/AdminToolbarContainer";
 
 import { connect } from 'react-redux'
 import { updatePageContent, updatePageMetaData } from '../redux/actions'
@@ -24,7 +23,6 @@ class BasicPage extends React.Component {
   render() {
     return (
       <div className={`basic-page ${this.props.pageData.page_type}`}>
-        <AdminToolbarContainer />
         <PageTitleContainer />
         <PageContentContainer />
       </div>

@@ -1,44 +1,83 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link, { navigateTo } from "gatsby-link";
+import { filter, orderBy } from "lodash";
+
+import { withStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import SideMenu from "./Menu";
-import BuildingBlocksMenu from "./BuildingBlocksMenu";
 import firebase from "../../firebase/init";
+import MenuSection from "./MenuSection";
+import AccountSection from "./AccountSection";
+import AdminSectionContainer from "../../containers/AdminSectionContainer";
 
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 
 const styles = {
   toolbar: {
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end"
   },
   logo: {
     height: "60px",
-    marginBottom: "0"
-  },
-  iconLabel: {
-    marginRight: "4px"
+    marginBottom: "4px",
+    marginTop: "4px"
   }
 };
+
+const menuSections = [
+  {
+    title: "About",
+    color: null,
+    pageType: "about"
+  },
+  {
+    title: "A: Analysis",
+    color: "yellow",
+    pageType: "building_block_a"
+  },
+  {
+    title: "B: Design",
+    color: "orange",
+    pageType: "building_block_b"
+  },
+  {
+    title: "C: MEAL",
+    color: "teal",
+    pageType: "building_block_c"
+  },
+  {
+    title: "Case Study",
+    color: null,
+    pageType: "case_study"
+  },
+  {
+    title: "Tools",
+    color: null,
+    pageType: "tools"
+  },
+  {
+    title: "Reference",
+    color: null,
+    pageType: "reference"
+  }
+];
 
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      mainMenuIsOpen: false,
-      userMenuAnchorEl: null,
-    };
   }
 
   componentWillMount() {
@@ -71,117 +110,59 @@ class Navigation extends React.Component {
         this.props.onToggleRegistrationModal();
       }
     });
-    // this.props.userLoggedIn({ isEditor: true })
   }
 
   logout = e => {
     firebase.auth().signOut();
     this.props.userLoggedOut();
-    navigateTo('/')
+    navigateTo("/");
   };
 
   login = e => {
-    this.closeUserMenu();
     this.props.onToggleRegistrationModal();
   };
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  renderSignInUp = () => {
-    return (
-      <Button tabIndex="0" color="default" onClick={this.login}>
-        <span className="hide-on-mobile" style={styles.iconLabel}>Sign In / Sign Up</span>
-        <AccountCircle />
-      </Button>
-    );
-  };
-
-  openUserMenu = (e) => {
-    this.setState({ userMenuAnchorEl: e.currentTarget });
-  }
-
-  closeUserMenu = (e) => {
-    this.setState({ userMenuAnchorEl: null })
-  }
-
-  openMainMenu = (e) => {
-    this.setState({ mainMenuIsOpen: true });
-  }
-
-  closeMainMenu = (e) => {
-    this.setState({ mainMenuIsOpen: false })
-  }
-
-  renderUserMenu = () => {
-    const accountName = this.props.user.displayName ? this.props.user.displayName : 'Account'
-    const open = Boolean(this.state.userMenuAnchorEl);
-
-    return (
-      <div>
-        <Button
-          aria-owns={open ? 'menu-appbar' : null}
-          aria-haspopup="true"
-          onClick={this.openUserMenu}
-          color="default"
-        >
-          <span className="hide-on-mobile" style={styles.iconLabel}>Account</span>
-          <AccountCircle />
-        </Button>
-        <Menu
-          id="menu-appbar"
-          anchorEl={this.state.userMenuAnchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={open}
-          onClose={this.closeUserMenu}
-        >
-          <MenuItem component={Link} to={'/dashboard'} onClick={this.closeUserMenu}>Dashboard</MenuItem>
-          <MenuItem onClick={this.logout}>Sign out</MenuItem>
-        </Menu>
-      </div>
+  filterPagesByType = type => {
+    return orderBy(
+      filter(this.props.pages, page => page.node.navigation.group === type),
+      "node.navigation.order"
     );
   };
 
   render() {
-    const open = Boolean(this.props.showRegistrationModal);
+    const openModal = Boolean(this.props.showRegistrationModal);
+
     return (
       <div>
         <AppBar color="inherit" position="static">
           <Toolbar className={this.props.classes.toolbar}>
-            <Button
-              tabIndex="0"
-              color="default"
-              onClick={this.openMainMenu}
-            >
-              <span className="hide-on-mobile" style={styles.iconLabel}>Menu</span>
-              <MenuIcon />
-            </Button>
-            <Link to="/" className="navbar-brand">
+            <Link to="/">
               <img style={styles.logo} src={logo} alt="Save the Children" />
             </Link>
-              {this.props.isLoggedIn
-                ? this.renderUserMenu()
-                : this.renderSignInUp()}
+            <div className={this.props.classes.actions}>
+              {menuSections.map(section => {
+                const pages = this.filterPagesByType(section.pageType);
+                return (
+                  <MenuSection
+                    key={section.pageType}
+                    section={section}
+                    pages={pages}
+                  />
+                );
+              })}
+              <AccountSection
+                isLoggedIn={this.props.isLoggedIn}
+                user={this.props.user}
+                handleLogout={this.logout}
+                handleLogin={this.login}
+              />
+              <AdminSectionContainer />
+            </div>
           </Toolbar>
         </AppBar>
-        <SideMenu
-          isOpen={this.state.mainMenuIsOpen}
-          close={this.closeMainMenu}
-          pages={this.props.pages}
-        />
         <RegistrationModal
           firebase={firebase}
-          open={open}
+          open={openModal}
           onToggleRegistrationModal={this.props.onToggleRegistrationModal}
         />
       </div>
@@ -189,4 +170,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default withStyles(styles)(Navigation)
+export default withStyles(styles)(Navigation);

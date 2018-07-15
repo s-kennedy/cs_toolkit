@@ -96,7 +96,10 @@ const theme = createMuiTheme({
       fontWeightRegular: 400,
       fontWeightMedium: 500,
       color: 'hsla(0, 0%, 0%, .8)',
-    }
+    },
+  },
+  status: {
+    danger: "#f7a700",
   }
 });
 

@@ -7,7 +7,7 @@ import {
   deletePage,
   deploy
 } from '../redux/actions'
-import AdminToolbar from '../components/navigation/AdminToolbar'
+import AdminSection from '../components/navigation/AdminSection'
 
 const mapStateToProps = (state, ownProps) => {
   const allowEditing = state.adminTools.user && state.adminTools.user.isEditor;
@@ -43,9 +43,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const AdminToolbarContainer = connect(
+const AdminSectionContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AdminToolbar)
+)(AdminSection)
 
-export default AdminToolbarContainer;
+export default AdminSectionContainer;
