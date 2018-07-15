@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Grid from "material-ui/Grid";
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
-import Button from "material-ui/Button";
-import Paper from "material-ui/Paper";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 
 import Editable from './Editable'
 import FlexTableEditor from '../editingTools/FlexTableEditor'
 
-import { withStyles } from "material-ui/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   container: {

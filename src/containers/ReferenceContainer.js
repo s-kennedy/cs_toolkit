@@ -1,13 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
 
-import { connect } from 'react-redux'
 import { updateSectionContent, duplicateSection, deleteSection } from '../redux/actions'
 import InnerContentContainer from '../containers/InnerContentContainer';
 
 
 const styles = {
   container: {
-    padding: '3rem',
+    padding: '3rem 1rem',
   }
 }
 
@@ -34,15 +35,17 @@ const mapDispatchToProps = (dispatch) => {
 const ReferenceContainer = (props) => {
     return (
       <section className={`reference ${props.classes}`}>
-        <div style={styles.container} className='container col-xs-12 col-sm-8'>
-          <InnerContentContainer
-            sectionIndex={props.index}
-            content={props.content}
-            onUpdate={props.onUpdateSectionContent}
-            onDelete={props.onDelete}
-            onDuplicate={props.onDuplicate}
-          />
-        </div>
+        <Grid container style={styles.container} justify="center">
+          <Grid item xs={12} sm={10} md={8}>
+            <InnerContentContainer
+              sectionIndex={props.index}
+              content={props.content}
+              onUpdate={props.onUpdateSectionContent}
+              onDelete={props.onDelete}
+              onDuplicate={props.onDuplicate}
+            />
+          </Grid>
+        </Grid>
       </section>
     );
 }

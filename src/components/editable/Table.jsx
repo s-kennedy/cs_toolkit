@@ -1,22 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { map } from "lodash";
-import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "material-ui/Table";
-import Grid from "material-ui/Grid";
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
-import Button from "material-ui/Button";
-import Paper from "material-ui/Paper";
+
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 
 import Editable from './Editable'
 import TableEditor from '../editingTools/TableEditor'
 
-import { withStyles } from "material-ui/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   container: {

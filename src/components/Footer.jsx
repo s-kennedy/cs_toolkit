@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Grid from "@material-ui/core/Grid";
 
 const styles = {
   footer: {
@@ -15,9 +16,11 @@ const styles = {
 const Footer = (props) => {
   return (
     <footer className='footer' style={styles.footer}>
-      <div className="container" style={styles.container}>
-        <p>© 2017 Save the Children International</p>
-      </div>
+      <Grid container style={styles.container} justify="center">
+        <Grid item>
+          <p>© 2017 Save the Children International</p>
+        </Grid>
+      </Grid>
     </footer>
   )
 }

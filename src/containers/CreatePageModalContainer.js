@@ -19,7 +19,6 @@ import Select from '@material-ui/core/Select';
 
 import { pageTypes, menuGroups } from '../utils/constants';
 
-import css from 'react-select/dist/react-select.css';
 import * as defaultContentJSON from '../fixtures/pageContent.json';
 
 const mapStateToProps = (state) => {

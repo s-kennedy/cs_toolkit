@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { map } from "lodash";
-import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "material-ui/Table";
-import Grid from "material-ui/Grid";
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
-import Button from "material-ui/Button";
-import Paper from "material-ui/Paper";
 
-import { withStyles } from "material-ui/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   container: {
@@ -27,7 +27,7 @@ const styles = {
     whiteSpace: "normal",
     wordWrap: "break-word",
     verticalAlign: "bottom",
-    minWidth: '300px'
+    minWidth: "300px"
   },
   formControl: {
     width: "100%"
@@ -44,10 +44,10 @@ const styles = {
   }
 };
 
-const StyledTable = withStyles(styles)((props) => {
+const StyledTable = withStyles(styles)(props => {
   const { tableStructure, tableData } = props;
   return (
-     <Paper className={props.classes.container}>
+    <Paper className={props.classes.container}>
       <Table className={props.classes.table}>
         <TableHead>
           <TableRow>
@@ -64,9 +64,7 @@ const StyledTable = withStyles(styles)((props) => {
             <TableRow key={`${props.id}-row-${index}`}>
               {tableStructure.map(column => {
                 if (column.type === "custom") {
-                  const InputComponent = props.customInputs[
-                    column.fieldName
-                  ];
+                  const InputComponent = props.customInputs[column.fieldName];
                   return (
                     <TableCell
                       key={`${column.fieldName}-${index}`}
@@ -113,15 +111,12 @@ const StyledTable = withStyles(styles)((props) => {
           ))}
         </TableBody>
       </Table>
-      <Button
-        className={props.classes.button}
-        onClick={props.createNewRow}
-      >
+      <Button className={props.classes.button} onClick={props.createNewRow}>
         Add new row
       </Button>
     </Paper>
   );
-})
+});
 
 class EditableTable extends React.Component {
   constructor(props) {
@@ -167,7 +162,9 @@ class EditableTable extends React.Component {
 
   createNewRow = () => {
     const emptyRowData = this.defaultRowData();
-    let newData = this.state.content.tableData ? [...this.state.content.tableData] : [];
+    let newData = this.state.content.tableData
+      ? [...this.state.content.tableData]
+      : [];
     newData.push(emptyRowData);
 
     this.setState({
