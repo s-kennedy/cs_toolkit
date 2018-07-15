@@ -19,22 +19,10 @@ const innerContentStyles = {
     zIndex: '99',
     fontSize: '16px',
   },
-  save: {
+  button: {
     border: '1px solid black',
     color: 'black',
-    background: 'white',
-    height: '30px',
-    width: '30px',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  edit: {
-    border: '1px solid black',
-    color: 'black',
-    background: 'white', // teal
+    backgroundColor: '#fff',
     height: '30px',
     width: '30px',
     borderRadius: '30px',
@@ -43,19 +31,9 @@ const innerContentStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: '4px',
-  },
-  delete: {
-    border: '1px solid black',
-    color: 'black',
-    background: 'white', // plum
-    height: '30px',
-    width: '30px',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '4px',
+    '&:hover': {
+      backgroundColor: 'grey',
+    }
   },
   icon: {
     fontSize: '16px'
@@ -81,7 +59,7 @@ const EditorWrapper = (props) => {
       {
         props.isEditing &&
         <div className='actions' style={styles.actions}>
-          <div className='save-icon' style={styles.save} onClick={props.handleSave}>
+          <div className='save-icon' style={styles.button} onClick={props.handleSave}>
             <CheckIcon />
           </div>
         </div>
@@ -89,12 +67,12 @@ const EditorWrapper = (props) => {
       {
         !props.isEditing &&
         <div className='actions' style={styles.actions}>
-          <div className='edit-icon' style={styles.edit} onClick={props.toggleEditing}>
+          <div className='edit-icon' style={styles.button} onClick={props.toggleEditing}>
             <EditIcon />
           </div>
           {
             (props.handleDelete && props.disableDelete !== true) &&
-            <div className='delete-icon' style={styles.delete} onClick={props.handleDelete}>
+            <div className='delete-icon' style={styles.button} onClick={props.handleDelete}>
               <DeleteIcon />
             </div>
           }

@@ -1,17 +1,27 @@
 import React from "react";
 import firebase from "../../firebase/init";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import { theme, withStyles } from "@material-ui/core/styles";
 
 import "../../assets/sass/image_uploader.scss";
 
-const styles = {
+const styles = theme => ({
   header: {
     display: "flex"
   },
   button: {
-    textTransform: "uppercase",
-    fontFamily: "Trade Gothic"
+    cursor: 'pointer',
+    background: theme.palette.primary.main,
+    display: 'flex',
+    padding: '8px 16px',
+    borderRadius: '2px',
+    '&:hover, &:focus': {
+      background: theme.palette.primary.dark,
+    },
+    marginBottom: '1rem',
   }
-};
+});
 
 class ImageEditor extends React.Component {
   static propTypes = {};
@@ -60,26 +70,30 @@ class ImageEditor extends React.Component {
   render() {
     return (
       <div className="image-uploader-container">
-        <div className="form-group">
-          <label className="btn btn-secondary" style={styles.button}>
-            Select image
-            <input
-              type="file"
-              hidden={true}
-              onChange={this.handleImageChange}
-            />
-          </label>
-          {this.state.loading && (
-            <div className="loader-container">
-              <div className="loader">loading...</div>
-            </div>
-          )}
-          {this.state.preview && (
-            <div className="image-container">
-              <img src={this.state.preview} alt={`image preview`} />
-            </div>
-          )}
-        </div>
+        <Grid container justify="center">
+          <Grid item>
+            <label className={this.props.classes.button}>
+              <Typography variant="button">Select image</Typography>
+              <input
+                type="file"
+                hidden={true}
+                onChange={this.handleImageChange}
+              />
+            </label>
+          </Grid>
+          <Grid item xs={12}>
+            {this.state.loading && (
+              <div className="loader-container">
+                <div className="loader">loading...</div>
+              </div>
+            )}
+            {this.state.preview && (
+              <div className="image-container">
+                <img src={this.state.preview} alt={`image preview`} />
+              </div>
+            )}
+          </Grid>
+        </Grid>
         {
           this.props.editCaption &&
           <div className="form-group">
@@ -97,4 +111,4 @@ class ImageEditor extends React.Component {
   }
 }
 
-export default ImageEditor;
+export default withStyles(styles)(ImageEditor);

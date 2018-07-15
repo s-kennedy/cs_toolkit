@@ -1,5 +1,7 @@
 import React from "react";
 import EditorWrapper from "./EditorWrapper";
+import Input from '@material-ui/core/Input';
+
 
 const styles = {
   header: {
@@ -8,8 +10,10 @@ const styles = {
   input: {
     width: "100%",
     fontSize: "inherit",
-    color: "#000",
-    backgroundColor: "#fff"
+    fontFamily: "inherit",
+    fontWeight: "inherit",
+    color: "rgba(0,0,0,0.8)",
+    backgroundColor: "#fff",
   }
 };
 
@@ -31,7 +35,7 @@ class PlainTextEditor extends React.Component {
     const { text } = this.state.content;
 
     return (
-      <input
+      <Input
         style={styles.input}
         value={text}
         onChange={this.handleEditorChange}

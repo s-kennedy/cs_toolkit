@@ -6,16 +6,16 @@ import IconButton from "@material-ui/core/IconButton";
 import Select from "@material-ui/core/Select";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import { withStyles, theme } from "@material-ui/core/styles";
 
-const styles = {
+const styles = theme => ({
   editActions: {
     display: "flex",
     justifyContent: "center",
-    position: "absolute",
-    bottom: "0",
     right: "45%",
-    zIndex: "99"
+    zIndex: "99",
+    position: 'absolute',
   },
   button: {
     backgroundColor: "#000",
@@ -24,11 +24,14 @@ const styles = {
     height: "30px",
     width: "30px",
     margin: "4px",
+    '&:hover': {
+      backgroundColor: "#000",
+    }
   },
   icon: {
     fontSize: "20px"
   }
-};
+});
 
 class SectionEditingActions extends React.Component {
   state = {
@@ -63,7 +66,7 @@ class SectionEditingActions extends React.Component {
   render() {
     const open = Boolean(this.state.anchorEl);
     return (
-      <div className="edit-actions" style={styles.editActions}>
+      <div className="edit-actions" className={this.props.classes.editActions}>
         {this.props.onDuplicate && (
           <IconButton
             className="edit-icon"

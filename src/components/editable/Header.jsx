@@ -16,18 +16,18 @@ const Header = (props) => {
   }
 
   return (
-    <Editable
-      editor={PlainTextEditor}
-      handleSave={handleSave}
-      content={{ text: props.text }}
-      {...props}
-    >
-      <div className='header' style={styles.header}>
-        <Typography variant="headline">
+    <div className='header' style={styles.header}>
+      <Typography variant="headline">
+        <Editable
+          editor={PlainTextEditor}
+          handleSave={handleSave}
+          content={{ text: props.text }}
+          {...props}
+        >
           { props.text }
-        </Typography>
-      </div>
-    </Editable>
+        </Editable>
+      </Typography>
+    </div>
   );
 }
 

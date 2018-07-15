@@ -13,11 +13,13 @@ const theme = createMuiTheme({
       light: "#ddf2f1",
       main: "#01b4aa", // teal
       dark: "#004440",
+      contrastText: "#fff",
     },
     secondary: {
       light: "#eee5eb",
       main: "#e70094", // pink
       dark: "941c5b",
+      contrastText: "#fff",
     },
     error: {
       light: "#f4ecdb",
@@ -84,7 +86,16 @@ const theme = createMuiTheme({
       marginBottom: "1em",
     },
     button: {
-      textTransform: "none"
+      textTransform: "none",
+      color: "#fff",
+    },
+    body1: {
+      fontFamily: `'Trebuchet MS', 'Fira Sans', sans-serif`,
+      fontSize: 18,
+      fontWeightLight: 300,
+      fontWeightRegular: 400,
+      fontWeightMedium: 500,
+      color: 'hsla(0, 0%, 0%, .8)',
     }
   }
 });

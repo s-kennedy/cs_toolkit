@@ -37,11 +37,19 @@ const styles = {
 const PageHeaderContainer = (props) => {
   const imageSrc = props.content && props.content.image ?  props.content.image : defaultImage;
 
+  const updateTitle = text => {
+    props.updatePageHeader({ title: text })
+  }
+
+  const updateSubtitle = text => {
+    props.updatePageHeader({ subtitle: text })
+  }
+
   return (
-    <BackgroundImage image={imageSrc} updateHeader={props.updatePageHeader}>
+    <BackgroundImage image={imageSrc} handleSave={props.updatePageHeader}>
       <TitleHolder>
-        <Title text={props.content.title} />
-        <Subtitle text={props.content.subtitle} />
+        <Title text={props.content.title} updateTitle={updateTitle} />
+        <Subtitle text={props.content.subtitle} updateTitle={updateSubtitle} />
       </TitleHolder>
     </BackgroundImage>
   )

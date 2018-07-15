@@ -153,7 +153,7 @@ const InnerContentContainer = (props) => {
   }
 
   return (
-    <div style={props.styles}>
+    <div style={{...props.styles, position: 'relative' }}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
       {
         props.isEditingPage &&

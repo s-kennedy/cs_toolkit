@@ -1,17 +1,41 @@
 import React from "react";
 import firebase from "../../firebase/init";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import { theme, withStyles } from "@material-ui/core/styles";
+import FileIcon from "@material-ui/icons/Assignment"
 
 import "../../assets/sass/image_uploader.scss";
 
-const styles = {
+const styles = theme => ({
   header: {
     display: "flex"
   },
   button: {
-    textTransform: "uppercase",
-    fontFamily: "Trade Gothic"
+    cursor: 'pointer',
+    background: theme.palette.primary.main,
+    display: 'flex',
+    padding: '8px 16px',
+    borderRadius: '2px',
+    '&:hover, &:focus': {
+      background: theme.palette.primary.dark,
+    },
+    marginBottom: '1rem',
+  },
+  action: {
+    display: 'flex',
+  },
+  text: {
+    fontWeight: "bold",
+    marginLeft: '4px',
+  },
+  icon: {
+    marginRight: "10px",
+    color: "#e70094"
   }
-};
+});
 
 class FileUploadEditor extends React.Component {
   static propTypes = {};
@@ -64,36 +88,47 @@ class FileUploadEditor extends React.Component {
 
     return (
       <div className="image-uploader-container">
-        <div className="form-group">
-          <label className="btn btn-secondary" style={styles.button}>
-            Select file
-            <input type="file" hidden={true} onChange={this.handleFileChange} />
-          </label>
-          {this.state.loading && (
-            <div className="loader-container">
-              <div className="loader">loading...</div>
-            </div>
-          )}
-          {this.state.preview && (
-            <DisplayFileUpload
-              filepath={filepath}
-              title={title}
-              filetype={filetype}
-            />
-          )}
-        </div>
-        <div className="form-group">
-          Title to display:{" "}
-          <input
-            className="form-control"
-            name="title"
-            value={title || ""}
-            onChange={this.handleCaptionChange}
-          />
-        </div>
+        <Grid container justify="center">
+          <Grid item>
+            <label className={this.props.classes.button}>
+              <Typography variant="button">Select file</Typography>
+              <input
+                type="file"
+                hidden={true}
+                onChange={this.handleFileChange}
+              />
+            </label>
+          </Grid>
+          <Grid item xs={12}>
+            {this.state.loading && (
+              <div className="loader-container">
+                <div className="loader">loading...</div>
+              </div>
+            )}
+            {this.state.preview && (
+              <div className="action-link" className={this.props.classes.action}>
+                <span>{`Preview: `}</span>
+                <a href={filepath} className={this.props.classes.text} target="_blank">
+                  {title} {filetype && `(${filetype})`}
+                </a>
+              </div>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth margin="normal">
+              <TextField
+                className="form-control"
+                name="title"
+                value={title || ""}
+                label={'Title to display'}
+                onChange={this.handleCaptionChange}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
 
-export default FileUploadEditor;
+export default withStyles(styles)(FileUploadEditor);

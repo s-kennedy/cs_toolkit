@@ -27,14 +27,14 @@ const PageTitleContainer = (props) => {
       margin: '2rem',
     },
     title: {
-      borderBottom: '2px solid #01b4aa'
+      borderBottom: '2px solid #01b4aa',
     }
   }
 
   return (
     <div className='title-container' style={styles.titleContainer}>
       <div className='title' style={styles.title}>
-        <Title text={props.title} />
+        <Title text={props.title} updateTitle={props.onUpdateTitle} />
       </div>
     </div>
   )

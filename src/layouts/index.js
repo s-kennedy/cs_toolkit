@@ -13,7 +13,7 @@ import AdminToolbarContainer from "../containers/AdminToolbarContainer";
 import NotificationContainer from "../containers/NotificationContainer";
 import Footer from "../components/Footer";
 
-import "./index.css";
+// import "./index.css";
 import "../assets/sass/custom.scss";
 import favicon from '../assets/img/favicon.png'
 

@@ -67,7 +67,7 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
 const PageContentContainer = (props) => {
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
       <SectionEditingActions {...props} />
     </div>

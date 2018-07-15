@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import EditorWrapper from "../editingTools/EditorWrapper";
 
@@ -55,6 +56,12 @@ const mapStateToProps = state => {
   return {
     isEditingPage: state.adminTools.isEditingPage
   };
+};
+
+Editable.propTypes = {
+  editor: PropTypes.element.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  content: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, null)(Editable);

@@ -1,5 +1,7 @@
 import React from 'react'
 import EditorWrapper from './EditorWrapper';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
 
 const styles = {
   label: {
@@ -45,24 +47,24 @@ class LinkEditor extends React.Component {
 
     return (
       <div>
-        <div>
-          <label htmlFor='anchor' style={styles.label}>Link text</label>
-          <input
+        <FormControl fullWidth margin="normal">
+          <TextField
             name='anchor'
             value={ anchor }
             onChange={this.handleAnchorChange}
             style={styles.input}
+            label="Link text"
           />
-        </div>
-        <div>
-          <label htmlFor='link' style={styles.label}>Link path</label>
-          <input
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <TextField
             name='link'
             value={ link }
             onChange={this.handleLinkChange}
             style={styles.input}
+            label="Link path"
           />
-        </div>
+        </FormControl>
       </div>
     )
   }
