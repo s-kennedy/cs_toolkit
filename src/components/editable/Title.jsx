@@ -1,4 +1,5 @@
 import React from 'react'
+import Typography from '@material-ui/core/Typography';
 
 import Editable from './Editable';
 import PlainTextEditor from '../editingTools/PlainTextEditor'
@@ -10,7 +11,7 @@ const Title = (props) => {
   }
 
   return (
-    <h1>
+    <Typography variant="display1" gutterBottom>
       <Editable
         editor={PlainTextEditor}
         handleSave={handleSave}
@@ -19,7 +20,7 @@ const Title = (props) => {
       >
         { props.text }
       </Editable>
-    </h1>
+    </Typography>
   )
 };
 

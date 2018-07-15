@@ -24,7 +24,7 @@ const styles = {
     minHeight: '100vh',
   },
   body: {
-    flexGrow: '1'
+    flexGrow: '1',
   }
 }
 

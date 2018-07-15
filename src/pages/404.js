@@ -1,10 +1,24 @@
 import React from 'react'
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 
-const NotFoundPage = () => (
-  <div>
-    <h1>NOT FOUND</h1>
-    <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
-  </div>
+const styles = {
+  container: {
+    alignSelf: "center",
+    margin: '3rem 0'
+  }
+}
+
+const NotFoundPage = props => (
+  <Grid container justify="center" className={props.classes.container}>
+    <Grid item>
+      <Typography variant="display1" gutterBottom>
+        NOT FOUND
+      </Typography>
+      <p>This page does not exist.</p>
+    </Grid>
+  </Grid>
 )
 
-export default NotFoundPage
+export default withStyles(styles)(NotFoundPage)

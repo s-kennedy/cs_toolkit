@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import uuidv4 from "uuid/v4";
+import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
@@ -41,7 +42,7 @@ class ProblemTreePage extends React.Component {
     return (
       <div className="interactive-tool">
         <div className="title">
-          <h1>{TOOL_TYPE}</h1>
+          <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
         <ProblemTree
           tableData={fields}

@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import uuidv4 from "uuid/v4";
+import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
 import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
-import Title from "../../components/editable/Title";
 
 const TOOL_TYPE = 'Child Sensitive Assessment Matrix'
 
@@ -42,7 +42,7 @@ class MatrixPage extends React.Component {
     return (
       <div className="interactive-tool">
         <div className="title">
-          <h1>{TOOL_TYPE}</h1>
+          <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
         <ChildSensitiveMatrix
           tableData={fields}

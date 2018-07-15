@@ -23,8 +23,70 @@ const theme = createMuiTheme({
       light: "#f4ecdb",
       main: "#f7a700", // yellow
       dark: "#a46f00",
+    },
+    background: {
+      default: "#fff",
     }
   },
+  typography: {
+    fontFamily: `'Trebuchet MS', 'Fira Sans', sans-serif`,
+    fontSize: 18,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    color: 'hsla(0, 0%, 0%, .8)',
+    display1: {
+      fontFamily: `'Bebas Neue', 'Trade Gothic', serif`,
+      letterSpacing: "0.05rem",
+      textTransform: "uppercase",
+      fontSize: "3.333em",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+    },
+    display2: {
+      fontFamily: `'Bebas Neue', 'Trade Gothic', serif`,
+      letterSpacing: "0.05rem",
+      textTransform: "uppercase",
+      fontSize: "2.222em",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+    },
+    display3: {
+      fontFamily: `'Bebas Neue', 'Trade Gothic', serif`,
+      letterSpacing: "0.05rem",
+      textTransform: "uppercase",
+      fontSize: "1.667em",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+    },
+    display4: {
+      fontFamily: `'Trebuchet MS', 'Fira Sans', sans-serif`,
+      textTransform: "none",
+      fontSize: "1.14em",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+    },
+    title: {
+      fontFamily: `'Bebas Neue', 'Trade Gothic', serif`,
+      letterSpacing: "0.05rem",
+      textTransform: "uppercase",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+    },
+    headline: {
+      fontFamily: `'Bebas Neue', 'Trade Gothic', serif`,
+      letterSpacing: "0.05rem",
+      textTransform: "uppercase",
+      fontSize: "1.667em",
+      color: 'hsla(0, 0%, 0%, .8)',
+      fontWeight: 700,
+      borderBottom: "2px solid #e70094",
+      marginBottom: "1em",
+    },
+    button: {
+      textTransform: "none"
+    }
+  }
 });
 
 

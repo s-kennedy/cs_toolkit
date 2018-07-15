@@ -1,17 +1,16 @@
 import React from "react";
 import Link from "gatsby-link";
+import Button from "@material-ui/core/Button";
 
 import Editable from "./Editable";
 import LinkEditor from "../editingTools/LinkEditor";
 
 const styles = {
-  text: {
-    fontWeight: "bold"
-  },
   button: {
-    cursor: 'pointer'
+    marginTop: '0.2rem',
+    marginBottom: '0.6rem',
   }
-};
+}
 
 
 const BtnComponent = (props) => {
@@ -19,16 +18,16 @@ const BtnComponent = (props) => {
 
   if (externalLink) {
     return (
-      <div className="stc-btn btn btn-red" style={styles.button}>
-        <a href={ props.link } target='_blank'>{ props.anchor }</a>
-      </div>
+      <Button variant="raised" color="secondary" href={ props.link } target='_blank' style={styles.button}>
+        {  props.anchor }
+      </Button>
     )
   }
 
   return (
-    <div className="stc-btn btn btn-red" style={styles.button}>
-      <Link to={ props.link }>{ props.anchor }</Link>
-    </div>
+    <Button variant="raised" color="secondary" component={Link} to={ props.link } style={styles.button}>
+      { props.anchor }
+    </Button>
   )
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Typography from '@material-ui/core/Typography';
 
 import Editable from "./Editable";
 import PlainTextEditor from "../editingTools/PlainTextEditor";
@@ -22,10 +23,10 @@ const Header = (props) => {
       {...props}
     >
       <div className='header' style={styles.header}>
-        <h3>
+        <Typography variant="headline">
           { props.text }
-          </h3>
-        </div>
+        </Typography>
+      </div>
     </Editable>
   );
 }
