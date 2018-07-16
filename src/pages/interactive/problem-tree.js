@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
+import ProblemTree from "../../components/interactiveTools/ProblemTree";
 
-const TOOL_TYPE = 'Child Sensitive Assessment Matrix'
+const TOOL_TYPE = 'Problem Tree'
 
-class MatrixPage extends React.Component {
+class ProblemTreePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -21,17 +21,16 @@ class MatrixPage extends React.Component {
     let toolId = params.get("id");
     if (toolId) {
       this.props.getToolData(toolId);
-    } else {
-      toolId = uuidv4()
-      this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
+      this.setState({ toolId });
     }
-    this.setState({ toolId });
   }
 
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
+    const toolId = this.state.toolId || uuidv4();
+    this.props.saveToolData(toolId, newData, slug, TOOL_TYPE);
+    this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
 
   render() {
@@ -44,7 +43,7 @@ class MatrixPage extends React.Component {
         <div className="title">
           <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
-        <ChildSensitiveMatrix
+        <ProblemTree
           tableData={fields}
           title={title}
           handleSave={this.saveTool}
@@ -75,4 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProblemTreePage);

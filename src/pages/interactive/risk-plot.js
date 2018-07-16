@@ -5,11 +5,12 @@ import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import ProblemTree from "../../components/interactiveTools/ProblemTree";
+import RiskPlot from "../../components/interactiveTools/RiskPlot";
+import Title from "../../components/editable/Title";
 
-const TOOL_TYPE = 'Problem Tree'
+const TOOL_TYPE = 'Risk Plot'
 
-class ProblemTreePage extends React.Component {
+class RiskPlotPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -21,17 +22,16 @@ class ProblemTreePage extends React.Component {
     let toolId = params.get("id");
     if (toolId) {
       this.props.getToolData(toolId);
-    } else {
-      toolId = uuidv4()
-      this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
+      this.setState({ toolId });
     }
-    this.setState({ toolId });
   }
 
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
+    const toolId = this.state.toolId || uuidv4();
+    this.props.saveToolData(toolId, newData, slug, TOOL_TYPE);
+    this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
 
   render() {
@@ -44,7 +44,7 @@ class ProblemTreePage extends React.Component {
         <div className="title">
           <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
-        <ProblemTree
+        <RiskPlot
           tableData={fields}
           title={title}
           handleSave={this.saveTool}
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProblemTreePage);
+export default connect(mapStateToProps, mapDispatchToProps)(RiskPlotPage);

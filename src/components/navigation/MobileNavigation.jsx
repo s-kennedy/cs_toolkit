@@ -22,7 +22,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import MenuSection from "./MenuSection";
 import MenuContent from "./MenuContent";
 import AccountSection, { AccountSectionContent } from "./AccountSection";
 import AdminSection, { AdminSectionContent } from "./AdminSection";
@@ -71,37 +70,37 @@ const menuSections = [
   {
     title: "Introduction",
     color: null,
-    pageType: "about"
+    navGroup: "about"
   },
   {
     title: "A: Analysis",
     color: "yellow",
-    pageType: "building_block_a"
+    navGroup: "building_block_a"
   },
   {
     title: "B: Design",
     color: "orange",
-    pageType: "building_block_b"
+    navGroup: "building_block_b"
   },
   {
     title: "C: MEAL",
     color: "teal",
-    pageType: "building_block_c"
+    navGroup: "building_block_c"
   },
   {
     title: "Case Study",
     color: null,
-    pageType: "case_study"
+    navGroup: "case_study"
   },
   {
     title: "Tools",
     color: null,
-    pageType: "tools"
+    navGroup: "tools"
   },
   {
     title: "Reference",
     color: null,
-    pageType: "reference"
+    navGroup: "reference"
   }
 ];
 
@@ -159,9 +158,9 @@ class Navigation extends React.Component {
             >
               <List>
                 {menuSections.map(section => {
-                  const pages = this.filterPagesByType(section.pageType);
+                  const pages = this.filterPagesByType(section.navGroup);
                   return (
-                    <ExpansionPanel key={section.navGroup} className={this.props.classes.expanded}>
+                    <ExpansionPanel key={`mobile-${section.navGroup}`} className={this.props.classes.expanded}>
                       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={this.props.classes[section.color]}>
                         {section.title}
                       </ExpansionPanelSummary>

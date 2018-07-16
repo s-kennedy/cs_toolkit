@@ -5,12 +5,11 @@ import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import TheoryOfChange from "../../components/interactiveTools/TheoryOfChange";
-import Title from "../../components/editable/Title";
+import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
 
-const TOOL_TYPE = 'Theory of Change Model'
+const TOOL_TYPE = 'Child Sensitive Assessment Matrix'
 
-class TheoryOfChangePage extends React.Component {
+class MatrixPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -22,17 +21,16 @@ class TheoryOfChangePage extends React.Component {
     let toolId = params.get("id");
     if (toolId) {
       this.props.getToolData(toolId);
-    } else {
-      toolId = uuidv4()
-      this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
+      this.setState({ toolId });
     }
-    this.setState({ toolId });
   }
 
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
+    const toolId = this.state.toolId || uuidv4();
+    this.props.saveToolData(toolId, newData, slug, TOOL_TYPE);
+    this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
 
   render() {
@@ -45,7 +43,7 @@ class TheoryOfChangePage extends React.Component {
         <div className="title">
           <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
-        <TheoryOfChange
+        <ChildSensitiveMatrix
           tableData={fields}
           title={title}
           handleSave={this.saveTool}
@@ -76,4 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheoryOfChangePage);
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage);

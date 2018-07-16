@@ -5,12 +5,12 @@ import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import RiskPlot from "../../components/interactiveTools/RiskPlot";
+import RiskAssumptionMatrix from "../../components/interactiveTools/RiskAssumptionMatrix";
 import Title from "../../components/editable/Title";
 
-const TOOL_TYPE = 'Risk Plot'
+const TOOL_TYPE = 'Risk and Assumption Matrix'
 
-class RiskPlotPage extends React.Component {
+class RiskAssumptionMatrixPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -22,18 +22,18 @@ class RiskPlotPage extends React.Component {
     let toolId = params.get("id");
     if (toolId) {
       this.props.getToolData(toolId);
-    } else {
-      toolId = uuidv4()
-      this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
+      this.setState({ toolId });
     }
-    this.setState({ toolId });
   }
 
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
+    const toolId = this.state.toolId || uuidv4();
+    this.props.saveToolData(toolId, newData, slug, TOOL_TYPE);
+    this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
+
 
   render() {
     const toolData = this.props.toolData || {};
@@ -45,7 +45,7 @@ class RiskPlotPage extends React.Component {
         <div className="title">
           <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
-        <RiskPlot
+        <RiskAssumptionMatrix
           tableData={fields}
           title={title}
           handleSave={this.saveTool}
@@ -76,4 +76,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RiskPlotPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RiskAssumptionMatrixPage);

@@ -5,12 +5,12 @@ import Typography from '@material-ui/core/Typography';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
-import RiskAssumptionMatrix from "../../components/interactiveTools/RiskAssumptionMatrix";
+import EngagementChecklist from "../../components/interactiveTools/EngagementChecklist";
 import Title from "../../components/editable/Title";
 
-const TOOL_TYPE = 'Risk and Assumption Matrix'
+const TOOL_TYPE = 'Checklist for Engagement of Children'
 
-class RiskAssumptionMatrixPage extends React.Component {
+class EngagementChecklistPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -22,17 +22,16 @@ class RiskAssumptionMatrixPage extends React.Component {
     let toolId = params.get("id");
     if (toolId) {
       this.props.getToolData(toolId);
-    } else {
-      toolId = uuidv4()
-      this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
+      this.setState({ toolId });
     }
-    this.setState({ toolId });
   }
 
   saveTool = input => {
     const newData = { ...this.props.toolData, ...input };
     const slug = this.props.location.pathname;
-    this.props.saveToolData(this.state.toolId, newData, slug, TOOL_TYPE);
+    const toolId = this.state.toolId || uuidv4();
+    this.props.saveToolData(toolId, newData, slug, TOOL_TYPE);
+    this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
 
   render() {
@@ -45,7 +44,7 @@ class RiskAssumptionMatrixPage extends React.Component {
         <div className="title">
           <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
         </div>
-        <RiskAssumptionMatrix
+        <EngagementChecklist
           tableData={fields}
           title={title}
           handleSave={this.saveTool}
@@ -76,4 +75,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RiskAssumptionMatrixPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EngagementChecklistPage);

@@ -41,8 +41,8 @@ class CreatePageModalContainer extends React.Component {
     this.state = {
       page: {
         title: '',
-        type: null,
-        navigationGroup: null,
+        type: '',
+        navigationGroup: '',
         displayTitle: '',
       }
     };

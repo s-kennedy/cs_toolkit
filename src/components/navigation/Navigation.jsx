@@ -11,12 +11,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import List from "@material-ui/core/List";
 import Drawer from "@material-ui/core/Drawer";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import AdminIcon from "@material-ui/icons/Settings";
 
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import MenuSection from "./MenuSection";
 import MenuContent from "./MenuContent";
 import AccountSection from "./AccountSection";
 import AdminSection from "./AdminSection";
