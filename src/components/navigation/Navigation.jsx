@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Link, { navigateTo } from "gatsby-link";
+import Link from "gatsby-link";
 import { filter, orderBy } from "lodash";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -10,31 +10,34 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import List from "@material-ui/core/List";
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from "@material-ui/core/Drawer";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import AdminIcon from "@material-ui/icons/Settings";
 
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import MenuSection from "./MenuSection";
+import MenuContent from "./MenuContent";
 import AccountSection from "./AccountSection";
-import AdminSectionContainer from "../../containers/AdminSectionContainer";
+import AdminSection from "./AdminSection";
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    position: 'relative',
-    display: 'flex',
+    position: "relative",
+    display: "flex"
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1000,
+    zIndex: theme.zIndex.drawer + 1000
   },
   drawerPaper: {
-    position: 'relative',
-    marginTop: '1rem',
+    position: "relative",
+    marginTop: "1rem"
   },
   toolbar: {
     ...theme.mixins.toolbar,
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   actions: {
     display: "flex",
@@ -46,13 +49,13 @@ const styles = theme => ({
     marginTop: "4px"
   },
   yellow: {
-    color: "#f7a700",
+    color: "#f7a700"
   },
   orange: {
-    color: "#f06b33",
+    color: "#f06b33"
   },
   teal: {
-    color: "#01b4aa",
+    color: "#01b4aa"
   },
   selected: {
     borderBottom: `2px solid ${theme.palette.secondary.main}`
@@ -110,46 +113,90 @@ class Navigation extends React.Component {
     );
   };
 
-
   toggleMenu = navGroup => () => {
     const pages = this.filterPagesByType(navGroup);
-    const openMenu = !(this.state.openMenu && this.state.selected === navGroup)
+    const openMenu = !(this.state.openMenu && this.state.selected === navGroup);
 
     this.setState({
       openMenu: openMenu,
       selected: navGroup,
       menuItems: pages
-    })
-  }
+    });
+  };
 
   closeMenu = () => {
-    this.setState({ openMenu: false, selected: null })
-  }
+
+    this.setState({ openMenu: false, selected: null });
+  };
 
   render() {
     const openModal = Boolean(this.props.showRegistrationModal);
 
     return (
       <div className={this.props.classes.root}>
-        <AppBar color="inherit" position="absolute" className={this.props.classes.appBar}>
+        <AppBar
+          color="inherit"
+          position="absolute"
+          className={this.props.classes.appBar}
+        >
           <Toolbar className={this.props.classes.toolbar}>
             <Link to="/">
-              <img className={this.props.classes.logo} src={logo} alt="Save the Children" />
+              <img
+                className={this.props.classes.logo}
+                src={logo}
+                alt="Save the Children"
+              />
             </Link>
             <div className={this.props.classes.actions}>
               {menuSections.map(section => {
+                const { Icon, Component } = section;
+
                 return (
-                  <div className={(this.state.selected === section.navGroup && this.state.openMenu) ? this.props.classes.selected : null}>
+                  <div
+                    key={section.navGroup}
+                    className={
+                      this.state.selected === section.navGroup &&
+                      this.state.openMenu
+                        ? this.props.classes.selected
+                        : null
+                    }
+                  >
                     <Button
-                      key={section.navGroup}
                       onClick={this.toggleMenu(section.navGroup)}
                       className={this.props.classes[section.color]}
                     >
-                      { section.title }
+                      {section.title}
+                      {Icon && <Icon />}
                     </Button>
                   </div>
                 );
               })}
+              <div
+                className={
+                  this.state.selected === "account" &&
+                  this.state.openMenu
+                    ? this.props.classes.selected
+                    : null
+                }
+              >
+                <AccountSection
+                  onClick={this.toggleMenu("account")}
+                />
+              </div>
+              {this.props.isLoggedIn && (
+                <div
+                  className={
+                    this.state.selected === "admin" &&
+                    this.state.openMenu
+                      ? this.props.classes.selected
+                      : null
+                  }
+                >
+                  <AdminSection
+                    onClick={this.toggleMenu("admin")}
+                  />
+                </div>
+              )}
             </div>
           </Toolbar>
         </AppBar>
@@ -158,28 +205,16 @@ class Navigation extends React.Component {
           open={this.state.openMenu}
           onClose={this.closeMenu}
           classes={{
-            paper: this.props.classes.drawerPaper,
+            paper: this.props.classes.drawerPaper
           }}
         >
           <div className={this.props.classes.toolbar} />
-          <List>
-            {this.state.menuItems.map(pageNode => {
-              const page = pageNode.node;
-              const pageTitle = page.navigation.displayTitle || page.title;
-
-              return (
-                <MenuItem
-                  tabIndex={0}
-                  key={page.slug}
-                  component={Link}
-                  to={`/${page.slug}`}
-                  onClick={this.closeMenu}
-                >
-                  {pageTitle}
-                </MenuItem>
-              );
-            })}
-          </List>
+          <MenuContent
+            navGroup={this.state.selected}
+            menuItems={this.state.menuItems}
+            closeMenu={this.closeMenu}
+            {...this.props}
+          />
         </Drawer>
         <RegistrationModal
           open={openModal}

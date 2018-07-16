@@ -1,17 +1,18 @@
 import React from "react";
-import Link from "gatsby-link";
+import Link, { navigateTo } from "gatsby-link";
 import firebase from "../../firebase/init";
 import { connect } from "react-redux";
 
 import {
   userLoggedIn,
-  userLoggedOut
+  userLoggedOut,
+  toggleRegistrationModal,
 } from "../../redux/actions";
 
 import Button from "@material-ui/core/Button";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import List from "@material-ui/core/List";
 
 const styles = {
   iconLabel: {
@@ -76,49 +77,14 @@ class AccountSection extends React.Component {
 
   render() {
     if (this.props.isLoggedIn) {
-      const open = Boolean(this.state.anchorEl);
-      const accountName = this.props.user.displayName
-      ? this.props.user.displayName
-      : "Account";
-
+      const accountName = this.props.user.displayName ? this.props.user.displayName : "Account"
       return(
-        <div>
-          <Button
-            aria-owns={open ? "account-dropdown" : null}
-            aria-haspopup="true"
-            onClick={this.openMenu}
-            color="default"
-          >
-            <span className="hide-on-mobile" style={styles.iconLabel}>
-              {accountName}
-            </span>
-            <AccountCircle />
-          </Button>
-          <Menu
-            id="account-dropdown"
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
-              getContentAnchorEl={null}
-              open={open}
-              onClose={this.closeMenu}
-            >
-            <MenuItem
-              component={Link}
-              to={"/dashboard"}
-              onClick={this.closeMenu}
-            >
-              Dashboard
-            </MenuItem>
-            <MenuItem onClick={this.logout}>Sign out</MenuItem>
-          </Menu>
-        </div>
+        <Button color="default" onClick={this.props.onClick}>
+          <span className="hide-on-mobile" style={styles.iconLabel}>
+            {accountName}
+          </span>
+          <AccountCircle />
+        </Button>
       )
     }
 
@@ -147,8 +113,35 @@ const mapDispatchToProps = dispatch => {
     },
     userLoggedOut: () => {
       dispatch(userLoggedOut());
-    }
+    },
+    onToggleRegistrationModal: () => {
+      dispatch(toggleRegistrationModal());
+    },
   };
 };
+
+export const AccountSectionContent = connect(mapStateToProps, mapDispatchToProps)((props) => {
+  const logout = e => {
+    firebase.auth().signOut();
+    props.userLoggedOut();
+    props.closeMenu();
+    navigateTo("/");
+  };
+
+  return(
+    <List
+      id="account-dropdown"
+      >
+      <MenuItem
+        component={Link}
+        to={"/dashboard"}
+        onClick={props.closeMenu}
+      >
+        Dashboard
+      </MenuItem>
+      <MenuItem onClick={logout}>Sign out</MenuItem>
+    </List>
+  )
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSection);

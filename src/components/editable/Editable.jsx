@@ -60,7 +60,7 @@ const mapStateToProps = state => {
 
 Editable.propTypes = {
   editor: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  handleChange: PropTypes.func,
   content: PropTypes.object.isRequired,
 };
 

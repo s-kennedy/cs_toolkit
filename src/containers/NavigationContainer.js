@@ -1,4 +1,6 @@
+import React from 'react';
 import { connect } from "react-redux";
+import Hidden from "@material-ui/core/Hidden";
 import {
   userLoggedIn,
   userLoggedOut,
@@ -8,6 +10,7 @@ import {
 } from "../redux/actions";
 
 import Navigation from "../components/navigation/Navigation";
+import MobileNavigation from "../components/navigation/MobileNavigation";
 
 const mapStateToProps = state => {
   return {
@@ -29,17 +32,18 @@ const mapDispatchToProps = dispatch => {
     onToggleRegistrationModal: () => {
       dispatch(toggleRegistrationModal());
     },
-    openMenu: () => {
-      dispatch(openMenu());
-    },
-    closeMenu: () => {
-      dispatch(closeMenu());
-    }
   };
 };
 
-const NavigationContainer = connect(mapStateToProps, mapDispatchToProps)(
-  Navigation
+const NavigationComponent = props => (
+  <div>
+    <Hidden mdUp>
+      <MobileNavigation {...props} />
+    </Hidden>
+    <Hidden smDown>
+      <Navigation {...props} />
+    </Hidden>
+  </div>
 );
 
-export default NavigationContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationComponent);

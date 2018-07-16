@@ -1,11 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux'
+import {
+  toggleEditing,
+  savePage,
+  toggleNewPageModal,
+  createPage,
+  deletePage,
+  deploy,
+} from '../../redux/actions'
+
 import CreatePageModalContainer from "../../containers/CreatePageModalContainer";
 
 import Button from "@material-ui/core/Button";
-import SettingsIcon from "@material-ui/icons/Settings";
+import AdminIcon from "@material-ui/icons/Settings";
 import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import List from "@material-ui/core/List";
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from "@material-ui/core/styles";
 
@@ -24,105 +34,102 @@ const styles = theme => ({
   }
 });
 
-class AdminSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { anchorEl: null };
-    this.savePageToDatabase = () => this._savePageToDatabase();
-    this.deletePage = () => this._deletePage();
-    this.deploy = () => this._deploy();
+const mapStateToProps = (state, ownProps) => {
+  const allowEditing = state.adminTools.user && state.adminTools.user.isEditor;
+  return {
+    isLoggedIn: state.adminTools.isLoggedIn,
+    isEditingPage: state.adminTools.isEditingPage,
+    content: state.content,
+    pageData: state.pageData,
+    allowEditing: allowEditing
   }
+};
 
-  openMenu = e => {
-    this.setState({ anchorEl: e.currentTarget });
-  };
-
-  closeMenu = e => {
-    this.setState({ anchorEl: null });
-  };
-
-  _savePageToDatabase() {
-    this.props.savePage(this.props.pageData, this.props.content);
-  }
-
-  _deletePage() {
-    this.props.deletePage(this.props.pageData.id);
-  }
-
-  _deploy() {
-    this.props.deploy();
-  }
-
-  render() {
-    if (!this.props.allowEditing) {
-      return <div />
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onToggleEditing: () => {
+      dispatch(toggleEditing())
+    },
+    onToggleNewPageModal: () => {
+      dispatch(toggleNewPageModal())
+    },
+    createPage: (pageData) => {
+      dispatch(createPage(pageData))
+    },
+    deletePage: (id) => {
+      dispatch(deletePage(id))
+    },
+    savePage: (pageData, content) => {
+      dispatch(savePage(pageData, content))
+    },
+    deploy: () => {
+      dispatch(deploy())
     }
-
-    const open = Boolean(this.state.anchorEl);
-    return (
-      <div>
-        <Button
-          aria-owns={open ? "editor-dropdown" : null}
-          aria-haspopup="true"
-          onClick={this.openMenu}
-          color="default"
-        >
-          <span className="hide-on-mobile" className={this.props.classes.iconLabel}>
-            Admin
-          </span>
-          <SettingsIcon />
-        </Button>
-        {!this.props.isEditingPage && (
-          <Menu
-            id="editor-dropdown"
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
-              getContentAnchorEl={null}
-              open={open}
-              onClose={this.closeMenu}
-            >
-            <MenuItem onClick={this.props.onToggleEditing}>Start editing</MenuItem>
-            <MenuItem onClick={this.props.onToggleNewPageModal}>Add new page</MenuItem>
-            <MenuItem onClick={this.deploy} className={this.props.classes.highlight} divider>Publish changes</MenuItem>
-            <MenuItem onClick={this.deletePage} className={this.props.classes.danger}>Delete this page</MenuItem>
-          </Menu>
-        )}
-
-        {this.props.isEditingPage && (
-          <Menu
-            id="editor-dropdown"
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
-              getContentAnchorEl={null}
-              open={open}
-              onClose={this.closeMenu}
-            >
-            <MenuItem onClick={this.props.onToggleEditing}>Done editing</MenuItem>
-            <MenuItem onClick={this.savePageToDatabase}>Save changes</MenuItem>
-          </Menu>
-        )}
-
-        <CreatePageModalContainer
-          pages={this.props.pages}
-          createPage={this.props.createPage}
-        />
-      </div>
-    );
   }
-}
+};
 
-export default withStyles(styles)(AdminSection);
+const ConnectedContent = (props) => {
+  const savePageToDatabase = () => {
+    props.savePage(props.pageData, props.content);
+  }
+
+  const deletePage = () => {
+    props.deletePage(props.pageData.id);
+  }
+
+  const deploy = () => {
+    props.deploy();
+  }
+
+  if (!props.allowEditing) {
+    return <div />
+  }
+
+  return (
+    <div>
+      {!props.isEditingPage && (
+        <List
+          id="editor-dropdown"
+        >
+          <MenuItem onClick={props.onToggleEditing}>Start editing</MenuItem>
+          <MenuItem onClick={props.onToggleNewPageModal}>Add new page</MenuItem>
+          <MenuItem onClick={deploy} className={props.classes.highlight} divider>Publish changes</MenuItem>
+          <MenuItem onClick={deletePage} className={props.classes.danger}>Delete this page</MenuItem>
+        </List>
+      )}
+
+      {props.isEditingPage && (
+        <List
+          id="editor-dropdown"
+          >
+          <MenuItem onClick={props.onToggleEditing}>Done editing</MenuItem>
+          <MenuItem onClick={savePageToDatabase}>Save changes</MenuItem>
+        </List>
+      )}
+
+      <CreatePageModalContainer
+        pages={props.pages}
+        createPage={props.createPage}
+      />
+    </div>
+  );
+};
+
+const AdminSection = (props) => {
+  if (props.allowEditing) {
+    return(
+      <Button color="default" onClick={props.onClick} >
+        <span className="hide-on-mobile" style={styles.iconLabel}>
+          Admin
+        </span>
+        <AdminIcon />
+      </Button>
+    )
+  }
+  return <div />
+};
+
+
+export const AdminSectionContent = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ConnectedContent));
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdminSection));

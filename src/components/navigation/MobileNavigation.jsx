@@ -11,6 +11,14 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Drawer from '@material-ui/core/Drawer';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
@@ -19,10 +27,15 @@ import AccountSection from "./AccountSection";
 import AdminSectionContainer from "../../containers/AdminSectionContainer";
 
 
-const styles = {
+const styles = theme => ({
+  drawerPaper: {
+    maxWidth: '80vw',
+    minWidth: '280px',
+    background: theme.palette.grey[100],
+  },
   toolbar: {
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   actions: {
     display: "flex",
@@ -32,8 +45,26 @@ const styles = {
     height: "60px",
     marginBottom: "4px",
     marginTop: "4px"
+  },
+  yellow: {
+    color: "#f7a700",
+  },
+  orange: {
+    color: "#f06b33",
+  },
+  teal: {
+    color: "#01b4aa",
+  },
+  root: {
+    fontSize: '1rem',
+    whiteSpace: 'normal',
+    height: 'auto',
+  },
+  list: {
+    paddingTop: 0,
+    paddingBottom: 0,
   }
-};
+});
 
 const menuSections = [
   {
@@ -105,7 +136,7 @@ class Navigation extends React.Component {
         <AppBar color="inherit" position="static">
           <Toolbar className={this.props.classes.toolbar}>
             <Link to="/">
-              <img style={styles.logo} src={logo} alt="Save the Children" />
+              <img className={this.props.classes.logo} src={logo} alt="Save the Children" />
             </Link>
 
             <IconButton
@@ -117,23 +148,50 @@ class Navigation extends React.Component {
               <MenuIcon />
             </IconButton>
 
-            <Menu
-              id="main-menu"
-              anchorEl={this.state.anchorEl}
+            <Drawer
+              anchor="right"
               open={openMenu}
               onClose={this.closeMenu}
+              classes={{
+                paper: this.props.classes.drawerPaper,
+              }}
             >
-              {menuSections.map(section => {
-                const pages = this.filterPagesByType(section.pageType);
-                return (
-                  <MenuSection
-                    key={section.pageType}
-                    section={section}
-                    pages={pages}
-                  />
-                );
-              })}
-            </Menu>
+              <List>
+                {menuSections.map(section => {
+                  const pages = this.filterPagesByType(section.pageType);
+                  return (
+                    <ExpansionPanel key={section.navGroup} className={this.props.classes.expanded}>
+                      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={this.props.classes[section.color]}>
+                        {section.title}
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        <List className={this.props.classes.list}>
+                        {pages.map(pageNode => {
+                          const page = pageNode.node;
+                          const pageTitle = page.navigation.displayTitle || page.title;
+
+                          return (
+                            <MenuItem
+                              key={page.slug}
+                              component={Link}
+                              to={`/${page.slug}`}
+                              onClick={this.closeMenu}
+                              tabIndex={0}
+                              className={this.props.classes.root}
+                              margin="dense"
+                            >
+                              {pageTitle}
+                            </MenuItem>
+                          );
+                        })}
+                        </List>
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                  );
+                })}
+              </List>
+            </Drawer>
+
           </Toolbar>
         </AppBar>
         <RegistrationModal
