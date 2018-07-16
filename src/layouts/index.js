@@ -26,7 +26,7 @@ const styles = {
     flexGrow: '1',
   },
   navbarOffset: {
-    height: '64px'
+    height: '74px'
   }
 }
 

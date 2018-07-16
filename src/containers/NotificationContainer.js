@@ -26,7 +26,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     marginTop: "10px",
-    zIndex: "2"
+    zIndex: "1400"
   },
   alert: {
     minWidth: "50vw"
@@ -39,7 +39,7 @@ const NotificationContainer = props => {
   return (
     <div className="notification-container" style={styles.container}>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={showNotification}
         onClose={props.closeNotification}
         ContentProps={{

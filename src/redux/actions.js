@@ -42,7 +42,7 @@ export function createPage(pageData) {
       dispatch(toggleNewPageModal());
       dispatch(
         showNotification(
-          "Your page has been saved. Deploy the website to view and edit your new page.",
+          "Your page has been saved. Publish your changes to view and edit your new page.",
           "success"
         )
       );
@@ -55,7 +55,7 @@ export function deletePage(id) {
     firebase.database().ref(`pages/${id}`).remove(() => {
       dispatch(
         showNotification(
-          "This page has been deleted. Deploy the website to make the change public.",
+          "This page has been deleted. Publish your changes to make them public.",
           "success"
         )
       );
@@ -81,13 +81,11 @@ export function savePage(pageData, content) {
     db.ref(`pages/${id}`).update(data, (res) => {
       return dispatch(
         showNotification(
-          "Your changes have been saved. Deploy the website to make the changes public.",
+          "Your changes have been saved. Publish your changes to make them public.",
           "success"
         )
       );
     });
-
-    return dispatch(showNotification("An error occured when saving your changes."))
   };
 }
 
@@ -109,7 +107,7 @@ export function deploy() {
         if (res.data.status === "success") {
           dispatch(
             showNotification(
-              "The website is being deployed - this will take a few minutes. Time to go grab a coffee :)",
+              "The website is being published - this will take a few minutes. Time to go grab a coffee :)",
               "success"
             )
           );
