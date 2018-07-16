@@ -136,7 +136,7 @@ class Navigation extends React.Component {
       <div className={this.props.classes.root}>
         <AppBar
           color="inherit"
-          position="absolute"
+          position="fixed"
           className={this.props.classes.appBar}
         >
           <Toolbar className={this.props.classes.toolbar}>
@@ -149,8 +149,6 @@ class Navigation extends React.Component {
             </Link>
             <div className={this.props.classes.actions}>
               {menuSections.map(section => {
-                const { Icon, Component } = section;
-
                 return (
                   <div
                     key={section.navGroup}
@@ -166,7 +164,6 @@ class Navigation extends React.Component {
                       className={this.props.classes[section.color]}
                     >
                       {section.title}
-                      {Icon && <Icon />}
                     </Button>
                   </div>
                 );

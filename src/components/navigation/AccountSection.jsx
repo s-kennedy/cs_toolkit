@@ -80,7 +80,7 @@ class AccountSection extends React.Component {
       const accountName = this.props.user.displayName ? this.props.user.displayName : "Account"
       return(
         <Button color="default" onClick={this.props.onClick}>
-          <span className="hide-on-mobile" style={styles.iconLabel}>
+          <span style={styles.iconLabel}>
             {accountName}
           </span>
           <AccountCircle />
@@ -90,7 +90,7 @@ class AccountSection extends React.Component {
 
     return(
       <Button color="default" onClick={this.login}>
-        <span className="hide-on-mobile" style={styles.iconLabel}>
+        <span style={styles.iconLabel}>
           Sign In / Sign Up
         </span>
         <AccountCircle />
@@ -103,6 +103,7 @@ const mapStateToProps = state => {
   return {
     isLoggedIn: state.adminTools.isLoggedIn,
     user: state.adminTools.user,
+    showRegistrationModal: state.adminTools.showRegistrationModal,
   };
 };
 

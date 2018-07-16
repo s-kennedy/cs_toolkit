@@ -119,7 +119,7 @@ const AdminSection = (props) => {
   if (props.allowEditing) {
     return(
       <Button color="default" onClick={props.onClick} >
-        <span className="hide-on-mobile" style={styles.iconLabel}>
+        <span style={styles.iconLabel}>
           Admin
         </span>
         <AdminIcon />

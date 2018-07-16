@@ -23,8 +23,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
 import MenuSection from "./MenuSection";
-import AccountSection from "./AccountSection";
-import AdminSectionContainer from "../../containers/AdminSectionContainer";
+import MenuContent from "./MenuContent";
+import AccountSection, { AccountSectionContent } from "./AccountSection";
+import AdminSection, { AdminSectionContent } from "./AdminSection";
 
 
 const styles = theme => ({
@@ -133,7 +134,7 @@ class Navigation extends React.Component {
 
     return (
       <div>
-        <AppBar color="inherit" position="static">
+        <AppBar color="inherit" position="fixed">
           <Toolbar className={this.props.classes.toolbar}>
             <Link to="/">
               <img className={this.props.classes.logo} src={logo} alt="Save the Children" />
@@ -165,30 +166,43 @@ class Navigation extends React.Component {
                         {section.title}
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails>
-                        <List className={this.props.classes.list}>
-                        {pages.map(pageNode => {
-                          const page = pageNode.node;
-                          const pageTitle = page.navigation.displayTitle || page.title;
-
-                          return (
-                            <MenuItem
-                              key={page.slug}
-                              component={Link}
-                              to={`/${page.slug}`}
-                              onClick={this.closeMenu}
-                              tabIndex={0}
-                              className={this.props.classes.root}
-                              margin="dense"
-                            >
-                              {pageTitle}
-                            </MenuItem>
-                          );
-                        })}
-                        </List>
+                        <MenuContent
+                          navGroup={this.state.selected}
+                          menuItems={pages}
+                          closeMenu={this.closeMenu}
+                          {...this.props}
+                        />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
                   );
                 })}
+
+                {
+                  this.props.isLoggedIn ?
+                  <ExpansionPanel className={this.props.classes.expanded}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                      <AccountSection />
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <AccountSectionContent closeMenu={this.closeMenu} />
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel> :
+                  <ListItem>
+                    <AccountSection />
+                  </ListItem>
+                }
+
+                {
+                  this.props.isLoggedIn &&
+                  <ExpansionPanel className={this.props.classes.expanded}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                      <AdminSection />
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <AdminSectionContent closeMenu={this.closeMenu} />
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                }
               </List>
             </Drawer>
 
