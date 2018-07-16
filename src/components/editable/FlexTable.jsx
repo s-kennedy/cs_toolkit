@@ -24,7 +24,7 @@ const styles = {
   item: {
     border: "1px solid #404040", // $dark-grey
     padding: "1rem",
-    fontSize: "0.8rem"
+    fontSize: "1rem"
   },
   addItem: {
     border: "1px solid green"
@@ -33,7 +33,7 @@ const styles = {
     flexGrow: "1"
   },
   input: {
-    fontSize: "0.8rem"
+    fontSize: "1rem"
   },
   row: {
     marginBottom: "1rem"

@@ -35,7 +35,7 @@ const styles = {
     width: "100%"
   },
   input: {
-    fontSize: "0.8rem"
+    fontSize: "1rem"
   },
   button: {
     marginLeft: "1rem"

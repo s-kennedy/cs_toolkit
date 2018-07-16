@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CreatePageModalContainer from "../../containers/CreatePageModalContainer";
 
 import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
+import SettingsIcon from "@material-ui/icons/Settings";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Divider from '@material-ui/core/Divider';
@@ -54,6 +54,10 @@ class AdminSection extends React.Component {
   }
 
   render() {
+    if (!this.props.allowEditing) {
+      return <div />
+    }
+
     const open = Boolean(this.state.anchorEl);
     return (
       <div>
@@ -66,7 +70,7 @@ class AdminSection extends React.Component {
           <span className="hide-on-mobile" className={this.props.classes.iconLabel}>
             Admin
           </span>
-          <EditIcon />
+          <SettingsIcon />
         </Button>
         {!this.props.isEditingPage && (
           <Menu

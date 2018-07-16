@@ -17,7 +17,7 @@ const styles = {
   },
   item: {
     padding: "0.2rem",
-    fontSize: "0.8rem",
+    fontSize: "1rem",
     minHeight: "10rem"
   },
   innerItem: {
@@ -34,7 +34,7 @@ const styles = {
     flexGrow: "1"
   },
   input: {
-    fontSize: "0.8rem"
+    fontSize: "1rem"
   },
   row: {
     marginBottom: "1rem"

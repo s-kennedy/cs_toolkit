@@ -3,14 +3,15 @@ import React from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import { FirebaseAuth } from 'react-firebaseui';
+import firebase from "../../firebase/init";
 
 
 const RegistrationModal = (props) => {
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [
-      props.firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      props.firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
       signInSuccess: () => {false}
@@ -24,7 +25,7 @@ const RegistrationModal = (props) => {
     <Dialog onClose={onToggleRegistrationModal} aria-labelledby="registration-dialogue" {...other}>
       <DialogTitle id="registration-dialogue">Sign up / Sign in</DialogTitle>
       <div className="modal-body">
-        <FirebaseAuth uiConfig={uiConfig} firebaseAuth={props.firebase.auth()} />
+        <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       </div>
     </Dialog>
   );

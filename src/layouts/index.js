@@ -24,6 +24,9 @@ const styles = {
   },
   body: {
     flexGrow: '1',
+  },
+  navbarOffset: {
+    height: '64px'
   }
 }
 
@@ -53,6 +56,7 @@ class TemplateWrapper extends React.Component {
         </Helmet>
         <NotificationContainer />
         <NavigationContainer pages={this.props.data.allPages.edges} />
+        <div style={styles.navbarOffset} />
         <div style={styles.body}>{this.props.children()}</div>
         <Footer />
       </div>

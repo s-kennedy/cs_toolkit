@@ -7,24 +7,34 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import List from "@material-ui/core/List";
+import Drawer from '@material-ui/core/Drawer';
 
 import logo from "../../assets/img/coalition-logo.png";
 import RegistrationModal from "./RegistrationModal";
-import firebase from "../../firebase/init";
 import MenuSection from "./MenuSection";
 import AccountSection from "./AccountSection";
 import AdminSectionContainer from "../../containers/AdminSectionContainer";
 
-
-const styles = {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    position: 'relative',
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1000,
+  },
+  drawerPaper: {
+    position: 'relative',
+    marginTop: '1rem',
+  },
   toolbar: {
+    ...theme.mixins.toolbar,
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   actions: {
     display: "flex",
@@ -34,93 +44,64 @@ const styles = {
     height: "60px",
     marginBottom: "4px",
     marginTop: "4px"
+  },
+  yellow: {
+    color: "#f7a700",
+  },
+  orange: {
+    color: "#f06b33",
+  },
+  teal: {
+    color: "#01b4aa",
+  },
+  selected: {
+    borderBottom: `2px solid ${theme.palette.secondary.main}`
   }
-};
+});
 
 const menuSections = [
   {
-    title: "About",
+    title: "Introduction",
     color: null,
-    pageType: "about"
+    navGroup: "about"
   },
   {
     title: "A: Analysis",
     color: "yellow",
-    pageType: "building_block_a"
+    navGroup: "building_block_a"
   },
   {
     title: "B: Design",
     color: "orange",
-    pageType: "building_block_b"
+    navGroup: "building_block_b"
   },
   {
     title: "C: MEAL",
     color: "teal",
-    pageType: "building_block_c"
+    navGroup: "building_block_c"
   },
   {
     title: "Case Study",
     color: null,
-    pageType: "case_study"
+    navGroup: "case_study"
   },
   {
     title: "Tools",
     color: null,
-    pageType: "tools"
+    navGroup: "tools"
   },
   {
     title: "Reference",
     color: null,
-    pageType: "reference"
+    navGroup: "reference"
   }
 ];
 
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { openMenu: false, menuItems: [] };
   }
-
-  componentWillMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const ref = firebase
-          .app()
-          .database()
-          .ref(`users/${user.uid}`);
-        ref.once("value").then(snapshot => {
-          const userData = snapshot.val();
-          if (userData) {
-            this.props.userLoggedIn(userData);
-          } else {
-            const newUser = {
-              uid: user.uid,
-              displayName: user.displayName,
-              email: user.email,
-              photoURL: user.photoURL
-            };
-            ref.set(newUser);
-            this.props.userLoggedIn(newUser);
-          }
-        });
-      } else {
-        this.props.userLoggedOut();
-      }
-
-      if (this.props.showRegistrationModal) {
-        this.props.onToggleRegistrationModal();
-      }
-    });
-  }
-
-  logout = e => {
-    firebase.auth().signOut();
-    this.props.userLoggedOut();
-    navigateTo("/");
-  };
-
-  login = e => {
-    this.props.onToggleRegistrationModal();
-  };
 
   filterPagesByType = type => {
     return orderBy(
@@ -129,39 +110,78 @@ class Navigation extends React.Component {
     );
   };
 
+
+  toggleMenu = navGroup => () => {
+    const pages = this.filterPagesByType(navGroup);
+    const openMenu = !(this.state.openMenu && this.state.selected === navGroup)
+
+    this.setState({
+      openMenu: openMenu,
+      selected: navGroup,
+      menuItems: pages
+    })
+  }
+
+  closeMenu = () => {
+    this.setState({ openMenu: false, selected: null })
+  }
+
   render() {
     const openModal = Boolean(this.props.showRegistrationModal);
 
     return (
-      <div>
-        <AppBar color="inherit" position="static">
+      <div className={this.props.classes.root}>
+        <AppBar color="inherit" position="absolute" className={this.props.classes.appBar}>
           <Toolbar className={this.props.classes.toolbar}>
             <Link to="/">
-              <img style={styles.logo} src={logo} alt="Save the Children" />
+              <img className={this.props.classes.logo} src={logo} alt="Save the Children" />
             </Link>
             <div className={this.props.classes.actions}>
               {menuSections.map(section => {
-                const pages = this.filterPagesByType(section.pageType);
                 return (
-                  <MenuSection
-                    key={section.pageType}
-                    section={section}
-                    pages={pages}
-                  />
+                  <div className={(this.state.selected === section.navGroup && this.state.openMenu) ? this.props.classes.selected : null}>
+                    <Button
+                      key={section.navGroup}
+                      onClick={this.toggleMenu(section.navGroup)}
+                      className={this.props.classes[section.color]}
+                    >
+                      { section.title }
+                    </Button>
+                  </div>
                 );
               })}
-              <AccountSection
-                isLoggedIn={this.props.isLoggedIn}
-                user={this.props.user}
-                handleLogout={this.logout}
-                handleLogin={this.login}
-              />
-              <AdminSectionContainer />
             </div>
           </Toolbar>
         </AppBar>
+        <Drawer
+          anchor="top"
+          open={this.state.openMenu}
+          onClose={this.closeMenu}
+          classes={{
+            paper: this.props.classes.drawerPaper,
+          }}
+        >
+          <div className={this.props.classes.toolbar} />
+          <List>
+            {this.state.menuItems.map(pageNode => {
+              const page = pageNode.node;
+              const pageTitle = page.navigation.displayTitle || page.title;
+
+              return (
+                <MenuItem
+                  tabIndex={0}
+                  key={page.slug}
+                  component={Link}
+                  to={`/${page.slug}`}
+                  onClick={this.closeMenu}
+                >
+                  {pageTitle}
+                </MenuItem>
+              );
+            })}
+          </List>
+        </Drawer>
         <RegistrationModal
-          firebase={firebase}
           open={openModal}
           onToggleRegistrationModal={this.props.onToggleRegistrationModal}
         />
