@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { connect } from "react-redux";
 import { toggleEditing } from "../../redux/actions";
 
@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
 import Table from "../editable/Table";
-import Title from "../editable/Title";
+
 import Subtitle from "../editable/Subtitle";
 
 const tableStructure = [

@@ -1,4 +1,6 @@
 import React from 'react';
+import { graphql } from 'gatsby';
+import Layout from '../layouts/index';
 
 import PageContentContainer from '../containers/PageContentContainer'
 import PageTitleContainer from '../containers/PageTitleContainer'
@@ -22,10 +24,12 @@ class BasicPage extends React.Component {
 
   render() {
     return (
+      <Layout>
       <div className={`basic-page ${this.props.pageData.page_type}`}>
         <PageTitleContainer />
         <PageContentContainer />
       </div>
+      </Layout>
     )
   }
 };

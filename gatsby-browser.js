@@ -16,7 +16,7 @@ import { Provider } from 'react-redux'
 
 import createStore from './src/redux/createStore'
 
-exports.replaceRouterComponent = ({ history }) => {
+export const replaceRouterComponent = ({ history }) => {
   const store = createStore()
 
   const ConnectedRouterWrapper = ({ children }) => (

@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
 import RiskMitigationPlan from "../../components/interactiveTools/RiskMitigationPlan";
-import Title from "../../components/editable/Title";
 
 const TOOL_TYPE = 'Risk Mitigation Plan Worksheet'
 

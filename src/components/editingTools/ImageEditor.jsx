@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "../../firebase/init";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+// eslint-disable-next-line
 import { theme, withStyles } from "@material-ui/core/styles";
 
 import "../../assets/sass/image_uploader.scss";
@@ -89,7 +90,7 @@ class ImageEditor extends React.Component {
             )}
             {this.state.preview && (
               <div className="image-container">
-                <img src={this.state.preview} alt={`image preview`} />
+                <img src={this.state.preview} alt={`upload preview`} />
               </div>
             )}
           </Grid>

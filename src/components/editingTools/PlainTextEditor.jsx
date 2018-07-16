@@ -1,5 +1,4 @@
 import React from "react";
-import EditorWrapper from "./EditorWrapper";
 import Input from '@material-ui/core/Input';
 
 

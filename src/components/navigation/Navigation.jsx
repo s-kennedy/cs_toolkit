@@ -1,15 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import { filter, orderBy } from "lodash";
 
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import List from "@material-ui/core/List";
 import Drawer from "@material-ui/core/Drawer";
 
 import logo from "../../assets/img/coalition-logo.png";

@@ -4,8 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Editable from "./Editable";
 import ImageEditor from "../editingTools/ImageEditor";
 
-const defaultImage = "http://placehold.it/2000x1000";
-
 const BackgroundImage = props => {
   const styles = {
     background: {

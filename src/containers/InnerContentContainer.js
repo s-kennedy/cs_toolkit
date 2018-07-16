@@ -115,45 +115,9 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
 }
 
 const InnerContentContainer = (props) => {
-  const styles = {
-    editActions: {
-      display: 'flex',
-      justifyContent: 'center'
-    },
-    actionIcon: {
-      background: '#F2A900', // mustard
-      color: 'white',
-      height: '30px',
-      width: '30px',
-      borderRadius: '30px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: '1',
-      cursor: 'pointer',
-      margin: '5px',
-      border: 'none',
-    }
-  }
-
-  const handleDuplicate = () => {
-    props.onDuplicate(props.sectionIndex)
-  }
-
-  const handleDelete = () => {
-    props.onDelete(props.sectionIndex)
-  }
-
-  const generateAddContentItemHandler = (contentType) => {
-    return () => props.onAddContentItem(props.sectionIndex, contentType)
-  }
-
-  const generateAddSectionHandler = (sectionType) => {
-    return () => props.onAddSection(props.sectionIndex, sectionType)
-  }
 
   return (
-    <div style={{...props.styles, position: 'relative' }}>
+    <div style={{position: 'relative'}}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
       {
         props.isEditingPage &&

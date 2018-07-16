@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
 import TheoryOfChange from "../../components/interactiveTools/TheoryOfChange";
-import Title from "../../components/editable/Title";
 
 const TOOL_TYPE = 'Theory of Change Model'
 

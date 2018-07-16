@@ -1,7 +1,6 @@
 import React from "react";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import List from "@material-ui/core/List";
 
 import {AccountSectionContent} from "./AccountSection";

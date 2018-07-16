@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, DEPLOY_ENDPOINT } from "../utils/constants";
+import { DEPLOY_ENDPOINT } from "../utils/constants";
 import firebase from "../firebase/init";
 
 // AUTHENTICATION ------------------------

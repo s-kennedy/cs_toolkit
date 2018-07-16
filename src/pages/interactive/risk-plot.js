@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
 import RiskPlot from "../../components/interactiveTools/RiskPlot";
-import Title from "../../components/editable/Title";
 
 const TOOL_TYPE = 'Risk Plot'
 

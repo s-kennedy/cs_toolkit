@@ -1,4 +1,6 @@
 import React from 'react';
+import { graphql } from 'gatsby'
+import Layout from '../layouts/index';
 
 import PageContentContainer from '../containers/PageContentContainer'
 import PageHeaderContainer from '../containers/PageHeaderContainer'
@@ -23,10 +25,12 @@ class PageWithHeader extends React.Component {
 
   render() {
     return (
-      <div className={`page-with-header ${this.props.pageData.page_type}`}>
-        <PageHeaderContainer />
-        <PageContentContainer />
-      </div>
+      <Layout>
+        <div className={`page-with-header ${this.props.pageData.page_type}`}>
+          <PageHeaderContainer />
+          <PageContentContainer />
+        </div>
+      </Layout>
     )
   }
 };

@@ -3,13 +3,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CopyIcon from "@material-ui/icons/ContentCopy";
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
-import Select from "@material-ui/core/Select";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Grid from "@material-ui/core/Grid";
-import { withStyles, theme } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = {
   editActions: {
     display: "flex",
     justifyContent: "center",
@@ -31,7 +29,7 @@ const styles = theme => ({
   icon: {
     fontSize: "20px"
   }
-});
+};
 
 class SectionEditingActions extends React.Component {
   state = {
@@ -65,11 +63,11 @@ class SectionEditingActions extends React.Component {
 
   render() {
     const open = Boolean(this.state.anchorEl);
+
     return (
-      <div className="edit-actions" className={this.props.classes.editActions}>
+      <div className={this.props.classes.editActions}>
         {this.props.onDuplicate && (
           <IconButton
-            className="edit-icon"
             onClick={this.handleDuplicate}
             className={this.props.classes.button}
           >
@@ -78,7 +76,6 @@ class SectionEditingActions extends React.Component {
         )}
         {this.props.onDelete && (
           <IconButton
-            className="edit-icon"
             onClick={this.handleDelete}
             className={this.props.classes.button}
           >

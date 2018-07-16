@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from 'react-redux'
 import {
   toggleEditing,
@@ -16,7 +15,6 @@ import Button from "@material-ui/core/Button";
 import AdminIcon from "@material-ui/icons/Settings";
 import MenuItem from "@material-ui/core/MenuItem";
 import List from "@material-ui/core/List";
-import Divider from '@material-ui/core/Divider';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({

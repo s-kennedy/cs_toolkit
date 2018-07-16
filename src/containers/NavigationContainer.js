@@ -5,8 +5,6 @@ import {
   userLoggedIn,
   userLoggedOut,
   toggleRegistrationModal,
-  openMenu,
-  closeMenu
 } from "../redux/actions";
 
 import Navigation from "../components/navigation/Navigation";

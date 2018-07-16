@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import Button from "@material-ui/core/Button";
 
 import Editable from "./Editable";

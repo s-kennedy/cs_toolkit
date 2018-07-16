@@ -2,10 +2,10 @@ import React from "react";
 import firebase from "../../firebase/init";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+// eslint-disable-next-line
 import { theme, withStyles } from "@material-ui/core/styles";
-import FileIcon from "@material-ui/icons/Assignment"
 
 import "../../assets/sass/image_uploader.scss";
 
@@ -14,22 +14,22 @@ const styles = theme => ({
     display: "flex"
   },
   button: {
-    cursor: 'pointer',
+    cursor: "pointer",
     background: theme.palette.primary.main,
-    display: 'flex',
-    padding: '8px 16px',
-    borderRadius: '2px',
-    '&:hover, &:focus': {
-      background: theme.palette.primary.dark,
+    display: "flex",
+    padding: "8px 16px",
+    borderRadius: "2px",
+    "&:hover, &:focus": {
+      background: theme.palette.primary.dark
     },
-    marginBottom: '1rem',
+    marginBottom: "1rem"
   },
   action: {
-    display: 'flex',
+    display: "flex"
   },
   text: {
     fontWeight: "bold",
-    marginLeft: '4px',
+    marginLeft: "4px"
   },
   icon: {
     marginRight: "10px",
@@ -106,9 +106,16 @@ class FileUploadEditor extends React.Component {
               </div>
             )}
             {this.state.preview && (
-              <div className="action-link" className={this.props.classes.action}>
+              <div
+                className={this.props.classes.action}
+              >
                 <span>{`Preview: `}</span>
-                <a href={filepath} className={this.props.classes.text} target="_blank">
+                <a
+                  href={filepath}
+                  className={this.props.classes.text}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {title} {filetype && `(${filetype})`}
                 </a>
               </div>
@@ -120,7 +127,7 @@ class FileUploadEditor extends React.Component {
                 className="form-control"
                 name="title"
                 value={title || ""}
-                label={'Title to display'}
+                label={"Title to display"}
                 onChange={this.handleCaptionChange}
               />
             </FormControl>

@@ -10,7 +10,7 @@ import { JssProvider } from 'react-jss';
 import getPageContext from './src/utils/getPageContext';
 import createStore from './src/redux/createStore'
 
-exports.replaceRenderer = ({ bodyComponent, replaceBodyHTMLString, setHeadComponents }) => {
+export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString, setHeadComponents }) => {
   const pageContext = getPageContext();
   const store = createStore()
 

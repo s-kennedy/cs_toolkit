@@ -37,7 +37,7 @@ const FileUpload = props => {
         <span style={styles.icon}>
           <FileIcon />
         </span>
-        <a href={props.filepath} style={styles.text} target="_blank">
+        <a href={props.filepath} style={styles.text} target="_blank" rel="noopener noreferrer">
           {props.title} {props.filetype && `(${props.filetype})`}
         </a>
       </div>

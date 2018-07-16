@@ -26,13 +26,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const styles = {
-  titleWrapper: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-}
-
 
 const PageHeaderContainer = (props) => {
   const imageSrc = props.content && props.content.image ?  props.content.image : defaultImage;

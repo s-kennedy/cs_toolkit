@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import LinkIcon from '@material-ui/icons/Link'
 
 import Editable from "./Editable";

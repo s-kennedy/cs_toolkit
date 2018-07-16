@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import ArrowForward from "@material-ui/icons/ArrowForward"
 import ArrowBack from "@material-ui/icons/ArrowBack"
 

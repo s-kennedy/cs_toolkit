@@ -1,13 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { map } from "lodash";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -154,7 +151,7 @@ class EditableTable extends React.Component {
   };
 
   defaultRowData = (row = {}) => {
-    this.props.tableStructure.map(column => {
+    this.props.tableStructure.forEach(column => {
       row[column.fieldName] = "";
     });
     return row;
@@ -177,7 +174,6 @@ class EditableTable extends React.Component {
 
   render() {
     const { tableData } = this.state.content;
-    const { tableStructure } = this.props;
 
     return (
       <StyledTable

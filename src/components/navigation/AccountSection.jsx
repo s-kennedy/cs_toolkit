@@ -1,5 +1,5 @@
 import React from "react";
-import Link, { navigateTo } from "gatsby-link";
+import { Link, push } from "gatsby";
 import firebase from "../../firebase/init";
 import { connect } from "react-redux";
 
@@ -25,7 +25,7 @@ class AccountSection extends React.Component {
     anchorEl: null
   }
 
-  componentWillMount() {
+  componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const ref = firebase
@@ -60,7 +60,7 @@ class AccountSection extends React.Component {
   logout = e => {
     firebase.auth().signOut();
     this.props.userLoggedOut();
-    navigateTo("/");
+    push("/");
   };
 
   login = e => {
@@ -126,7 +126,7 @@ export const AccountSectionContent = connect(mapStateToProps, mapDispatchToProps
     firebase.auth().signOut();
     props.userLoggedOut();
     props.closeMenu();
-    navigateTo("/");
+    push("/");
   };
 
   return(
