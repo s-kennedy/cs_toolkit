@@ -21,7 +21,7 @@ export const replaceRouterComponent = ({ history }) => {
 
   const ConnectedRouterWrapper = ({ children }) => (
     <Provider store={store}>
-        <Router history={history}>{children}</Router>
+      <Router history={history}>{children}</Router>
     </Provider>
   )
 

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import uuidv4 from "uuid/v4";
 import Typography from '@material-ui/core/Typography';
+import Layout from '../../layouts/index';
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
@@ -39,16 +40,18 @@ class RiskPlotPage extends React.Component {
     const title = toolData.title;
 
     return (
-      <div className="interactive-tool">
-        <div className="title">
-          <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
+      <Layout>
+        <div className="interactive-tool">
+          <div className="title">
+            <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
+          </div>
+          <RiskPlot
+            tableData={fields}
+            title={title}
+            handleSave={this.saveTool}
+          />
         </div>
-        <RiskPlot
-          tableData={fields}
-          title={title}
-          handleSave={this.saveTool}
-        />
-      </div>
+      </Layout>
     );
   }
 }
