@@ -44,8 +44,8 @@
     "morgan": "^1.9.0",
     "node-sass": "^4.9.2",
     "prop-types": "^15.6.2",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
+    "react": "latest",
+    "react-dom": "latest",
     "react-draft-wysiwyg": "^1.11.0",
     "react-firebaseui": "^1.1.6",
     "react-flip-move": "^3.0.1",
@@ -58,6 +58,7 @@
     "shelljs": "^0.8.1",
     "slugify": "^1.2.9",
     "url-search-params-polyfill": "^4.0.0",
+    "webpack": "^3.0.0",
     "winston": "^2.4.2"
   },
   "keywords": [
