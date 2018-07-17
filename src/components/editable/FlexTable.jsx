@@ -96,6 +96,7 @@ const FlexTable = props => {
                               </Grid>
                             );
                           }
+                          return null;
                         }
                       )}
                     </Grid>
