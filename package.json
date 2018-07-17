@@ -12,6 +12,7 @@
     "@material-ui/icons": "^1.1.0",
     "app-root-path": "^2.1.0",
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "browserslist": "^3.2.0",
     "caniuse-db": "^1.0.30000867",
     "cors": "^2.8.4",
