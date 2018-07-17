@@ -1,27 +1,27 @@
 import React from "react";
 import { Link } from "gatsby";
-import LinkIcon from '@material-ui/icons/Link'
+import LinkIcon from "@material-ui/icons/Link";
 
 import Editable from "./Editable";
 import LinkEditor from "../editingTools/LinkEditor";
 
 const styles = {
   action: {
-    display: 'flex',
+    display: "flex"
   },
   text: {
     fontWeight: "bold"
   },
   icon: {
-    marginRight: '10px',
-    color: '#e70094'
+    marginRight: "10px",
+    color: "#e70094"
   }
 };
 
 const CustomLink = props => {
-  const handleSave = content => {
-    props.updateContent(props.sectionIndex, props.index, content)
-  }
+  const handleSave = content => () => {
+    props.updateContent(props.sectionIndex, props.index, content);
+  };
 
   return (
     <Editable

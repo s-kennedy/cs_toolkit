@@ -60,7 +60,7 @@ const GridTableItem = props => {
 };
 
 const GridTable = props => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.saveTable(content.tableData);
   };
 

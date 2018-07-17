@@ -32,7 +32,7 @@ const BtnComponent = (props) => {
 }
 
 const CustomButton = props => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.updateContent(props.sectionIndex, props.index, content)
   }
 

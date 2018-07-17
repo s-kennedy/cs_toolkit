@@ -17,7 +17,7 @@ const BackgroundImage = props => {
     }
   }
 
-  const handleSave = updatedContent => {
+  const handleSave = updatedContent => () => {
     props.handleSave(updatedContent);
   };
 

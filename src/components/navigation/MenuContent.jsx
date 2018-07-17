@@ -8,11 +8,11 @@ import {AdminSectionContent} from "./AdminSection";
 
 const MenuContent = props => {
   if (props.navGroup === 'account') {
-    return <AccountSectionContent closeMenu={props.closeMenu} />
+    return <AccountSectionContent closeMenu={props.closeMenu} classes={props.classes} />
   }
 
   if (props.navGroup === 'admin') {
-    return <AdminSectionContent closeMenu={props.closeMenu} />
+    return <AdminSectionContent closeMenu={props.closeMenu} classes={props.classes} />
   }
 
   return (

@@ -10,7 +10,7 @@ const styles = {
 }
 
 const Name = (props) => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.updateContent(props.sectionIndex, props.index, content)
   }
 

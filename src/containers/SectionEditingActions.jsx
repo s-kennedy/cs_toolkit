@@ -13,7 +13,7 @@ const styles = {
     justifyContent: "center",
     right: "45%",
     zIndex: "99",
-    position: 'absolute',
+    position: "absolute"
   },
   button: {
     backgroundColor: "#000",
@@ -22,8 +22,8 @@ const styles = {
     height: "30px",
     width: "30px",
     margin: "4px",
-    '&:hover': {
-      backgroundColor: "#000",
+    "&:hover": {
+      backgroundColor: "#000"
     }
   },
   icon: {
@@ -45,20 +45,27 @@ class SectionEditingActions extends React.Component {
   };
 
   handleDuplicate = () => {
-    this.props.onDuplicate(this.props.sectionIndex);
+    this.props.saveChanges(() =>
+      this.props.onDuplicate(this.props.sectionIndex)
+    );
   };
 
   handleDelete = () => {
-    this.props.onDelete(this.props.sectionIndex);
+    this.props.saveChanges(() => this.props.onDelete(this.props.sectionIndex));
   };
 
   generateAddContentItemHandler = contentType => {
     return () =>
-      this.props.onAddContentItem(this.props.sectionIndex, contentType);
+      this.props.saveChanges(() => {
+        this.props.onAddContentItem(this.props.sectionIndex, contentType);
+      });
   };
 
   generateAddSectionHandler = sectionType => {
-    return () => this.props.onAddSection(this.props.sectionIndex, sectionType);
+    return () =>
+      this.props.saveChanges(() => {
+        this.props.onAddSection(this.props.sectionIndex, sectionType);
+      });
   };
 
   render() {

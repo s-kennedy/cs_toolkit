@@ -8,7 +8,8 @@ import {
   deleteSection,
   addContentItem,
   deleteContentItem,
-  addSection
+  addSection,
+  saveChanges,
 } from '../redux/actions'
 import InnerContentContainer from '../containers/InnerContentContainer';
 
@@ -54,6 +55,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onAddSection: (sectionIndex, sectionType) => {
       dispatch(addSection(sectionIndex, sectionType))
+    },
+    saveChanges: (innerFunction) => {
+      dispatch(saveChanges(innerFunction))
     }
   }
 }
@@ -74,6 +78,7 @@ const SectionContainer = (props) => {
               onAddContentItem={props.onAddContentItem}
               onDeleteContentItem={props.onDeleteContentItem}
               onAddSection={props.onAddSection}
+              saveChanges={props.saveChanges}
             />
           </Grid>
         </Grid>

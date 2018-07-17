@@ -41,7 +41,7 @@ const styles = {
 };
 
 const FlexTable = props => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.saveTable(content.tableData)
   }
 

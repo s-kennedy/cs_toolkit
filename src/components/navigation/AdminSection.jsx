@@ -1,13 +1,13 @@
 import React from "react";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import {
   toggleEditing,
   savePage,
   toggleNewPageModal,
   createPage,
   deletePage,
-  deploy,
-} from '../../redux/actions'
+  deploy
+} from "../../redux/actions";
 
 import CreatePageModalContainer from "../../containers/CreatePageModalContainer";
 
@@ -25,10 +25,10 @@ const styles = theme => ({
     marginRight: "4px"
   },
   danger: {
-    color: theme.palette.error.main,
+    color: theme.palette.error.main
   },
   highlight: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.main
   }
 });
 
@@ -40,70 +40,82 @@ const mapStateToProps = (state, ownProps) => {
     content: state.content,
     pageData: state.pageData,
     allowEditing: allowEditing
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     onToggleEditing: () => {
-      dispatch(toggleEditing())
+      dispatch(toggleEditing());
     },
     onToggleNewPageModal: () => {
-      dispatch(toggleNewPageModal())
+      dispatch(toggleNewPageModal());
     },
-    createPage: (pageData) => {
-      dispatch(createPage(pageData))
+    createPage: pageData => {
+      dispatch(createPage(pageData));
     },
-    deletePage: (id) => {
-      dispatch(deletePage(id))
+    deletePage: id => {
+      dispatch(deletePage(id));
     },
     savePage: (pageData, content) => {
-      dispatch(savePage(pageData, content))
+      dispatch(savePage(pageData, content));
     },
     deploy: () => {
-      dispatch(deploy())
+      dispatch(deploy());
     }
-  }
+  };
 };
 
-const ConnectedContent = (props) => {
+const ConnectedContent = props => {
   const savePageToDatabase = () => {
     props.savePage(props.pageData, props.content);
-  }
+  };
 
   const deletePage = () => {
     props.deletePage(props.pageData.id);
-  }
+    props.closeMenu();
+  };
 
   const deploy = () => {
     props.deploy();
-  }
+    props.closeMenu()
+  };
 
   if (!props.allowEditing) {
-    return <div />
+    return <div />;
   }
+
+  const toggleText = props.isEditingPage ? "Done editing" : "Start editing";
 
   return (
     <div>
-      {!props.isEditingPage && (
-        <List
-          id="editor-dropdown"
+      <List id="editor-dropdown">
+        <MenuItem
+          onClick={() => { props.onToggleEditing(); props.closeMenu(); }}
+          className={props.classes.root}
         >
-          <MenuItem onClick={props.onToggleEditing} className={props.classes.root}>Start editing</MenuItem>
-          <MenuItem onClick={props.onToggleNewPageModal} className={props.classes.root}>Add new page</MenuItem>
-          <MenuItem onClick={deploy} className={`${props.classes.highlight} ${props.classes.root}`} divider>Publish changes</MenuItem>
-          <MenuItem onClick={deletePage} className={`${props.classes.danger} ${props.classes.root}`}>Delete this page</MenuItem>
-        </List>
-      )}
-
-      {props.isEditingPage && (
-        <List
-          id="editor-dropdown"
-          >
-          <MenuItem onClick={props.onToggleEditing}>Done editing</MenuItem>
-          <MenuItem onClick={savePageToDatabase}>Save changes</MenuItem>
-        </List>
-      )}
+          {toggleText}
+        </MenuItem>
+        <MenuItem
+          onClick={props.onToggleNewPageModal}
+          className={props.classes.root}
+        >
+          Add new page
+        </MenuItem>
+        <MenuItem
+          onClick={deploy}
+          className={`${props.classes.highlight} ${props.classes.root}`}
+          divider
+        >
+          Publish changes
+        </MenuItem>
+        <MenuItem
+          onClick={deletePage}
+          className={`${props.classes.danger} ${props.classes.root}`}
+        >
+          Delete this page
+        </MenuItem>
+      </List>
 
       <CreatePageModalContainer
         pages={props.pages}
@@ -113,21 +125,22 @@ const ConnectedContent = (props) => {
   );
 };
 
-const AdminSection = (props) => {
+const AdminSection = props => {
   if (props.allowEditing) {
-    return(
-      <Button color="default" onClick={props.onClick} >
-        <span style={styles.iconLabel}>
-          Admin
-        </span>
+    return (
+      <Button color="default" onClick={props.onClick}>
+        <span style={styles.iconLabel}>Admin</span>
         <AdminIcon />
       </Button>
-    )
+    );
   }
-  return <div />
+  return <div />;
 };
 
+export const AdminSectionContent = connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(ConnectedContent)
+);
 
-export const AdminSectionContent = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ConnectedContent));
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdminSection));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(AdminSection)
+);

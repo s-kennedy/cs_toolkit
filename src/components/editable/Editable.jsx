@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { saveChanges } from "../../redux/actions"
 import EditorWrapper from "../editingTools/EditorWrapper";
 
 class Editable extends React.Component {
@@ -19,7 +20,7 @@ class Editable extends React.Component {
 
   handleSave = () => {
     this.toggleEditing();
-    this.props.handleSave(this.editor.state.content);
+    this.props.saveChanges(this.props.handleSave(this.editor.state.content));
   };
 
   render() {
@@ -58,10 +59,19 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    saveChanges: (innerFunction) => {
+      dispatch(saveChanges(innerFunction))
+    }
+  }
+}
+
+
 Editable.propTypes = {
   editor: PropTypes.func.isRequired,
   handleChange: PropTypes.func,
   content: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Editable);
+export default connect(mapStateToProps, mapDispatchToProps)(Editable);

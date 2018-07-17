@@ -5,9 +5,7 @@ import RichTextEditor from '../editingTools/RichTextEditor'
 
 
 const Paragraph = (props) => {
-  const handleSave = content => {
-    props.updateContent(props.sectionIndex, props.index, content)
-  }
+  const handleSave = content => () => props.updateContent(props.sectionIndex, props.index, content)
 
   return (
     <Editable

@@ -22,7 +22,7 @@ const styles = {
 };
 
 const PageNavButton = props => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.updateContent(props.sectionIndex, props.index, content)
   }
 

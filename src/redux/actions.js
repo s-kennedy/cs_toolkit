@@ -66,7 +66,6 @@ export function deletePage(id) {
 export function savePage(pageData, content) {
   return dispatch => {
     dispatch(savingPage());
-
     const db = firebase.database();
     const id = pageData.id;
     const data = {
@@ -88,6 +87,19 @@ export function savePage(pageData, content) {
     });
   };
 }
+
+export function saveChanges(innerFunction) {
+  return (dispatch, getState) => {
+    Promise.resolve(dispatch(innerFunction))
+    .then(() => {
+      const pageData = getState().pageData;
+      const pageContent = getState().content;
+
+      dispatch(savePage(pageData, pageContent))
+    })
+  }
+}
+
 
 export function deploy() {
   return dispatch => {

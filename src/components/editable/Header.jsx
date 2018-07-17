@@ -11,7 +11,7 @@ const styles = {
 };
 
 const Header = (props) => {
-  const handleSave = content => {
+  const handleSave = content => () => {
     props.updateContent(props.sectionIndex, props.index, content)
   }
 

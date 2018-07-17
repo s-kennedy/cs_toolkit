@@ -6,7 +6,7 @@ import PlainTextEditor from '../editingTools/PlainTextEditor'
 
 
 const Subtitle = (props) => {
-  const handleSave = (newContent) => {
+  const handleSave = (newContent) => () => {
     props.updateTitle(newContent.text)
   }
 

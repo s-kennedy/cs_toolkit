@@ -137,11 +137,11 @@ export const AccountSectionContent = connect(mapStateToProps, mapDispatchToProps
         component={Link}
         to={"/dashboard"}
         onClick={props.closeMenu}
-        style={{ fontSize: '1rem' }}
+        className={props.classes.root}
       >
         Dashboard
       </MenuItem>
-      <MenuItem onClick={logout}>Sign out</MenuItem>
+      <MenuItem onClick={logout} className={props.classes.root}>Sign out</MenuItem>
     </List>
   )
 })
