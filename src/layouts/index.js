@@ -39,11 +39,9 @@ const TemplateWrapper = props => (
         charSet="utf-8"
         description="Child Sensitivity in Poverty Alleviation Programming: An Analytical Toolkit"
         keywords="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
-        viewport="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
+        viewport="width=device-width,initial-scale=1.0,maximum-scale=1"
       />
       <link rel="icon" href={favicon} type="image/x-icon" />
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous" />
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous" />
     </Helmet>
     <NotificationContainer />
     <NavigationContainer />
