@@ -89,10 +89,10 @@ const ConnectedContent = (props) => {
         <List
           id="editor-dropdown"
         >
-          <MenuItem onClick={props.onToggleEditing}>Start editing</MenuItem>
-          <MenuItem onClick={props.onToggleNewPageModal}>Add new page</MenuItem>
-          <MenuItem onClick={deploy} className={props.classes.highlight} divider>Publish changes</MenuItem>
-          <MenuItem onClick={deletePage} className={props.classes.danger}>Delete this page</MenuItem>
+          <MenuItem onClick={props.onToggleEditing} className={props.classes.root}>Start editing</MenuItem>
+          <MenuItem onClick={props.onToggleNewPageModal} className={props.classes.root}>Add new page</MenuItem>
+          <MenuItem onClick={deploy} className={`${props.classes.highlight} ${props.classes.root}`} divider>Publish changes</MenuItem>
+          <MenuItem onClick={deletePage} className={`${props.classes.danger} ${props.classes.root}`}>Delete this page</MenuItem>
         </List>
       )}
 

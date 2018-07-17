@@ -178,7 +178,7 @@ class Navigation extends React.Component {
                       <AccountSection />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                      <AccountSectionContent closeMenu={this.closeMenu} />
+                      <AccountSectionContent closeMenu={this.closeMenu} classes={this.props.classes} />
                     </ExpansionPanelDetails>
                   </ExpansionPanel> :
                   <ListItem>
@@ -193,7 +193,7 @@ class Navigation extends React.Component {
                       <AdminSection />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                      <AdminSectionContent closeMenu={this.closeMenu} />
+                      <AdminSectionContent closeMenu={this.closeMenu} classes={this.props.classes} />
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
                 }

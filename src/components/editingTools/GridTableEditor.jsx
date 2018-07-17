@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -33,9 +34,10 @@ const styles = {
     height: '100%',
     background: 'none',
     border: 'none',
+    fontSize: '18px',
   },
   input: {
-    fontSize: "0.8rem",
+    fontSize: '18px',
   },
   row: {
     marginBottom: "1rem"
@@ -75,11 +77,17 @@ const EditablGridItem = props => {
   return (
     <Grid item xs={4} className={props.classes.item}>
       <div className={props.classes.innerItem}>
-        <textarea
+        <TextField
+          fullWidth
           value={props.children}
           onChange={props.handleChange}
           multiline={true}
+          rows="6"
           className={props.classes.formControl}
+          InputProps={{
+            disableUnderline: true,
+            className: props.classes.formControl
+          }}
         />
       </div>
     </Grid>

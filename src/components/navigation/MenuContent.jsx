@@ -28,6 +28,7 @@ const MenuContent = props => {
             component={Link}
             to={`/${page.slug}`}
             onClick={props.closeMenu}
+            className={props.classes.root}
           >
             {pageTitle}
           </MenuItem>

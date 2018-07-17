@@ -117,7 +117,7 @@ const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAdd
 const InnerContentContainer = (props) => {
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ ...props.styles }}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
       {
         props.isEditingPage &&

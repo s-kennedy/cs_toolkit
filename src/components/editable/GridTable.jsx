@@ -21,23 +21,8 @@ const styles = {
     backgroundColor: "#f3f7f6",
     height: "100%",
     width: "100%",
-    padding: "0.6rem"
-  },
-  addItem: {
-    border: "1px solid green"
-  },
-  formControl: {
-    flexGrow: "1"
-  },
-  input: {
-    fontSize: "1rem"
-  },
-  row: {
-    marginBottom: "1rem"
-  },
-  deleteButton: {
-    width: "30px",
-    height: "30px"
+    padding: "0.6rem",
+    fontSize: '18px',
   },
   label: {
     fontWeight: "bold",
@@ -49,7 +34,7 @@ const styles = {
   },
   miniLabel: {
     textTransform: "uppercase",
-    fontSize: "0.7rem"
+    fontSize: "0.8rem"
   },
   verticalLabel: {
     display: "flex",
