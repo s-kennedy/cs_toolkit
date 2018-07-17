@@ -1,50 +1,35 @@
 import React from 'react'
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import { Editor } from 'react-draft-wysiwyg';
-import { convertToRaw, EditorState, ContentState } from 'draft-js';
-
-import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import TextEditor, { createValueFromString } from 'react-rte';
 
 class RichTextEditor extends React.Component {
-  static propTypes = {};
-
   constructor(props) {
     super(props);
-    this.state = { content: this.props.content }
-    this.initializeEditorState = () => this._initializeEditorState();
-    this.handleEditorStateChange = (state) => this._handleEditorStateChange(state)
+    this.state = { content: this.props.content, editorValue: null }
   }
 
   componentDidMount() {
     this.initializeEditorState();
   }
 
-  _initializeEditorState() {
-    const blocksFromHtml = htmlToDraft(this.state.content.text);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    const editorState = EditorState.createWithContent(contentState);
-
-    this.setState({ editorState });
+  initializeEditorState = () => {
+    const editorValue = createValueFromString(this.state.content.text, 'html');
+    this.setState({ editorValue });
   }
 
-  _handleEditorStateChange(editorState) {
-    this.setState({
-      editorState,
-      content: {
-        text: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
-      }
-    });
-  };
+  onChange = (editorValue) => {
+    const text = editorValue.toString('html')
+    this.setState({ editorValue, content: { text } })
+  }
 
 
   render() {
-    const { editorState } = this.state;
+    const { editorValue } = this.state;
 
-    return (
-      <Editor editorState={editorState} onEditorStateChange={this.handleEditorStateChange} />
-    )
+    if (editorValue) {
+      return (<TextEditor value={editorValue} onChange={this.onChange} />)
+    }
+
+    return (<div />)
   }
 };
 
