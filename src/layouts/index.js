@@ -9,7 +9,6 @@ import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
 import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
 import NotificationContainer from "../containers/NotificationContainer";
-import Footer from "../components/Footer";
 import Grid from "@material-ui/core/Grid";
 
 import "../assets/sass/custom.scss";
@@ -56,7 +55,6 @@ const TemplateWrapper = props => (
         <SidebarNavigationContainer />
       </Grid>
     </Grid>
-    <Footer />
   </div>
 );
 

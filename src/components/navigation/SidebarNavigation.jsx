@@ -53,7 +53,7 @@ const styles = theme => ({
     paddingTop: "8px",
     paddingLeft: "8px",
     paddingRight: "8px",
-    paddingBottom: "90px"
+    paddingBottom: "8px"
   }
 });
 

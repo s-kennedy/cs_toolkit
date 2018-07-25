@@ -11,10 +11,13 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
   },
+  link: {
+    color: '#FFF',
+    display: 'flex',
+  },
   text: {
     marginLeft: '1rem',
     marginRight: '1rem',
-    color: '#FFF',
   },
   icon: {
     fontSize: '2rem'
@@ -38,9 +41,9 @@ const PageNavButton = props => {
       {...props}
     >
       <div className="page-nav" style={styles.container}>
-        <ArrowIcon style={iconStyles} />
-        <Link to={props.link} style={styles.text}>
-          {props.anchor}
+        <Link to={props.link} style={styles.link}>
+          <ArrowIcon style={iconStyles} />
+          <span style={styles.text}>{props.anchor}</span>
         </Link>
       </div>
     </Editable>
