@@ -17,7 +17,7 @@ const styles = theme => ({
   drawerPaper: {
     maxWidth: "25vw",
     minWidth: "280px",
-    background: theme.palette.grey[100]
+    background: "#f3f7f6",
   },
   toolbar: {
     justifyContent: "space-between",
@@ -51,6 +51,8 @@ const styles = theme => ({
   },
   padding: {
     paddingTop: "8px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
     paddingBottom: "90px"
   }
 });
@@ -114,7 +116,7 @@ class Navigation extends React.Component {
     return (
       <Hidden smDown>
         <Drawer
-          anchor="left"
+          anchor="right"
           variant="permanent"
           elevation={12}
           classes={{
@@ -129,7 +131,7 @@ class Navigation extends React.Component {
                 find(pages, page => {
                   return `/${page.node.slug}` === currentPath;
                 })
-              );
+              ) || (section.navGroup === 'about' && currentPath === '/')
 
               return (
                 <ExpansionPanel
