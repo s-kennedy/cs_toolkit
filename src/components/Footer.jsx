@@ -5,7 +5,9 @@ const styles = {
   footer: {
     display: 'flex',
     boxShadow: '0px -2px 4px rgba(0,0,0,0.1)',
-    paddingTop: '20px'
+    paddingTop: '20px',
+    background: '#fff',
+    zIndex: '14000'
   },
   container: {
     display: 'flex',

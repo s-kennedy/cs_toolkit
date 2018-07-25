@@ -141,26 +141,6 @@ class Navigation extends React.Component {
               />
             </Link>
             <div className={this.props.classes.actions}>
-              {menuSections.map(section => {
-                return (
-                  <div
-                    key={section.navGroup}
-                    className={
-                      this.state.selected === section.navGroup &&
-                      this.state.openMenu
-                        ? this.props.classes.selected
-                        : null
-                    }
-                  >
-                    <Button
-                      onClick={this.toggleMenu(section.navGroup)}
-                      className={this.props.classes[section.color]}
-                    >
-                      {section.title}
-                    </Button>
-                  </div>
-                );
-              })}
               <div
                 className={
                   this.state.selected === "account" &&

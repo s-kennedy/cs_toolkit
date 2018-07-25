@@ -7,8 +7,10 @@ import { closeMenu } from "../redux/actions";
 
 import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
+import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
 import NotificationContainer from "../containers/NotificationContainer";
 import Footer from "../components/Footer";
+import Grid from "@material-ui/core/Grid";
 
 import "../assets/sass/custom.scss";
 import favicon from '../assets/img/favicon.png'
@@ -46,7 +48,14 @@ const TemplateWrapper = props => (
     <NotificationContainer />
     <NavigationContainer />
     <div style={styles.navbarOffset} />
-    <div style={styles.body}>{props.children}</div>
+    <Grid container>
+      <Grid item md={3}>
+        <SidebarNavigationContainer />
+      </Grid>
+      <Grid item md={9}>
+        <div style={styles.body}>{props.children}</div>
+      </Grid>
+    </Grid>
     <Footer />
   </div>
 );

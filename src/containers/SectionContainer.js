@@ -68,7 +68,7 @@ const SectionContainer = (props) => {
     return (
       <section className={`${props.cta ? 'call-to-action' : 'section'} ${props.classes}`}>
         <Grid container style={styles.container} justify="center">
-          <Grid item xs={12} sm={10} md={8}>
+          <Grid item xs={12} sm={10}>
             <InnerContentContainer
               sectionIndex={props.index}
               content={props.content}

@@ -57,8 +57,7 @@ const NavigationComponent = props => (
     `}
     render={data => (
       <div>
-        <Navigation {...props} pages={data.allPages.edges} />
-        <MobileNavigation {...props} pages={data.allPages.edges} />
+        <SidebarNavigation { ...props} pages={data.allPages.edges} />
       </div>
     )}
   />
