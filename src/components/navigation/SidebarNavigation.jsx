@@ -1,35 +1,27 @@
 import React from "react";
-import { Link } from "gatsby";
-import { filter, orderBy } from "lodash";
+import { filter, orderBy, find } from "lodash";
+import { withRouter } from "react-router";
 
 import { withStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Drawer from '@material-ui/core/Drawer';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Drawer from "@material-ui/core/Drawer";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import logo from "../../assets/img/coalition-logo.png";
-import RegistrationModal from "./RegistrationModal";
 import MenuContent from "./MenuContent";
-
 
 const styles = theme => ({
   drawerPaper: {
-    maxWidth: '25vw',
-    minWidth: '280px',
-    background: theme.palette.grey[100],
+    maxWidth: "25vw",
+    minWidth: "280px",
+    background: theme.palette.grey[100]
   },
   toolbar: {
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   actions: {
     display: "flex",
@@ -41,25 +33,25 @@ const styles = theme => ({
     marginTop: "4px"
   },
   yellow: {
-    color: "#f7a700",
+    color: "#f7a700"
   },
   orange: {
-    color: "#f06b33",
+    color: "#f06b33"
   },
   teal: {
-    color: "#01b4aa",
+    color: "#01b4aa"
   },
   root: {
-    fontSize: '1rem',
-    whiteSpace: 'normal',
-    height: 'auto',
+    fontSize: "1rem",
+    whiteSpace: "normal",
+    height: "auto"
   },
   navbarOffset: {
-    height: '74px'
+    height: "74px"
   },
   padding: {
-    paddingTop: '8px',
-    paddingBottom: '90px'
+    paddingTop: "8px",
+    paddingBottom: "90px"
   }
 });
 
@@ -106,7 +98,7 @@ class Navigation extends React.Component {
     super(props);
     this.state = {
       anchorEl: null
-    }
+    };
   }
 
   filterPagesByType = type => {
@@ -116,17 +108,8 @@ class Navigation extends React.Component {
     );
   };
 
-  openMenu = e => {
-    this.setState({ anchorEl: e.currentTarget })
-  }
-
-  closeMenu = e => {
-    this.setState({ anchorEl: null })
-  }
-
   render() {
-    const openModal = Boolean(this.props.showRegistrationModal);
-    const openMenu = Boolean(this.state.anchorEl)
+    const currentPath = this.props.location.pathname;
 
     return (
       <Hidden smDown>
@@ -135,23 +118,35 @@ class Navigation extends React.Component {
           variant="permanent"
           elevation={12}
           classes={{
-            paper: this.props.classes.drawerPaper,
+            paper: this.props.classes.drawerPaper
           }}
         >
           <List className={this.props.classes.padding}>
-          <div className={this.props.classes.navbarOffset} />
+            <div className={this.props.classes.navbarOffset} />
             {menuSections.map(section => {
               const pages = this.filterPagesByType(section.navGroup);
+              const defaultExpanded = Boolean(
+                find(pages, page => {
+                  return `/${page.node.slug}` === currentPath;
+                })
+              );
+
               return (
-                <ExpansionPanel key={`mobile-${section.navGroup}`} className={this.props.classes.expanded}>
-                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={this.props.classes[section.color]}>
+                <ExpansionPanel
+                  key={`mobile-${section.navGroup}`}
+                  className={this.props.classes.expanded}
+                  defaultExpanded={defaultExpanded}
+                >
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    className={this.props.classes[section.color]}
+                  >
                     {section.title}
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <MenuContent
-                      navGroup={this.state.selected}
                       menuItems={pages}
-                      closeMenu={this.closeMenu}
+                      currentPath={currentPath}
                       {...this.props}
                     />
                   </ExpansionPanelDetails>
@@ -165,4 +160,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default withStyles(styles)(Navigation);
+export default withStyles(styles)(withRouter(Navigation));

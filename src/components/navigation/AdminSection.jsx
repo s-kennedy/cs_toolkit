@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   toggleEditing,
-  savePage,
   toggleNewPageModal,
   createPage,
   deletePage,
@@ -57,9 +56,6 @@ const mapDispatchToProps = dispatch => {
     deletePage: id => {
       dispatch(deletePage(id));
     },
-    savePage: (pageData, content) => {
-      dispatch(savePage(pageData, content));
-    },
     deploy: () => {
       dispatch(deploy());
     }
@@ -67,9 +63,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const ConnectedContent = props => {
-  const savePageToDatabase = () => {
-    props.savePage(props.pageData, props.content);
-  };
 
   const deletePage = () => {
     props.deletePage(props.pageData.id);

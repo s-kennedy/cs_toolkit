@@ -11,7 +11,6 @@ import {
 
 import Navigation from "../components/navigation/Navigation";
 import MobileNavigation from "../components/navigation/MobileNavigation";
-import SidebarNavigation from "../components/navigation/SidebarNavigation";
 
 const mapStateToProps = state => {
   return {
@@ -57,8 +56,12 @@ const NavigationComponent = props => (
     `}
     render={data => (
       <div>
-        <Navigation {...props} pages={data.allPages.edges} />
-        <MobileNavigation {...props} pages={data.allPages.edges} />
+        <Hidden mdUp>
+          <MobileNavigation {...props} pages={data.allPages.edges} />
+        </Hidden>
+        <Hidden smDown>
+          <Navigation {...props} pages={data.allPages.edges} />
+        </Hidden>
       </div>
     )}
   />

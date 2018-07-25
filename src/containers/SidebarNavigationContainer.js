@@ -2,15 +2,12 @@ import React from 'react';
 import { connect } from "react-redux";
 import { StaticQuery, graphql } from "gatsby";
 
-import Hidden from "@material-ui/core/Hidden";
 import {
   userLoggedIn,
   userLoggedOut,
   toggleRegistrationModal,
 } from "../redux/actions";
 
-import Navigation from "../components/navigation/Navigation";
-import MobileNavigation from "../components/navigation/MobileNavigation";
 import SidebarNavigation from "../components/navigation/SidebarNavigation";
 
 const mapStateToProps = state => {

@@ -19,16 +19,19 @@ const MenuContent = props => {
     <List>
       {props.menuItems.map(pageNode => {
         const page = pageNode.node;
+        const pageUrl = `/${page.slug}`
         const pageTitle = page.navigation.displayTitle || page.title;
+        const selected = pageUrl === props.currentPath;
 
         return (
           <MenuItem
             tabIndex={0}
             key={page.slug}
             component={Link}
-            to={`/${page.slug}`}
+            to={pageUrl}
             onClick={props.closeMenu}
             className={props.classes.root}
+            selected={selected}
           >
             {pageTitle}
           </MenuItem>

@@ -5,7 +5,6 @@ import { filter, orderBy } from "lodash";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 
 import logo from "../../assets/img/coalition-logo.png";
@@ -54,44 +53,6 @@ const styles = theme => ({
     borderBottom: `2px solid ${theme.palette.secondary.main}`
   }
 });
-
-const menuSections = [
-  {
-    title: "Introduction",
-    color: null,
-    navGroup: "about"
-  },
-  {
-    title: "A: Analysis",
-    color: "yellow",
-    navGroup: "building_block_a"
-  },
-  {
-    title: "B: Design",
-    color: "orange",
-    navGroup: "building_block_b"
-  },
-  {
-    title: "C: MEAL",
-    color: "teal",
-    navGroup: "building_block_c"
-  },
-  {
-    title: "Case Study",
-    color: null,
-    navGroup: "case_study"
-  },
-  {
-    title: "Tools",
-    color: null,
-    navGroup: "tools"
-  },
-  {
-    title: "Reference",
-    color: null,
-    navGroup: "reference"
-  }
-];
 
 class Navigation extends React.Component {
   constructor(props) {
