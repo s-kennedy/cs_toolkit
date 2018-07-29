@@ -70,22 +70,22 @@ const menuSections = [
   {
     title: "A: Analysis",
     color: "yellow",
-    navGroup: "building_block_a"
+    navGroup: "analysis"
   },
   {
     title: "B: Design",
     color: "orange",
-    navGroup: "building_block_b"
+    navGroup: "design"
   },
   {
     title: "C: MEAL",
     color: "teal",
-    navGroup: "building_block_c"
+    navGroup: "meal"
   },
   {
     title: "Case Study",
     color: null,
-    navGroup: "case_study"
+    navGroup: "case-study"
   },
   {
     title: "Tools",

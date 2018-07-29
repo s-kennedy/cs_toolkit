@@ -1,5 +1,5 @@
 import React from "react";
-import { filter, orderBy, find } from "lodash";
+import { filter, orderBy } from "lodash";
 import { withRouter } from "react-router";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -66,22 +66,22 @@ const menuSections = [
   {
     title: "A: Analysis",
     color: "yellow",
-    navGroup: "building_block_a"
+    navGroup: "analysis"
   },
   {
     title: "B: Design",
     color: "orange",
-    navGroup: "building_block_b"
+    navGroup: "design"
   },
   {
     title: "C: MEAL",
     color: "teal",
-    navGroup: "building_block_c"
+    navGroup: "meal"
   },
   {
     title: "Case Study",
     color: null,
-    navGroup: "case_study"
+    navGroup: "case-study"
   },
   {
     title: "Tools",
@@ -127,11 +127,8 @@ class Navigation extends React.Component {
             <div className={this.props.classes.navbarOffset} />
             {menuSections.map(section => {
               const pages = this.filterPagesByType(section.navGroup);
-              const defaultExpanded = Boolean(
-                find(pages, page => {
-                  return `/${page.node.slug}` === currentPath;
-                })
-              ) || (section.navGroup === 'about' && currentPath === '/')
+              const currentPageSection = currentPath.split('/')[1];
+              const defaultExpanded = (currentPageSection === section.navGroup) || (section.navGroup === 'about' && currentPath === '/')
 
               return (
                 <ExpansionPanel

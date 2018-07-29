@@ -4,7 +4,6 @@ module.exports = {
   siteMetadata: {
     title: `Save the Children Toolkit website`,
   },
-  pathPrefix: `/stc_toolkit_cms`,
   plugins: [
     {
       resolve: `gatsby-plugin-manifest`,

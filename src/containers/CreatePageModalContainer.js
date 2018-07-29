@@ -67,12 +67,13 @@ class CreatePageModalComponent extends React.Component {
   }
 
   _onSubmit() {
+    const slugifiedTitle = slugify(this.state.page.title, {
+      lower: true,
+      remove: /[$*_+~.,()'"!\-:@%^&?=]/g
+    })
     const pageData = {
       title: this.state.page.title,
-      slug: slugify(this.state.page.title, {
-        lower: true,
-        remove: /[$*_+~.,()'"!\-:@%^&?=]/g
-      }),
+      slug: `${this.state.page.navigationGroup}/${slugifiedTitle}`,
       page_type: this.state.page.type.type,
       template: this.state.page.type.template,
       navigation: {
