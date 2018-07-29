@@ -44,10 +44,17 @@ const NavigationComponent = props => (
             node {
               title
               slug
+              page_type
               navigation {
+                displayTitle
                 group
                 order
-                displayTitle
+                nested {
+                  page {
+                    slug
+                    title
+                  }
+                }
               }
             }
           }

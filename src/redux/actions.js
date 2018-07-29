@@ -38,28 +38,45 @@ export function toggleNewPageModal() {
 
 export function createPage(pageData) {
   return dispatch => {
-    firebase.database().ref('pages').push(pageData, () => {
-      dispatch(toggleNewPageModal());
-      dispatch(
-        showNotification(
-          "Your page has been saved. Publish your changes to view and edit your new page.",
-          "success"
-        )
-      );
-    });
+    firebase
+      .database()
+      .ref("pages")
+      .push(pageData, () => {
+        if (Boolean(pageData.navigation.parentPage)) {
+          firebase
+            .database()
+            .ref(`pages/${pageData.navigation.parentPage}/navigation/nested`)
+            .push({
+              title: pageData.title,
+              slug: pageData.slug,
+              navigation: pageData.navigation
+            });
+        }
+
+        dispatch(toggleNewPageModal());
+        dispatch(
+          showNotification(
+            "Your page has been saved. Publish your changes to view and edit your new page.",
+            "success"
+          )
+        );
+      });
   };
 }
 
 export function deletePage(id) {
   return dispatch => {
-    firebase.database().ref(`pages/${id}`).remove(() => {
-      dispatch(
-        showNotification(
-          "This page has been deleted. Publish your changes to make them public.",
-          "success"
-        )
-      );
-    });
+    firebase
+      .database()
+      .ref(`pages/${id}`)
+      .remove(() => {
+        dispatch(
+          showNotification(
+            "This page has been deleted. Publish your changes to make them public.",
+            "success"
+          )
+        );
+      });
   };
 }
 
@@ -74,10 +91,10 @@ export function savePage(pageData, content) {
     };
 
     if (!!content.header) {
-      data['page_header'] = content.header;
+      data["page_header"] = content.header;
     }
 
-    db.ref(`pages/${id}`).update(data, (res) => {
+    db.ref(`pages/${id}`).update(data, res => {
       return dispatch(
         showNotification(
           "Your changes have been saved. Publish your changes to make them public.",
@@ -90,16 +107,14 @@ export function savePage(pageData, content) {
 
 export function saveChanges(innerFunction) {
   return (dispatch, getState) => {
-    Promise.resolve(dispatch(innerFunction))
-    .then(() => {
+    Promise.resolve(dispatch(innerFunction)).then(() => {
       const pageData = getState().pageData;
       const pageContent = getState().content;
 
-      dispatch(savePage(pageData, pageContent))
-    })
-  }
+      dispatch(savePage(pageData, pageContent));
+    });
+  };
 }
-
 
 export function deploy() {
   return dispatch => {
@@ -203,21 +218,25 @@ export function addSection(sectionIndex, sectionType) {
 // NAVIGATION ------------------------
 
 export function openMenu() {
-  return { type: "OPEN_MENU" }
+  return { type: "OPEN_MENU" };
 }
 
 export function closeMenu() {
-  return { type: "CLOSE_MENU" }
+  return { type: "CLOSE_MENU" };
 }
 
 // INTERACTIVE TOOLS ----------------------
 
 export function getToolData(toolId) {
   return dispatch => {
-    firebase.database().ref(`interactive_tools/${toolId}`).once('value').then(snapshot => {
-      const toolData = snapshot.val();
-      dispatch(updateToolData(toolData));
-    });
+    firebase
+      .database()
+      .ref(`interactive_tools/${toolId}`)
+      .once("value")
+      .then(snapshot => {
+        const toolData = snapshot.val();
+        dispatch(updateToolData(toolData));
+      });
   };
 }
 
@@ -226,31 +245,31 @@ export function saveToolData(toolId, toolData, slug, toolType) {
     const state = getState();
 
     if (!state.adminTools.isLoggedIn) {
-      return dispatch(showNotification("Please log in to save your work.", "warning"))
+      return dispatch(
+        showNotification("Please log in to save your work.", "warning")
+      );
     }
 
-    const userId = state.adminTools.user.uid
-    const newToolData = { ...toolData, userId: userId }
-    const title = toolData.title ? toolData.title : 'No title'
+    const userId = state.adminTools.user.uid;
+    const newToolData = { ...toolData, userId: userId };
+    const title = toolData.title ? toolData.title : "No title";
 
     const dataToUpdate = {
       [`/interactive_tools/${toolId}`]: newToolData,
       [`/users/${userId}/interactive_tools/${toolId}`]: {
         title: title,
         slug: slug,
-        toolType: toolType,
+        toolType: toolType
       }
-    }
+    };
 
-    firebase.database().ref().update(dataToUpdate, () => {
-      dispatch(updateToolData(toolData));
-      dispatch(
-        showNotification(
-          "Your changes have been saved.",
-          "success"
-        )
-      );
-    });
+    firebase
+      .database()
+      .ref()
+      .update(dataToUpdate, () => {
+        dispatch(updateToolData(toolData));
+        dispatch(showNotification("Your changes have been saved.", "success"));
+      });
   };
 }
 

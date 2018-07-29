@@ -18,7 +18,6 @@ module.exports = {
         icon: "static/icon.png" // This path is relative to the root of the site.
       },
     },
-    'gatsby-plugin-offline',
     `gatsby-plugin-react-helmet`,
     {
       resolve: "gatsby-source-firebase",
@@ -31,6 +30,11 @@ module.exports = {
             path: "pages",
             map: node => {
               node.content = JSON.stringify(node.content);
+              if (node.navigation.nested) {
+                node.navigation.nested = Object.keys(node.navigation.nested).map(key => {
+                  return { _key: key, page: node.navigation.nested[key] }
+                })
+              }
 
               return node
             },

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   toggleEditing,
   toggleNewPageModal,
-  createPage,
   deletePage,
   deploy
 } from "../../redux/actions";
@@ -49,9 +48,6 @@ const mapDispatchToProps = dispatch => {
     },
     onToggleNewPageModal: () => {
       dispatch(toggleNewPageModal());
-    },
-    createPage: pageData => {
-      dispatch(createPage(pageData));
     },
     deletePage: id => {
       dispatch(deletePage(id));
@@ -112,7 +108,6 @@ const ConnectedContent = props => {
 
       <CreatePageModalContainer
         pages={props.pages}
-        createPage={props.createPage}
       />
     </div>
   );
