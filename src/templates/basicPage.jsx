@@ -13,8 +13,8 @@ class BasicPage extends React.Component {
 
   constructor(props) {
     super(props);
-    const { id, title, slug, page_type } = this.props.data.pages;
-    const pageData = { id, title, slug, page_type };
+    const { id, title, slug, page_type, navigation } = this.props.data.pages;
+    const pageData = { id, title, slug, page_type, navigation };
     const content = {
       body: JSON.parse(this.props.data.pages.content)
     }
@@ -64,6 +64,9 @@ export const query = graphql`
       slug
       template
       page_type
+      navigation {
+        parentPage
+      }
     }
   }
 `;

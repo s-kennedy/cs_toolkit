@@ -32,7 +32,7 @@ module.exports = {
               node.content = JSON.stringify(node.content);
               if (node.navigation.nested) {
                 node.navigation.nested = Object.keys(node.navigation.nested).map(key => {
-                  return { _key: key, page: node.navigation.nested[key] }
+                  return { id: key }
                 })
               }
 

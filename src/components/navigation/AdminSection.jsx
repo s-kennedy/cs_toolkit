@@ -49,8 +49,8 @@ const mapDispatchToProps = dispatch => {
     onToggleNewPageModal: () => {
       dispatch(toggleNewPageModal());
     },
-    deletePage: id => {
-      dispatch(deletePage(id));
+    deletePage: pageData => {
+      dispatch(deletePage(pageData));
     },
     deploy: () => {
       dispatch(deploy());
@@ -61,7 +61,7 @@ const mapDispatchToProps = dispatch => {
 const ConnectedContent = props => {
 
   const deletePage = () => {
-    props.deletePage(props.pageData.id);
+    props.deletePage(props.pageData);
     props.closeMenu();
   };
 

@@ -38,21 +38,14 @@ export function toggleNewPageModal() {
 
 export function createPage(pageData) {
   return dispatch => {
-    firebase
-      .database()
+    const db = firebase.database();
+    db
       .ref("pages")
-      .push(pageData, () => {
-        if (Boolean(pageData.navigation.parentPage)) {
-          firebase
-            .database()
-            .ref(`pages/${pageData.navigation.parentPage}/navigation/nested`)
-            .push({
-              title: pageData.title,
-              slug: pageData.slug,
-              navigation: pageData.navigation
-            });
-        }
-
+      .push(pageData)
+      .then(snap => {
+        db
+          .ref(`pages/${pageData.navigation.parentPage}/navigation/nested/${snap.key}`)
+          .set(true);
         dispatch(toggleNewPageModal());
         dispatch(
           showNotification(
@@ -64,11 +57,16 @@ export function createPage(pageData) {
   };
 }
 
-export function deletePage(id) {
+export function deletePage(page) {
   return dispatch => {
-    firebase
-      .database()
-      .ref(`pages/${id}`)
+    const db = firebase.database();
+
+    if (page.navigation.parentPage) {
+      db.ref(`pages/${page.navigation.parentPage}/navigation/nested/${page.id}`).remove();
+    }
+
+    db
+      .ref(`pages/${page.id}`)
       .remove(() => {
         dispatch(
           showNotification(

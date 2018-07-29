@@ -40,6 +40,7 @@ const NavigationComponent = props => (
         allPages {
           edges {
             node {
+              id
               title
               slug
               page_type
@@ -48,10 +49,7 @@ const NavigationComponent = props => (
                 group
                 order
                 nested {
-                  page {
-                    slug
-                    title
-                  }
+                  id
                 }
               }
             }

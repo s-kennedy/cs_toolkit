@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "gatsby";
 import MenuItem from "@material-ui/core/MenuItem";
 import List from "@material-ui/core/List";
+import { find } from "lodash";
 
 import { AccountSectionContent } from "./AccountSection";
 import { AdminSectionContent } from "./AdminSection";
 
 const MenuItemComponent = props => {
   const pageUrl = `/${props.page.slug}`;
-  const pageTitle = props.page.title;
+  const pageTitle = props.page.navigation.displayTitle || props.page.title;
   const selected = pageUrl === props.currentPath;
 
   return (
@@ -55,10 +56,11 @@ const MenuContent = props => {
             <MenuItemComponent page={page} {...props} />
             {Boolean(page.navigation.nested) &&
               page.navigation.nested.map(nestedPage => {
+                const page = find(props.pages, (p) => p.node.id === nestedPage.id)
                 return (
                   <MenuItemComponent
-                    key={nestedPage.page.slug}
-                    page={nestedPage.page}
+                    key={page.node.id}
+                    page={page.node}
                     nested={true}
                     {...props}
                   />
