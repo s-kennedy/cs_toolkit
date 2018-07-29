@@ -1,15 +1,11 @@
 import React from "react";
 
-import withRoot from '../utils/withRoot';
-
-import { connect } from 'react-redux'
-import { closeMenu } from "../redux/actions";
-
 import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
 import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
 import NotificationContainer from "../containers/NotificationContainer";
 import Grid from "@material-ui/core/Grid";
+import withRoot from '../utils/withRoot';
 
 import "../assets/sass/custom.scss";
 import favicon from '../assets/img/favicon.png'
@@ -58,18 +54,4 @@ const TemplateWrapper = props => (
   </div>
 );
 
-function mapStateToProps(state) {
-  return {
-    showMenu: state.navigation.showMenu
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    closeMenu: () => {
-      dispatch(closeMenu());
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRoot(TemplateWrapper))
+export default withRoot(TemplateWrapper);

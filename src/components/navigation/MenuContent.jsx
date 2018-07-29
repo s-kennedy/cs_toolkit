@@ -15,7 +15,7 @@ const MenuItemComponent = props => {
   return (
     <MenuItem
       tabIndex={0}
-      key={props.page.slug}
+      key={props.page.id}
       component={Link}
       to={pageUrl}
       onClick={props.closeMenu}
