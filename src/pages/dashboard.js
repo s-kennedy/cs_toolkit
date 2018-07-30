@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "gatsby";
+// import { Link } from "gatsby";
 import { connect } from "react-redux";
 import { map } from "lodash";
 
@@ -50,7 +50,7 @@ const Dashboard = props => {
                       <TableRow key={uid}>
                         <TableCell padding="dense">{type}</TableCell>
                         <TableCell padding="dense">
-                          <Link to={`${tool.slug}?id=${uid}`}>{tool.title}</Link>
+                          <a href={`${tool.slug}?id=${uid}`}>{tool.title}</a>
                         </TableCell>
                       </TableRow>
                     );

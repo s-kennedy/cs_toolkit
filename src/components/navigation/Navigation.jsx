@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "gatsby";
+// import { Link } from "gatsby";
 import { filter, orderBy } from "lodash";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -94,13 +94,13 @@ class Navigation extends React.Component {
           className={this.props.classes.appBar}
         >
           <Toolbar className={this.props.classes.toolbar}>
-            <Link to="/">
+            <a href="/">
               <img
                 className={this.props.classes.logo}
                 src={logo}
                 alt="Save the Children"
               />
-            </Link>
+            </a>
             <div className={this.props.classes.actions}>
               <div
                 className={

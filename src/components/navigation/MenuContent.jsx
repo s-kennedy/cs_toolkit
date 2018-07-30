@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "gatsby";
+// import { Link } from "gatsby";
 import MenuItem from "@material-ui/core/MenuItem";
 import List from "@material-ui/core/List";
 import { find } from "lodash";
@@ -16,14 +16,14 @@ const MenuItemComponent = props => {
     <MenuItem
       tabIndex={0}
       key={props.page.id}
-      component={Link}
-      to={pageUrl}
       onClick={props.closeMenu}
       className={`${props.classes.root}`}
       selected={selected}
       style={props.nested ? { marginLeft: '16px' } : {}}
     >
-      {pageTitle}
+      <a href={pageUrl} className="plain">
+        {pageTitle}
+      </a>
     </MenuItem>
   );
 };

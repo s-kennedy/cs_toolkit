@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "gatsby";
+// import { Link } from "gatsby";
 import LinkIcon from "@material-ui/icons/Link";
 
 import Editable from "./Editable";
@@ -34,9 +34,9 @@ const CustomLink = props => {
         <span style={styles.icon}>
           <LinkIcon />
         </span>
-        <Link to={props.link} style={styles.text}>
+        <a href={props.link} style={styles.text}>
           {props.anchor}
-        </Link>
+        </a>
       </div>
     </Editable>
   );

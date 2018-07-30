@@ -59,6 +59,11 @@ a {
   &:active, &:hover, &:focus {
     color: transparentize($secondary, 0.1);
   }
+
+  &.plain {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .title {
