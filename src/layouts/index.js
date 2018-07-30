@@ -25,8 +25,7 @@ const styles = {
 }
 
 const TemplateWrapper = props => (
-  <div className={props.showMenu ? 'freeze' : ''} style={styles.page}>
-    <div className={`overlay ${props.showMenu ? 'show' : ''}`} onClick={props.closeMenu}></div>
+  <div style={styles.page}>
     <Helmet>
       <title>
         Child Sensitivity in Poverty Alleviation Programming: An Analytical
