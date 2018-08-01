@@ -15,7 +15,7 @@ const MenuItemComponent = props => {
   if (props.nested) {
     itemStyle.marginLeft = '16px'
   }
-  if (props.selected) {
+  if (selected) {
     itemStyle.backgroundColor = "rgba(0, 0, 0, 0.14)"
   }
 
