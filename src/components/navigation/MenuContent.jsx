@@ -8,12 +8,9 @@ import { AccountSectionContent } from "./AccountSection";
 import { AdminSectionContent } from "./AdminSection";
 
 const MenuItemComponent = props => {
-  const pageUrl = `/${props.page.slug}`;
+  const pageUrl = `/${props.page.slug}/`;
   const pageTitle = props.page.navigation.displayTitle || props.page.title;
   const selected = pageUrl === props.currentPath;
-  console.log('pageUrl', pageUrl)
-  console.log('props.currentPath', props.currentPath)
-  console.log('selected', selected)
   const itemStyle = {};
   if (props.nested) {
     itemStyle.marginLeft = '16px'
