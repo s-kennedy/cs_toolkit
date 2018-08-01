@@ -11,6 +11,13 @@ const MenuItemComponent = props => {
   const pageUrl = `/${props.page.slug}`;
   const pageTitle = props.page.navigation.displayTitle || props.page.title;
   const selected = pageUrl === props.currentPath;
+  const itemStyle = {};
+  if (props.nested) {
+    itemStyle.marginLeft = '16px'
+  }
+  if (props.selected) {
+    itemStyle.backgroundColor = "rgba(0, 0, 0, 0.14)"
+  }
 
   return (
     <MenuItem
@@ -19,7 +26,7 @@ const MenuItemComponent = props => {
       onClick={props.closeMenu}
       className={`${props.classes.root}`}
       selected={selected}
-      style={props.nested ? { marginLeft: '16px' } : {}}
+      style={itemStyle}
     >
       <a href={pageUrl} className="plain">
         {pageTitle}
