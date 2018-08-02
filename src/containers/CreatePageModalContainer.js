@@ -19,7 +19,7 @@ import Select from "@material-ui/core/Select";
 
 import { pageTypes, menuGroups } from "../utils/constants";
 
-import * as defaultContentJSON from "../fixtures/pageContent.json";
+import defaultContentJSON from "../fixtures/pageContent.json";
 
 const mapStateToProps = state => {
   return {
@@ -79,7 +79,7 @@ class CreatePageModalComponent extends React.Component {
       navigation: {
         group: this.state.page.navigationGroup,
         displayTitle: this.state.page.displayTitle,
-        parentPage: this.state.page.parentPage.id
+        parentPage: (this.state.page.parentPage ? this.state.page.parentPage.id : null)
       },
       content: defaultContentJSON
 

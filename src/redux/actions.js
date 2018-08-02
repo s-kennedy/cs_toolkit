@@ -43,9 +43,11 @@ export function createPage(pageData) {
       .ref("pages")
       .push(pageData)
       .then(snap => {
-        db
-          .ref(`pages/${pageData.navigation.parentPage}/navigation/nested/${snap.key}`)
-          .set(true);
+        if (Boolean(pageData.navigation.parentPage)) {
+          db
+            .ref(`pages/${pageData.navigation.parentPage}/navigation/nested/${snap.key}`)
+            .set(true);
+        }
         dispatch(toggleNewPageModal());
         dispatch(
           showNotification(
