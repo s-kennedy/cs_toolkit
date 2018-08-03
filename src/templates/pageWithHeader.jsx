@@ -18,6 +18,7 @@ class PageWithHeader extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {}
     const { id, title, slug, page_type } = this.props.data.pages;
     const pageData = { id, title, slug, page_type };
     const content = {
@@ -26,6 +27,10 @@ class PageWithHeader extends React.Component {
     };
     this.props.onUpdatePageContent(content);
     this.props.onUpdatePageMetaData(pageData);
+  }
+
+  componentDidMount() {
+    this.setState({ url: window.location.href })
   }
 
   // componentDidMount() {
@@ -47,7 +52,7 @@ class PageWithHeader extends React.Component {
     return (
       <Layout>
         <div className={`page-with-header ${this.props.pageData.page_type}`}>
-          <PageActionsContainer pageData={this.props.pageData} />
+          <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageHeaderContainer />
           <PageContentContainer />
         </div>

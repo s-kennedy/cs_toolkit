@@ -25,7 +25,6 @@ export const emptyContentItems = {
 };
 
 export const DEPLOY_ENDPOINT = 'https://toolkit.sharonkennedy.ca';
-// export const DEPLOY_ENDPOINT = 'http://localhost:8080';
 
 export const pageTypes = [
   { label: 'About', value: { type: 'about', template: 'basicPage.jsx'}},
