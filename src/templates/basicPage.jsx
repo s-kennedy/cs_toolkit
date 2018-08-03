@@ -27,20 +27,20 @@ class BasicPage extends React.Component {
     this.props.onUpdatePageMetaData(pageData);
   }
 
-  componentDidMount() {
-    window.addEventListener("beforeunload", this.trackLastVisitedPage);
-  }
+  // componentDidMount() {
+  //   window.addEventListener("beforeunload", this.trackLastVisitedPage);
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.trackLastVisitedPage);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener("beforeunload", this.trackLastVisitedPage);
+  // }
 
-  trackLastVisitedPage = () => {
-    this.props.saveLastVisitedPage(
-      this.props.pageData.title,
-      this.props.location.pathname
-    );
-  };
+  // trackLastVisitedPage = () => {
+  //   this.props.saveLastVisitedPage(
+  //     this.props.pageData.title,
+  //     this.props.location.pathname
+  //   );
+  // };
 
   render() {
     return (
