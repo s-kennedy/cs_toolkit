@@ -277,6 +277,92 @@ export function updateToolData(toolData) {
   return { type: "UPDATE_TOOL_DATA", toolData };
 }
 
+export function updateTools(tools) {
+  return { type: "UPDATE_TOOLS", tools };
+}
+
 export function toggleEditingTool() {
   return { type: "TOGGLE_EDITING_TOOL" };
+}
+
+export function deleteInteractiveTool(toolId) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const userId = state.adminTools.user.uid;
+    const tools = { ...state.adminTools.user.interactive_tools};
+    delete tools[toolId]
+
+    const dataToUpdate = {
+      [`/interactive_tools/${toolId}`]: null,
+      [`/users/${userId}/interactive_tools/${toolId}`]: null
+    };
+
+    firebase
+      .database()
+      .ref()
+      .update(dataToUpdate)
+      .then((err) => {
+        if (err) {
+          return dispatch(showNotification("There was an error deleting your tool: " + err))
+        }
+        dispatch(updateTools(tools))
+        dispatch(showNotification("Your interactive tool has been deleted.", "success"));
+      });
+  };
+}
+
+// BOOKMARKING --------------------
+
+export function updateBookmarks(bookmarks) {
+  return { type: "UPDATE_BOOKMARKS", bookmarks };
+}
+
+export function saveLastVisitedPage(title, pathname) {
+  return (dispatch, getState) => {
+    const db = firebase.database();
+    const userId = getState().adminTools.user.uid;
+    const pageData = { title, pathname }
+
+    db.ref(`users/${userId}/bookmarks/lastVisitedPage`).set(pageData).then(snapshot => {
+      console.log('saved last visted page')
+      console.log('snapshot val', snapshot.val())
+    })
+  }
+}
+
+export function addBookmark(pageId) {
+  return (dispatch, getState) => {
+    const db = firebase.database();
+    const state = getState();
+    const userId = state.adminTools.user.uid;
+    const bookmarks = { ...state.adminTools.user.bookmarks };
+    bookmarks[pageId] = true
+
+    db.ref(`users/${userId}/bookmarks/${pageId}`).set(true).then(err => {
+      if (err) {
+        return dispatch(showNotification("There was an error saving your bookmark.", "success"));
+      }
+
+      dispatch(updateBookmarks(bookmarks));
+      dispatch(showNotification("This page has been bookmarked. You can mange your bookmarks in your Dashboard.", "success"));
+    })
+  }
+}
+
+export function deleteBookmark(pageId) {
+  return (dispatch, getState) => {
+    const db = firebase.database();
+    const state = getState();
+    const userId = state.adminTools.user.uid;
+    const bookmarks = { ...state.adminTools.user.bookmarks };
+    delete bookmarks[pageId];
+
+    db.ref(`users/${userId}/bookmarks/${pageId}`).remove().then(err => {
+      if (err) {
+        return dispatch(showNotification("There was an error deleting your bookmark: " + err))
+      }
+      dispatch(updateBookmarks(bookmarks))
+      dispatch(showNotification("Your bookmark has been deleted.", "success"));
+    })
+  }
 }

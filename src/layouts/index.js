@@ -43,7 +43,7 @@ const TemplateWrapper = props => (
     <NavigationContainer />
     <div style={styles.navbarOffset} />
     <Grid container>
-      <Grid item md={9}>
+      <Grid item md={9} sm={12} xs={12}>
         <div style={styles.body}>{props.children}</div>
       </Grid>
       <Grid item md={3}>

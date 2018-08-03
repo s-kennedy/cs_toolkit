@@ -24,7 +24,8 @@ const PageTitleContainer = (props) => {
     titleContainer: {
       display: 'flex',
       justifyContent: 'center',
-      margin: '2rem',
+      padding: '2rem',
+      paddingTop: '5rem',
     },
     title: {
       borderBottom: '2px solid #01b4aa',

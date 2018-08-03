@@ -1,12 +1,17 @@
-import React from 'react';
-import { graphql } from 'gatsby';
-import Layout from '../layouts/index';
+import React from "react";
+import { graphql } from "gatsby";
+import Layout from "../layouts/index";
 
-import PageContentContainer from '../containers/PageContentContainer'
-import PageTitleContainer from '../containers/PageTitleContainer'
+import PageContentContainer from "../containers/PageContentContainer";
+import PageTitleContainer from "../containers/PageTitleContainer";
+import PageActionsContainer from "../containers/PageActionsContainer";
 
-import { connect } from 'react-redux'
-import { updatePageContent, updatePageMetaData } from '../redux/actions'
+import { connect } from "react-redux";
+import {
+  updatePageContent,
+  updatePageMetaData,
+  saveLastVisitedPage
+} from "../redux/actions";
 
 class BasicPage extends React.Component {
   static propTypes = {};
@@ -17,43 +22,61 @@ class BasicPage extends React.Component {
     const pageData = { id, title, slug, page_type, navigation };
     const content = {
       body: JSON.parse(this.props.data.pages.content)
-    }
+    };
     this.props.onUpdatePageContent(content);
-    this.props.onUpdatePageMetaData(pageData)
+    this.props.onUpdatePageMetaData(pageData);
   }
+
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.trackLastVisitedPage);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.trackLastVisitedPage);
+  }
+
+  trackLastVisitedPage = () => {
+    this.props.saveLastVisitedPage(
+      this.props.pageData.title,
+      this.props.location.pathname
+    );
+  };
 
   render() {
     return (
       <Layout>
-      <div className={`basic-page ${this.props.pageData.page_type}`}>
-        <PageTitleContainer />
-        <PageContentContainer />
-      </div>
+        <div className={`basic-page ${this.props.pageData.page_type}`}>
+          <PageActionsContainer pageData={this.props.pageData} />
+          <PageTitleContainer />
+          <PageContentContainer />
+        </div>
       </Layout>
-    )
+    );
   }
-};
+}
 
 function mapStateToProps(state) {
   return {
     content: state.content,
     pageData: state.pageData
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdatePageContent: (content) => {
-      dispatch(updatePageContent(content))
+    onUpdatePageContent: content => {
+      dispatch(updatePageContent(content));
     },
-    onUpdatePageMetaData: (pageData) => {
-      dispatch(updatePageMetaData(pageData))
+    onUpdatePageMetaData: pageData => {
+      dispatch(updatePageMetaData(pageData));
+    },
+    saveLastVisitedPage: (title, pathname) => {
+      dispatch(saveLastVisitedPage(title, pathname));
     }
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BasicPage)
-
+export default connect(mapStateToProps, mapDispatchToProps)(BasicPage);
 
 export const query = graphql`
   query BasicPageQuery($slug: String!) {

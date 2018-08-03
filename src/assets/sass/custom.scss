@@ -3,6 +3,9 @@
 @import "menu";
 @import "loader";
 
+.basic-page, .page-with-header {
+  position: relative;
+}
 
 .large {
   font-size: 150%;

@@ -20,9 +20,24 @@ export const adminTools = (state={}, action) => {
       console.log('page saved!')
       return { ...state, savingPage: false, pageSaved: true }
     case 'SAVE_PAGE_FAILURE':
-      console.log('page not saved :(')
       console.log(action.err)
       return { ...state, savingPage: true, pageSaved: false, error: action.err }
+    case 'UPDATE_BOOKMARKS':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          bookmarks: action.bookmarks
+        }
+      }
+    case 'UPDATE_TOOLS':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          interactive_tools: action.tools
+        }
+      }
     default:
       return state
   }
@@ -180,8 +195,6 @@ export const interactiveTool = (state={}, action) => {
       return state
   }
 }
-
-
 
 export const appReducers = (state = {}, action) => {
   return {
