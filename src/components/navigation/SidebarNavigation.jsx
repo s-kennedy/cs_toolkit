@@ -1,5 +1,5 @@
 import React from "react";
-import { filter, orderBy } from "lodash";
+import { filter, orderBy, map, find, compact } from "lodash";
 import { withRouter } from "react-router";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -10,6 +10,7 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import BookmarkIcon from "@material-ui/icons/Stars";
 
 import MenuContent from "./MenuContent";
 
@@ -17,7 +18,7 @@ const styles = theme => ({
   drawerPaper: {
     maxWidth: "25vw",
     minWidth: "280px",
-    background: "#f3f7f6",
+    background: "#f3f7f6"
   },
   toolbar: {
     justifyContent: "space-between",
@@ -112,6 +113,15 @@ class Navigation extends React.Component {
 
   render() {
     const currentPath = this.props.location.pathname;
+    const bookmarks =
+      this.props.user && this.props.user.bookmarks
+        ? this.props.user.bookmarks
+        : {};
+    const bookmarkedPages = compact(
+      map(bookmarks, (_, uid) => {
+        return find(this.props.pages, p => p.node.id === uid);
+      })
+    );
 
     return (
       <Hidden smDown>
@@ -125,10 +135,27 @@ class Navigation extends React.Component {
         >
           <List className={this.props.classes.padding}>
             <div className={this.props.classes.navbarOffset} />
+            {!!bookmarkedPages.length && (
+              <ExpansionPanel className={this.props.classes.expanded}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <BookmarkIcon color="secondary" />
+                  Bookmarks
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <MenuContent
+                    menuItems={bookmarkedPages}
+                    currentPath={currentPath}
+                    {...this.props}
+                  />
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            )}
             {menuSections.map(section => {
               const pages = this.filterPagesByType(section.navGroup);
-              const currentPageSection = currentPath.split('/')[1];
-              const defaultExpanded = (currentPageSection === section.navGroup) || (section.navGroup === 'about' && currentPath === '/')
+              const currentPageSection = currentPath.split("/")[1];
+              const defaultExpanded =
+                currentPageSection === section.navGroup ||
+                (section.navGroup === "about" && currentPath === "/");
 
               return (
                 <ExpansionPanel
