@@ -18,6 +18,7 @@ class BasicPage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
     const { id, title, slug, page_type, navigation } = this.props.data.pages;
     const pageData = { id, title, slug, page_type, navigation };
     const content = {
@@ -27,9 +28,9 @@ class BasicPage extends React.Component {
     this.props.onUpdatePageMetaData(pageData);
   }
 
-  // componentDidMount() {
-  //   window.addEventListener("beforeunload", this.trackLastVisitedPage);
-  // }
+  componentDidMount() {
+    this.setState({ url: window.location.href })
+  }
 
   // componentWillUnmount() {
   //   window.removeEventListener("beforeunload", this.trackLastVisitedPage);
@@ -46,7 +47,7 @@ class BasicPage extends React.Component {
     return (
       <Layout>
         <div className={`basic-page ${this.props.pageData.page_type}`}>
-          <PageActionsContainer pageData={this.props.pageData} />
+          <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageTitleContainer />
           <PageContentContainer />
         </div>

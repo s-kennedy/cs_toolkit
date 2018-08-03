@@ -21,7 +21,6 @@ const MenuItemComponent = props => {
 
   return (
     <MenuItem
-      tabIndex={0}
       key={props.page.id}
       onClick={props.closeMenu}
       className={`${props.classes.root}`}

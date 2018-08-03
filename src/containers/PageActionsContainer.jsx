@@ -61,7 +61,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const PageActionsContainer = (props) => {
-  const shareUrl = window.location.href;
+  const shareUrl = props.url || ""
   return (
     <Grid container justify="flex-end" style={styles.container}>
       <Grid item style={styles.actions}>
@@ -79,7 +79,7 @@ const PageActionsContainer = (props) => {
           <FacebookIcon size={24} round />
         </FacebookShareButton>
 
-        <WhatsappShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
+        <WhatsappShareButton url={shareUrl} title={props.pageData.title} style={styles.button}>
           <WhatsappIcon size={24} round />
         </WhatsappShareButton>
 
