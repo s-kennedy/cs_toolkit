@@ -263,13 +263,18 @@ export function saveToolData(toolId, toolData, slug, toolType) {
       }
     };
 
+    console.log('dataToUpdate', dataToUpdate)
+
     firebase
       .database()
       .ref()
-      .update(dataToUpdate, () => {
+      .update(dataToUpdate)
+      .then(() => {
         dispatch(updateToolData(toolData));
         dispatch(showNotification("Your changes have been saved.", "success"));
-      });
+      }).catch(err => {
+        console.log('ERROR', err)
+      })
   };
 }
 
@@ -338,13 +343,20 @@ export function addBookmark(pageId) {
     const bookmarks = { ...state.adminTools.user.bookmarks };
     bookmarks[pageId] = true
 
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(
+        showNotification("Please log in bookmark this page.", "warning")
+      );
+    }
+
     db.ref(`users/${userId}/bookmarks/${pageId}`).set(true).then(err => {
+      console.log('saving bookmark response', err);
       if (err) {
-        return dispatch(showNotification("There was an error saving your bookmark.", "success"));
+        return dispatch(showNotification("There was an error saving your bookmark.", "error"));
       }
 
       dispatch(updateBookmarks(bookmarks));
-      dispatch(showNotification("This page has been bookmarked. You can mange your bookmarks in your Dashboard.", "success"));
+      dispatch(showNotification("This page has been bookmarked. You can manage your bookmarks in your Dashboard.", "success"));
     })
   }
 }
