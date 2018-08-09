@@ -342,7 +342,7 @@ export function addBookmark(pageId) {
 
     if (!state.adminTools.isLoggedIn) {
       return dispatch(
-        showNotification("Please log in bookmark this page.", "warning")
+        showNotification("Please log in to bookmark this page.", "warning")
       );
     }
 
