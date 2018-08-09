@@ -339,15 +339,17 @@ export function addBookmark(pageId) {
   return (dispatch, getState) => {
     const db = firebase.database();
     const state = getState();
-    const userId = state.adminTools.user.uid;
-    const bookmarks = { ...state.adminTools.user.bookmarks };
-    bookmarks[pageId] = true
 
     if (!state.adminTools.isLoggedIn) {
       return dispatch(
         showNotification("Please log in bookmark this page.", "warning")
       );
     }
+
+    const userId = state.adminTools.user.uid;
+    const bookmarks = { ...state.adminTools.user.bookmarks };
+    bookmarks[pageId] = true
+
 
     db.ref(`users/${userId}/bookmarks/${pageId}`).set(true).then(err => {
       console.log('saving bookmark response', err);
