@@ -9811,9 +9811,9 @@ react-rte@^0.16.1:
     draft-js-utils ">=0.2.0"
     immutable "^3.8.1"
 
-react-share@^2.2.0:
+react-share-stc@^2.2.0:
   version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-share/-/react-share-2.2.0.tgz#49fa2525409a030d94375f8b9926b0db916c3049"
+  resolved "https://registry.yarnpkg.com/react-share-stc/-/react-share-stc-2.2.0.tgz#7ef774147949226fe0ef2c10f497fade3fd7da7f"
   dependencies:
     babel-runtime "^6.6.1"
     classnames "^2.2.5"
