@@ -5,6 +5,8 @@ import Layout from "../layouts/index";
 import PageContentContainer from "../containers/PageContentContainer";
 import PageHeaderContainer from "../containers/PageHeaderContainer";
 import PageActionsContainer from "../containers/PageActionsContainer";
+import CommentsSection from "../components/comments/CommentsSection";
+import Footer from "../components/Footer";
 
 import { connect } from "react-redux";
 import {
@@ -55,6 +57,8 @@ class PageWithHeader extends React.Component {
           <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageHeaderContainer />
           <PageContentContainer />
+          <CommentsSection pageId={this.props.pageData.id} />
+          <Footer />
         </div>
       </Layout>
     );

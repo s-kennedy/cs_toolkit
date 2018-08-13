@@ -5,6 +5,7 @@ import Layout from "../layouts/index";
 import PageContentContainer from "../containers/PageContentContainer";
 import PageTitleContainer from "../containers/PageTitleContainer";
 import PageActionsContainer from "../containers/PageActionsContainer";
+import Footer from "../components/Footer";
 
 import { connect } from "react-redux";
 import {
@@ -50,6 +51,7 @@ class BasicPage extends React.Component {
           <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageTitleContainer />
           <PageContentContainer />
+          <Footer />
         </div>
       </Layout>
     );
