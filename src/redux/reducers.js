@@ -196,6 +196,29 @@ export const interactiveTool = (state={}, action) => {
   }
 }
 
+export const comments = (state={ input: "" }, action) => {
+  switch (action.type) {
+    case 'UPDATE_COMMENT_INPUT':
+      return {
+        ...state,
+        input: action.input
+      }
+    case 'UPDATE_COMMENTS':
+      return {
+        ...state,
+        comments: action.comments
+      }
+    case 'DELETE_COMMENT':
+      return {
+        ...state,
+        comments: state.comments,
+        [action.commentId]: null
+      }
+    default:
+      return state
+  }
+}
+
 export const appReducers = (state = {}, action) => {
   return {
     notifications: notifications(state.notifications, action),
@@ -203,7 +226,8 @@ export const appReducers = (state = {}, action) => {
     pageData: pageData(state.pageData, action),
     content: content(state.content, action),
     navigation: navigation(state.navigation, action),
-    interactiveTool: interactiveTool(state.interactiveTool, action)
+    interactiveTool: interactiveTool(state.interactiveTool, action),
+    comments: comments(state.comments, action),
   }
 }
 

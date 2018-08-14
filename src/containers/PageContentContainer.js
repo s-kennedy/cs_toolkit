@@ -9,7 +9,6 @@ import PageNavigation from '../containers/PageNavigation';
 import SectionContainer from '../containers/SectionContainer';
 import ReferenceContainer from '../containers/ReferenceContainer';
 import SectionEditingActions from '../containers/SectionEditingActions';
-import Footer from "../components/Footer";
 
 
 const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAddContentItem, onDeleteContentItem) => {
@@ -71,7 +70,6 @@ const PageContentContainer = (props) => {
     <div style={{ position: "relative" }}>
       { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
       <SectionEditingActions {...props} />
-      <Footer />
     </div>
   );
 }

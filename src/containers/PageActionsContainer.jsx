@@ -13,8 +13,10 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
   EmailShareButton,
-  EmailIcon
-} from 'react-share';
+  EmailIcon,
+  WorkplaceIcon,
+  WorkplaceShareButton,
+} from 'react-share-stc';
 
 const styles = {
   container: {
@@ -71,6 +73,10 @@ const PageActionsContainer = (props) => {
         </IconButton>
 
         <span>Share: </span>
+        <WorkplaceShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
+          <WorkplaceIcon size={24} round />
+        </WorkplaceShareButton>
+
         <TwitterShareButton title={props.pageData.title} url={shareUrl} style={styles.button}>
           <TwitterIcon size={24} round />
         </TwitterShareButton>

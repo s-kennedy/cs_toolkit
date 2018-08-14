@@ -45,7 +45,11 @@ export function createPage(pageData) {
       .then(snap => {
         if (Boolean(pageData.navigation.parentPage)) {
           db
-            .ref(`pages/${pageData.navigation.parentPage}/navigation/nested/${snap.key}`)
+            .ref(
+              `pages/${pageData.navigation.parentPage}/navigation/nested/${
+                snap.key
+              }`
+            )
             .set(true);
         }
         dispatch(toggleNewPageModal());
@@ -64,19 +68,19 @@ export function deletePage(page) {
     const db = firebase.database();
 
     if (page.navigation.parentPage) {
-      db.ref(`pages/${page.navigation.parentPage}/navigation/nested/${page.id}`).remove();
+      db
+        .ref(`pages/${page.navigation.parentPage}/navigation/nested/${page.id}`)
+        .remove();
     }
 
-    db
-      .ref(`pages/${page.id}`)
-      .remove(() => {
-        dispatch(
-          showNotification(
-            "This page has been deleted. Publish your changes to make them public.",
-            "success"
-          )
-        );
-      });
+    db.ref(`pages/${page.id}`).remove(() => {
+      dispatch(
+        showNotification(
+          "This page has been deleted. Publish your changes to make them public.",
+          "success"
+        )
+      );
+    });
   };
 }
 
@@ -263,7 +267,7 @@ export function saveToolData(toolId, toolData, slug, toolType) {
       }
     };
 
-    console.log('dataToUpdate', dataToUpdate)
+    console.log("dataToUpdate", dataToUpdate);
 
     firebase
       .database()
@@ -272,9 +276,10 @@ export function saveToolData(toolId, toolData, slug, toolType) {
       .then(() => {
         dispatch(updateToolData(toolData));
         dispatch(showNotification("Your changes have been saved.", "success"));
-      }).catch(err => {
-        console.log('ERROR', err)
       })
+      .catch(err => {
+        console.log("ERROR", err);
+      });
   };
 }
 
@@ -294,8 +299,8 @@ export function deleteInteractiveTool(toolId) {
   return (dispatch, getState) => {
     const state = getState();
     const userId = state.adminTools.user.uid;
-    const tools = { ...state.adminTools.user.interactive_tools};
-    delete tools[toolId]
+    const tools = { ...state.adminTools.user.interactive_tools };
+    delete tools[toolId];
 
     const dataToUpdate = {
       [`/interactive_tools/${toolId}`]: null,
@@ -306,17 +311,21 @@ export function deleteInteractiveTool(toolId) {
       .database()
       .ref()
       .update(dataToUpdate)
-      .then((err) => {
+      .then(err => {
         if (err) {
-          return dispatch(showNotification("There was an error deleting your tool: " + err))
+          return dispatch(
+            showNotification("There was an error deleting your tool: " + err)
+          );
         }
-        dispatch(updateTools(tools))
-        dispatch(showNotification("Your interactive tool has been deleted.", "success"));
+        dispatch(updateTools(tools));
+        dispatch(
+          showNotification("Your interactive tool has been deleted.", "success")
+        );
       });
   };
 }
 
-// BOOKMARKING --------------------
+// BOOKMARKS --------------------
 
 export function updateBookmarks(bookmarks) {
   return { type: "UPDATE_BOOKMARKS", bookmarks };
@@ -326,13 +335,16 @@ export function saveLastVisitedPage(title, pathname) {
   return (dispatch, getState) => {
     const db = firebase.database();
     const userId = getState().adminTools.user.uid;
-    const pageData = { title, pathname }
+    const pageData = { title, pathname };
 
-    db.ref(`users/${userId}/bookmarks/lastVisitedPage`).set(pageData).then(snapshot => {
-      console.log('saved last visted page')
-      console.log('snapshot val', snapshot.val())
-    })
-  }
+    db
+      .ref(`users/${userId}/bookmarks/lastVisitedPage`)
+      .set(pageData)
+      .then(snapshot => {
+        console.log("saved last visted page");
+        console.log("snapshot val", snapshot.val());
+      });
+  };
 }
 
 export function addBookmark(pageId) {
@@ -348,19 +360,30 @@ export function addBookmark(pageId) {
 
     const userId = state.adminTools.user.uid;
     const bookmarks = { ...state.adminTools.user.bookmarks };
-    bookmarks[pageId] = true
+    bookmarks[pageId] = true;
 
+    db
+      .ref(`users/${userId}/bookmarks/${pageId}`)
+      .set(true)
+      .then(err => {
+        if (err) {
+          return dispatch(
+            showNotification(
+              "There was an error saving your bookmark.",
+              "error"
+            )
+          );
+        }
 
-    db.ref(`users/${userId}/bookmarks/${pageId}`).set(true).then(err => {
-      console.log('saving bookmark response', err);
-      if (err) {
-        return dispatch(showNotification("There was an error saving your bookmark.", "error"));
-      }
-
-      dispatch(updateBookmarks(bookmarks));
-      dispatch(showNotification("This page has been bookmarked. You can manage your bookmarks in your Dashboard.", "success"));
-    })
-  }
+        dispatch(updateBookmarks(bookmarks));
+        dispatch(
+          showNotification(
+            "This page has been bookmarked. You can manage your bookmarks in your Dashboard.",
+            "success"
+          )
+        );
+      });
+  };
 }
 
 export function deleteBookmark(pageId) {
@@ -371,12 +394,145 @@ export function deleteBookmark(pageId) {
     const bookmarks = { ...state.adminTools.user.bookmarks };
     delete bookmarks[pageId];
 
-    db.ref(`users/${userId}/bookmarks/${pageId}`).remove().then(err => {
-      if (err) {
-        return dispatch(showNotification("There was an error deleting your bookmark: " + err))
-      }
-      dispatch(updateBookmarks(bookmarks))
-      dispatch(showNotification("Your bookmark has been deleted.", "success"));
-    })
-  }
+    db
+      .ref(`users/${userId}/bookmarks/${pageId}`)
+      .remove()
+      .then(err => {
+        if (err) {
+          return dispatch(
+            showNotification(
+              "There was an error deleting your bookmark: " + err
+            )
+          );
+        }
+        dispatch(updateBookmarks(bookmarks));
+        dispatch(
+          showNotification("Your bookmark has been deleted.", "success")
+        );
+      });
+  };
+}
+
+// COMMENTS --------------------
+
+export function updateCommentInput(input) {
+  return { type: "UPDATE_COMMENT_INPUT", input };
+}
+
+export function updateComments(comments) {
+  return { type: "UPDATE_COMMENTS", comments };
+}
+
+export function createComment(commentText, pageId) {
+  return (dispatch, getState) => {
+    const db = firebase.database();
+    const state = getState();
+
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(showNotification("Please log in to comment.", "warning"));
+    }
+
+    if (!commentText.trim().length) {
+      return dispatch(showNotification("Please write a comment.", "warning"))
+    }
+
+    const userId = state.adminTools.user.uid;
+
+    const commentData = {
+      text: commentText,
+      user: {
+        uid: state.adminTools.user.uid,
+        displayName: state.adminTools.user.displayName,
+        photoURL: state.adminTools.user.photoURL,
+      },
+      timestamp: new Date().toString(),
+      page: pageId
+    };
+
+    db
+      .ref(`comments`)
+      .push(commentData)
+      .then(snap => {
+        const commentId = snap.key;
+
+        db
+          .ref(`/users/${userId}/comments/${commentId}`)
+          .set(true)
+          .then(err => {
+            dispatch(updateCommentInput(""))
+            dispatch(
+              showNotification("Your comment has been saved.", "success")
+            );
+          })
+          .catch(err => {
+            dispatch(
+              showNotification(
+                `There was an error saving your comment: ${err.message}`,
+                "success"
+              )
+            );
+          })
+      })
+      .catch(err => {
+        dispatch(
+          showNotification(
+            `There was an error saving your comment: ${err.message}`,
+            "success"
+          )
+        );
+      });
+  };
+}
+
+export function deleteComment(commentId, pageId) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(showNotification("Please log in to delete your comment.", "warning"));
+    }
+
+
+    firebase
+      .database()
+      .ref(`/comments/${commentId}`)
+      .remove()
+      .then(err => {
+        if (err) {
+          return dispatch(
+            showNotification("There was an error deleting your comment: " + err)
+          );
+        }
+        // dispatch(updateTools(tools))
+        dispatch(showNotification("Your comment has been deleted.", "success"));
+      });
+  };
+}
+
+export function getCommentsByPage(pageId) {
+  return (dispatch, getState) => {
+    firebase
+      .database()
+      .ref('comments')
+      .orderByChild('page')
+      .equalTo(pageId)
+      .on('value', snap => {
+        const comments = snap.val()
+        dispatch(updateComments(comments))
+      })
+  };
+}
+
+export function getCommentsByUser(userId) {
+  return (dispatch, getState) => {
+    firebase
+      .database()
+      .ref('comments')
+      .orderByChild('user/uid')
+      .equalTo(userId)
+      .on('value', snap => {
+        const comments = snap.val()
+        dispatch(updateComments(comments))
+      })
+  };
 }
