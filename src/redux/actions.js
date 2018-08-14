@@ -522,3 +522,17 @@ export function getCommentsByPage(pageId) {
       })
   };
 }
+
+export function getCommentsByUser(userId) {
+  return (dispatch, getState) => {
+    firebase
+      .database()
+      .ref('comments')
+      .orderByChild('user/uid')
+      .equalTo(userId)
+      .on('value', snap => {
+        const comments = snap.val()
+        dispatch(updateComments(comments))
+      })
+  };
+}

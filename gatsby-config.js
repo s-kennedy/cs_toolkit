@@ -37,6 +37,10 @@ module.exports = {
 
               return node
             },
+          },
+          {
+            type: "Comments",
+            path: "comments"
           }
         ]
       }

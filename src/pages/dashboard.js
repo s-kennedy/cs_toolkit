@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from "gatsby";
 import { StaticQuery, graphql } from "gatsby";
 import { connect } from "react-redux";
-import { map, find, filter } from "lodash";
+import { map, find } from "lodash";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
 
 import Layout from '../layouts/index';
-import { deleteInteractiveTool, deleteBookmark, deleteComment } from '../redux/actions';
+import { deleteInteractiveTool, deleteBookmark, deleteComment, getCommentsByUser } from '../redux/actions';
 
 const styles = {
   container: {
@@ -24,146 +24,167 @@ const styles = {
   }
 }
 
-const Dashboard = props => {
-  const tools = (props.user && props.user.interactive_tools) ? props.user.interactive_tools : {};
-  const bookmarks = (props.user && props.user.bookmarks) ? props.user.bookmarks : {};
-  const comments = (props.user && props.comments) ? filter(props.comments, (c => c.node.user.uid === props.user.uid)) : {};
+class Dashboard extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.user && nextProps.user) {
+      this.props.getCommentsByUser(nextProps.user.uid);
+    }
+  }
 
-  return (
-    <Layout>
-      <div className={`basic-page dashboard`}>
-        <Grid container justify="center">
-          <Grid item xs={12} className="title">
-            <Typography variant="display1" gutterBottom>Dashboard</Typography>
-            {props.user && (
-              <Typography color="primary" variant="display3" gutterBottom>
-                {props.user.displayName}
-              </Typography>
-            )}
+  render() {
+    const {props} = this;
+    const tools = (props.user && props.user.interactive_tools) ? props.user.interactive_tools : {};
+    const bookmarks = (props.user && props.user.bookmarks) ? props.user.bookmarks : {};
+    const comments = props.comments || {};
+
+    return (
+      <Layout>
+        <div className={`basic-page dashboard`}>
+          <Grid container justify="center">
+            <Grid item xs={12} className="title">
+              <Typography variant="display1" gutterBottom>Dashboard</Typography>
+              {props.user && (
+                <Typography color="primary" variant="display3" gutterBottom>
+                  {props.user.displayName}
+                </Typography>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Grid container justify="center" style={styles.container}>
-          <Grid item xs={12} md={10}>
-            <div>
-              <Typography variant="display4" gutterBottom>Bookmarked pages</Typography>
-            </div>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="dense">Page</TableCell>
-                    <TableCell padding="dense">Remove</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {map(bookmarks, (bookmark, uid) => {
-                    const page = find(props.pages, (p) => p.node.id === uid)
-                    if (page) {
+          <Grid container justify="center" style={styles.container}>
+            <Grid item xs={12} md={10}>
+              <div>
+                <Typography variant="display4" gutterBottom>Bookmarked pages</Typography>
+              </div>
+              <Paper>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding="dense">Page</TableCell>
+                      <TableCell padding="dense">Remove</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {map(bookmarks, (bookmark, uid) => {
+                      const page = find(props.pages, (p) => p.node.id === uid)
+                      if (page) {
+                        return (
+                          <TableRow key={uid}>
+                            <TableCell padding="dense">
+                              <a href={`/${page.node.slug}`}>{page.node.title}</a>
+                            </TableCell>
+                            <TableCell padding="dense">
+                              <IconButton onClick={() => props.deleteBookmark(uid)}>
+                                <RemoveIcon />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    })}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Grid>
+          </Grid>
+
+          <Grid container justify="center" style={styles.container}>
+            <Grid item xs={12} md={10}>
+              <div>
+                <Typography variant="display4" gutterBottom>Interactive tools</Typography>
+              </div>
+              <Paper>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding="dense">Tool</TableCell>
+                      <TableCell padding="dense">Title</TableCell>
+                      <TableCell padding="dense">Remove</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {map(tools, (tool, uid) => {
+                      const type = tool.toolType ? tool.toolType : "Unknown Tool";
                       return (
                         <TableRow key={uid}>
+                          <TableCell padding="dense">{type}</TableCell>
                           <TableCell padding="dense">
-                            <a href={`/${page.node.slug}`}>{page.node.title}</a>
+                            <a href={`${tool.slug}?id=${uid}`}>{tool.title}</a>
                           </TableCell>
                           <TableCell padding="dense">
-                            <IconButton onClick={() => props.deleteBookmark(uid)}>
+                            <IconButton onClick={() => props.deleteInteractiveTool(uid)}>
                               <RemoveIcon />
                             </IconButton>
                           </TableCell>
                         </TableRow>
                       );
-                    }
-                  })}
-                </TableBody>
-              </Table>
-            </Paper>
+                    })}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Grid container justify="center" style={styles.container}>
-          <Grid item xs={12} md={10}>
-            <div>
-              <Typography variant="display4" gutterBottom>Interactive tools</Typography>
-            </div>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="dense">Tool</TableCell>
-                    <TableCell padding="dense">Title</TableCell>
-                    <TableCell padding="dense">Remove</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {map(tools, (tool, uid) => {
-                    const type = tool.toolType ? tool.toolType : "Unknown Tool";
-                    return (
-                      <TableRow key={uid}>
-                        <TableCell padding="dense">{type}</TableCell>
-                        <TableCell padding="dense">
-                          <a href={`${tool.slug}?id=${uid}`}>{tool.title}</a>
-                        </TableCell>
-                        <TableCell padding="dense">
-                          <IconButton onClick={() => props.deleteInteractiveTool(uid)}>
-                            <RemoveIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </Paper>
+          <Grid container justify="center" style={styles.container}>
+            <Grid item xs={12} md={10}>
+              <div>
+                <Typography variant="display4" gutterBottom>Comments</Typography>
+              </div>
+              <Paper>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding="dense">Page</TableCell>
+                      <TableCell padding="dense">Comment</TableCell>
+                      <TableCell padding="dense">Date</TableCell>
+                      <TableCell padding="dense">Remove</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {map(comments, (comment, uid) => {
+                      const page = find(props.pages, (p) => p.node.id === comment.page)
+                      const date = new Date(comment.timestamp).toLocaleString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric"
+                      });
+                      return (
+                        <TableRow key={uid}>
+                          <TableCell padding="dense">
+                            <a href={`${page.node.slug}`}>{page.node.title}</a>
+                          </TableCell>
+                          <TableCell padding="dense">
+                            {`"${comment.text}"`}
+                          </TableCell>
+                          <TableCell padding="dense">
+                            {date}
+                          </TableCell>
+                          <TableCell padding="dense">
+                            <IconButton onClick={() => props.deleteComment(uid)}>
+                              <RemoveIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
-
-        <Grid container justify="center" style={styles.container}>
-          <Grid item xs={12} md={10}>
-            <div>
-              <Typography variant="display4" gutterBottom>Comments</Typography>
-            </div>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="dense">Page</TableCell>
-                    <TableCell padding="dense">Comment</TableCell>
-                    <TableCell padding="dense">Remove</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {map(comments, (commentNode, uid) => {
-                    const comment = commentNode.node;
-                    const page = find(props.pages, (p) => p.node.id === comment.page)
-                    return (
-                      <TableRow key={uid}>
-                        <TableCell padding="dense">
-                          <a href={`${page.slug}`}>{page.title}</a>
-                        </TableCell>
-                        <TableCell padding="dense">
-                          {comment.text}
-                        </TableCell>
-                        <TableCell padding="dense">
-                          <IconButton onClick={() => props.deleteComment(uid)}>
-                            <RemoveIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    </Layout>
-  );
+        </div>
+      </Layout>
+    );
+  };
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.adminTools.user
+    user: state.adminTools.user,
+    comments: state.comments.comments,
   };
 };
 
@@ -177,6 +198,9 @@ const mapDispatchToProps = dispatch => {
     },
     deleteComment: id => {
       dispatch(deleteComment(id))
+    },
+    getCommentsByUser: id => {
+      dispatch(getCommentsByUser(id))
     }
   }
 }
@@ -203,27 +227,10 @@ const DashboardComponent = props => (
             }
           }
         }
-        allComments {
-          edges {
-            node {
-              id
-              text
-              page
-              timestamp
-              user {
-                uid
-                displayName
-                photoURL
-              }
-            }
-          }
-        }
       }
     `}
     render={data => (
-      <div>
-        <Dashboard { ...props} pages={data.allPages.edges} comments={data.allComments.edges} />
-      </div>
+      <Dashboard { ...props} pages={data.allPages.edges} />
     )}
   />
 );
