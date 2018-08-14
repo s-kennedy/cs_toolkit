@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { StaticQuery, graphql } from 'gatsby';
 import uuidv4 from "uuid/v4";
 import Typography from '@material-ui/core/Typography';
 import Layout from '../../layouts/index';
@@ -56,6 +57,24 @@ class MatrixPage extends React.Component {
   }
 }
 
+const MatrixPageComponent = props => (
+  <StaticQuery
+    query={graphql`
+      query {
+        toolPages(id: { eq: "child-sensitive-assessment-matrix" }) {
+          id
+          title
+          header
+          paragraph
+        }
+      }
+    `}
+    render={data => (
+      <MatrixPage { ...props} pageData={data.allPages.edges} />
+    )}
+  />
+);
+
 const mapStateToProps = state => {
   return {
     isEditing: state.interactiveTool.isEditing,
@@ -77,4 +96,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixPageComponent);
