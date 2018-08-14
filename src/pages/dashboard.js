@@ -25,9 +25,9 @@ const styles = {
 }
 
 class Dashboard extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.user && nextProps.user) {
-      this.props.getCommentsByUser(nextProps.user.uid);
+  componentDidUpdate(prevProps) {
+    if (prevProps.user !== this.props.user) {
+      this.props.getCommentsByUser(this.props.user.uid);
     }
   }
 
