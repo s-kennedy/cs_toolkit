@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from "gatsby";
 import { StaticQuery, graphql } from "gatsby";
 import { connect } from "react-redux";
-import { map, find } from "lodash";
+import { map, find, filter } from "lodash";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
 
 import Layout from '../layouts/index';
-import { deleteInteractiveTool, deleteBookmark } from '../redux/actions';
+import { deleteInteractiveTool, deleteBookmark, deleteComment } from '../redux/actions';
 
 const styles = {
   container: {
@@ -27,6 +27,7 @@ const styles = {
 const Dashboard = props => {
   const tools = (props.user && props.user.interactive_tools) ? props.user.interactive_tools : {};
   const bookmarks = (props.user && props.user.bookmarks) ? props.user.bookmarks : {};
+  const comments = (props.user && props.comments) ? filter(props.comments, (c => c.node.user.uid === props.user.uid)) : {};
 
   return (
     <Layout>
@@ -115,6 +116,46 @@ const Dashboard = props => {
             </Paper>
           </Grid>
         </Grid>
+
+        <Grid container justify="center" style={styles.container}>
+          <Grid item xs={12} md={10}>
+            <div>
+              <Typography variant="display4" gutterBottom>Comments</Typography>
+            </div>
+            <Paper>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding="dense">Page</TableCell>
+                    <TableCell padding="dense">Comment</TableCell>
+                    <TableCell padding="dense">Remove</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {map(comments, (commentNode, uid) => {
+                    const comment = commentNode.node;
+                    const page = find(props.pages, (p) => p.node.id === comment.page)
+                    return (
+                      <TableRow key={uid}>
+                        <TableCell padding="dense">
+                          <a href={`${page.slug}`}>{page.title}</a>
+                        </TableCell>
+                        <TableCell padding="dense">
+                          {comment.text}
+                        </TableCell>
+                        <TableCell padding="dense">
+                          <IconButton onClick={() => props.deleteComment(uid)}>
+                            <RemoveIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     </Layout>
   );
@@ -133,6 +174,9 @@ const mapDispatchToProps = dispatch => {
     },
     deleteInteractiveTool: id => {
       dispatch(deleteInteractiveTool(id))
+    },
+    deleteComment: id => {
+      dispatch(deleteComment(id))
     }
   }
 }
@@ -159,11 +203,26 @@ const DashboardComponent = props => (
             }
           }
         }
+        allComments {
+          edges {
+            node {
+              id
+              text
+              page
+              timestamp
+              user {
+                uid
+                displayName
+                photoURL
+              }
+            }
+          }
+        }
       }
     `}
     render={data => (
       <div>
-        <Dashboard { ...props} pages={data.allPages.edges} />
+        <Dashboard { ...props} pages={data.allPages.edges} comments={data.allComments.edges} />
       </div>
     )}
   />

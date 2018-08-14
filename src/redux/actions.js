@@ -440,7 +440,11 @@ export function createComment(commentText, pageId) {
 
     const commentData = {
       text: commentText,
-      user: state.adminTools.user,
+      user: {
+        uid: state.adminTools.user.uid,
+        displayName: state.adminTools.user.displayName,
+        photoURL: state.adminTools.user.photoURL,
+      },
       timestamp: new Date().toString(),
       page: pageId
     };
