@@ -1,9 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StaticQuery, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 import uuidv4 from "uuid/v4";
 import Typography from '@material-ui/core/Typography';
 import Layout from '../../layouts/index';
+import Footer from '../../components/Footer'
+import Editable from '../../components/editable/Editable'
+import PlainTextEditor from '../../components/editingTools/PlainTextEditor'
+import Paragraph from '../../components/editable/Paragraph'
 
 import { getToolData, saveToolData, toggleEditingTool } from "../../redux/actions";
 
@@ -35,6 +39,10 @@ class MatrixPage extends React.Component {
     this.props.history.push(`${this.props.history.location.pathname}?id=${toolId}`)
   };
 
+  saveTitle = input => {
+    console.log(input)
+  }
+
   render() {
     const toolData = this.props.toolData || {};
     const fields = toolData.fields;
@@ -43,37 +51,37 @@ class MatrixPage extends React.Component {
     return (
       <Layout>
         <div className="interactive-tool">
-          <div className="title">
-            <Typography variant="display1" gutterBottom>{TOOL_TYPE}</Typography>
-          </div>
-          <ChildSensitiveMatrix
-            tableData={fields}
-            title={title}
-            handleSave={this.saveTool}
-          />
+          <section>
+            <div className="title">
+              <Typography variant="display1" gutterBottom>{this.props.data.toolPages.title}</Typography>
+            </div>
+            <div className="instructions">
+              <Typography variant="display3" gutterBottom>
+                <Editable
+                  editor={PlainTextEditor}
+                  handleSave={this.saveTitle}
+                  content={{ text: this.props.data.toolPages.header }}
+                  {...this.props}
+                >
+                  {this.props.data.toolPages.header}
+                </Editable>
+              </Typography>
+              <Paragraph text={this.props.data.toolPages.paragraph} handleSave={this.saveTitle} />
+            </div>
+          </section>
+          <section>
+            <ChildSensitiveMatrix
+              tableData={fields}
+              title={title}
+              handleSave={this.saveTool}
+            />
+          </section>
         </div>
+        <Footer />
       </Layout>
     );
   }
 }
-
-const MatrixPageComponent = props => (
-  <StaticQuery
-    query={graphql`
-      query {
-        toolPages(id: { eq: "child-sensitive-assessment-matrix" }) {
-          id
-          title
-          header
-          paragraph
-        }
-      }
-    `}
-    render={data => (
-      <MatrixPage { ...props} pageData={data.allPages.edges} />
-    )}
-  />
-);
 
 const mapStateToProps = state => {
   return {
@@ -96,4 +104,16 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatrixPageComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage);
+
+export const query = graphql`
+  query {
+    toolPages(id: { eq: "child-sensitive-assessment-matrix" }) {
+      id
+      title
+      header
+      paragraph
+    }
+  }
+`;
+

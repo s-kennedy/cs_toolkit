@@ -169,12 +169,16 @@ button, .stc-btn {
 }
 
 .interactive-tool {
-  padding: 2rem;
+
+  section {
+    padding: 2rem;
+  }
 
   .title {
     display: flex;
     justify-content: center;
-    border-bottom: 2px solid rgb(1, 180, 170)
+    border-bottom: 2px solid rgb(1, 180, 170);
+    margin-bottom: 2rem;
   }
 }
 
