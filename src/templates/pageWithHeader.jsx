@@ -57,7 +57,7 @@ class PageWithHeader extends React.Component {
           <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageHeaderContainer />
           <PageContentContainer />
-          <CommentsSection pageId={this.props.pageData.id} />
+          <CommentsSection pageId={this.props.data.pages.id} />
           <Footer />
         </div>
       </Layout>

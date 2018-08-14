@@ -432,8 +432,8 @@ export function createComment(commentText, pageId) {
 
     const commentData = {
       text: commentText,
-      user: userId,
-      timestamp: Date.now().toString(),
+      user: state.adminTools.user,
+      timestamp: new Date().toString(),
       page: pageId
     };
 
@@ -445,7 +445,7 @@ export function createComment(commentText, pageId) {
 
         db
           .ref(`/users/${userId}/comments/${commentId}`)
-          .set(commentData)
+          .set(true)
           .then(err => {
             dispatch(
               showNotification("Your comment has been saved.", "success")
@@ -495,5 +495,21 @@ export function deleteComment(commentId, pageId) {
         // dispatch(updateTools(tools))
         dispatch(showNotification("Your comment has been deleted.", "success"));
       });
+  };
+}
+
+export function getCommentsByPage(pageId) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    firebase
+      .database()
+      .ref('comments')
+      .orderByChild('page')
+      .equalTo(pageId)
+      .on('value', snap => {
+        const comments = snap.val()
+        dispatch(updateComments(comments))
+      })
   };
 }
