@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import UserIcon from "@material-ui/icons/AccountCircle";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -15,7 +14,9 @@ const styles = theme => ({
     fontSize: "0.8rem",
     paddingLeft: "1rem",
     paddingRight: "1rem",
-    color: "#404040"
+    color: "#404040",
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   author: {
     height: "56px",
@@ -59,20 +60,16 @@ const Comment = props => {
     <Grid container className={props.classes.commentCard}>
       <Grid item xs={12}>
         <div className={props.classes.container}>
-          <div className="author" className={props.classes.author}>
-            {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                className={props.classes.img}
-                alt={user.displayName}
-                title={user.displayName}
-              />
-            ) : (
-              <UserIcon className={props.classes.img} />
-            )}
+          <div className={props.classes.author}>
+            <img
+              src={user.photoURL}
+              className={props.classes.img}
+              alt={user.displayName}
+              title={user.displayName}
+            />
           </div>
           <div className={props.classes.comment}>
-            <Paper className="comment-body" className={props.classes.paper}>
+            <Paper className={props.classes.paper}>
               <div className={props.classes.name}>
                 <span>{`${user.displayName}:`}</span>
               </div>
@@ -80,6 +77,13 @@ const Comment = props => {
             </Paper>
             <div className={props.classes.date}>
               <em>{`${date}`}</em>
+              {
+                (props.userId === props.comment.user.uid) &&
+                <a href="/#" style={{ float: 'right' }} onClick={(e) => {
+                  e.preventDefault();
+                  props.deleteComment(props.uid);
+                }}>delete</a>
+              }
             </div>
           </div>
         </div>

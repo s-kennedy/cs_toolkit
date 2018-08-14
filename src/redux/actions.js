@@ -415,6 +415,10 @@ export function deleteBookmark(pageId) {
 
 // COMMENTS --------------------
 
+export function updateCommentInput(input) {
+  return { type: "UPDATE_COMMENT_INPUT", input };
+}
+
 export function updateComments(comments) {
   return { type: "UPDATE_COMMENTS", comments };
 }
@@ -426,6 +430,10 @@ export function createComment(commentText, pageId) {
 
     if (!state.adminTools.isLoggedIn) {
       return dispatch(showNotification("Please log in to comment.", "warning"));
+    }
+
+    if (!commentText.trim().length) {
+      return dispatch(showNotification("Please write a comment.", "warning"))
     }
 
     const userId = state.adminTools.user.uid;
@@ -447,6 +455,7 @@ export function createComment(commentText, pageId) {
           .ref(`/users/${userId}/comments/${commentId}`)
           .set(true)
           .then(err => {
+            dispatch(updateCommentInput(""))
             dispatch(
               showNotification("Your comment has been saved.", "success")
             );
@@ -474,18 +483,16 @@ export function createComment(commentText, pageId) {
 export function deleteComment(commentId, pageId) {
   return (dispatch, getState) => {
     const state = getState();
-    const userId = state.adminTools.user.uid;
 
-    const dataToUpdate = {
-      [`/comments/${commentId}`]: null,
-      [`/users/${userId}/comments/${commentId}`]: null,
-      [`/pages/${pageId}/comments/${commentId}`]: null
-    };
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(showNotification("Please log in to delete your comment.", "warning"));
+    }
+
 
     firebase
       .database()
-      .ref()
-      .update(dataToUpdate)
+      .ref(`/comments/${commentId}`)
+      .remove()
       .then(err => {
         if (err) {
           return dispatch(
@@ -500,8 +507,6 @@ export function deleteComment(commentId, pageId) {
 
 export function getCommentsByPage(pageId) {
   return (dispatch, getState) => {
-    const state = getState();
-
     firebase
       .database()
       .ref('comments')

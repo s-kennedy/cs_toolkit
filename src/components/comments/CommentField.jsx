@@ -7,7 +7,7 @@ import UserIcon from "@material-ui/icons/AccountCircle";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 
-import { createComment } from "../../redux/actions";
+import { createComment, updateCommentInput } from "../../redux/actions";
 
 const styles = theme => ({
   commentCard: {
@@ -56,7 +56,8 @@ const styles = theme => ({
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.adminTools.isLoggedIn,
-    user: state.adminTools.user
+    user: state.adminTools.user,
+    comment: state.comments.input,
   };
 };
 
@@ -64,24 +65,22 @@ const mapDispatchToProps = dispatch => {
   return {
     createComment: (comment, pageId) => {
       dispatch(createComment(comment, pageId));
+    },
+    updateCommentInput: (input) => {
+      dispatch(updateCommentInput(input));
     }
   };
 };
 
 class CommentField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { comment: "" };
-  }
-
   handleSubmit = e => {
     e.preventDefault();
-    this.props.createComment(this.state.comment, this.props.pageId);
+    this.props.createComment(this.props.comment, this.props.pageId);
   };
 
   render() {
     if (!this.props.isLoggedIn) {
-      return <div>Please log in to comment.</div>;
+      return <div>Please sign in to comment.</div>;
     }
 
     const { user, classes } = this.props;
@@ -91,7 +90,7 @@ class CommentField extends Component {
         <Grid item xs={12}>
           <form onSubmit={this.handleSubmit}>
           <div className={classes.container}>
-            <div className="author" className={classes.author}>
+            <div className={classes.author}>
               {user.photoURL ? (
                 <img
                   src={user.photoURL}
@@ -104,7 +103,7 @@ class CommentField extends Component {
               )}
             </div>
             <div className={classes.comment}>
-              <Paper className="comment-body" className={classes.paper}>
+              <Paper className={classes.paper}>
                 <TextField
                   label={'What do you think?'}
                   multiline
@@ -115,8 +114,8 @@ class CommentField extends Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={this.state.comment}
-                  onChange={e => this.setState({ comment: e.target.value })}
+                  value={this.props.comment}
+                  onChange={e => this.props.updateCommentInput(e.target.value)}
                 />
               </Paper>
               <div className={classes.button}>

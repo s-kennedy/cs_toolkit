@@ -196,8 +196,13 @@ export const interactiveTool = (state={}, action) => {
   }
 }
 
-export const comments = (state={}, action) => {
+export const comments = (state={ input: "" }, action) => {
   switch (action.type) {
+    case 'UPDATE_COMMENT_INPUT':
+      return {
+        ...state,
+        input: action.input
+      }
     case 'UPDATE_COMMENTS':
       return {
         ...state,
