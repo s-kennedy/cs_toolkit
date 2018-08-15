@@ -143,6 +143,18 @@ export const content = (state={}, action) => {
   }
 }
 
+export const toolPageData = (state={}, action) => {
+  switch (action.type) {
+    case 'UPDATE_TOOL_PAGE_DATA':
+      return {
+        ...state,
+        ...action.data
+      }
+    default:
+      return state
+  }
+}
+
 export const notifications = (state={}, action) => {
   switch (action.type) {
     case 'SHOW_NOTIFICATION':
@@ -219,6 +231,18 @@ export const comments = (state={ input: "" }, action) => {
   }
 }
 
+export const overlay = (state={ show: false }, action) => {
+  switch (action.type) {
+    case 'TOGGLE_OVERLAY':
+      return {
+        ...state,
+        show: !state.show
+      }
+    default:
+      return state
+  }
+}
+
 export const appReducers = (state = {}, action) => {
   return {
     notifications: notifications(state.notifications, action),
@@ -228,6 +252,8 @@ export const appReducers = (state = {}, action) => {
     navigation: navigation(state.navigation, action),
     interactiveTool: interactiveTool(state.interactiveTool, action),
     comments: comments(state.comments, action),
+    toolPageData: toolPageData(state.toolPageData, action),
+    overlay: overlay(state.overlay, action),
   }
 }
 

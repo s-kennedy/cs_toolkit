@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import NavigationContainer from "../containers/NavigationContainer";
 import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
 import NotificationContainer from "../containers/NotificationContainer";
+import Overlay from "../components/Overlay";
 import Grid from "@material-ui/core/Grid";
 import withRoot from '../utils/withRoot';
 
@@ -39,6 +40,7 @@ const TemplateWrapper = props => (
       />
       <link rel="icon" href={favicon} type="image/x-icon" />
     </Helmet>
+    <Overlay />
     <NotificationContainer />
     <NavigationContainer />
     <div style={styles.navbarOffset} />
