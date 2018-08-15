@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toggleEditing } from "../../redux/actions";
+import { toggleEditingTool } from "../../redux/actions";
 
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -63,7 +63,7 @@ const styles = {
 const ProblemTree = props => {
   const tableData = props.tableData || initialTableData;
   const tableTitle = props.title || "Your title here";
-  const toggleEditingBtn = props.isEditingPage
+  const toggleEditingBtn = props.isEditingTool
     ? "Done editing"
     : "Start Editing";
 
@@ -79,20 +79,32 @@ const ProblemTree = props => {
     <div style={styles.container}>
       <Grid container justify={"space-between"}>
         <Grid item>
-          <Subtitle text={tableTitle} updateTitle={saveTitle} disableDelete />
+          <Subtitle
+            isEditing={props.isEditingTool}
+            text={tableTitle}
+            updateTitle={saveTitle}
+            disableDelete
+          />
         </Grid>
         <Grid item>
-          <Button
-            onClick={props.onToggleEditing}
-            variant="raised"
-            color="secondary"
-          >
-            {toggleEditingBtn}
-          </Button>
+          {!props.isLoggedIn && (
+            <span>Please sign in to start using this tool.</span>
+          )}
+          {props.isLoggedIn &&
+            props.allowEditing && (
+              <Button
+                onClick={props.onToggleEditing}
+                variant="raised"
+                color={props.isEditingTool ? "default" : "secondary"}
+              >
+                {toggleEditingBtn}
+              </Button>
+            )}
         </Grid>
       </Grid>
       <FlexTable
         id="problem-tree"
+        isEditing={props.isEditingTool}
         saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
@@ -105,14 +117,15 @@ const ProblemTree = props => {
 const mapDispatchToProps = dispatch => {
   return {
     onToggleEditing: () => {
-      dispatch(toggleEditing());
+      dispatch(toggleEditingTool());
     }
   };
 };
 
 const mapStateToProps = state => {
   return {
-    isEditingPage: state.adminTools.isEditingPage
+    isEditingTool: state.interactiveTool.isEditing,
+    isLoggedIn: state.adminTools.isLoggedIn
   };
 };
 

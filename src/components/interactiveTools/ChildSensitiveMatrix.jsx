@@ -140,10 +140,10 @@ const ChildSensitiveMatrix = props => {
       </Grid>
       <Table
         id="child-sensitive-matrix"
+        isEditing={props.isEditingTool}
         saveTable={saveTable}
         tableStructure={tableStructure}
         tableData={tableData}
-        isEditing={props.isEditingTool}
         disableDelete
       />
     </div>
