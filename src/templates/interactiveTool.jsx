@@ -1,13 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { graphql } from "gatsby";
+import { graphql } from 'gatsby';
 import uuidv4 from "uuid/v4";
 import Typography from "@material-ui/core/Typography";
-import Layout from "../../layouts/index";
-import Footer from "../../components/Footer";
-import Editable from "../../components/editable/Editable";
-import PlainTextEditor from "../../components/editingTools/PlainTextEditor";
-import RichTextEditor from "../../components/editingTools/RichTextEditor";
+import Layout from "../layouts/index";
+import Footer from "../components/Footer";
+import Editable from "../components/editable/Editable";
+import PlainTextEditor from "../components/editingTools/PlainTextEditor";
+import RichTextEditor from "../components/editingTools/RichTextEditor";
+
+import ChildSensitiveMatrix from "../components/interactiveTools/ChildSensitiveMatrix";
+import EngagementChecklist from "../components/interactiveTools/EngagementChecklist";
+import ObjectiveTree from "../components/interactiveTools/ObjectiveTree";
+import ProblemPrioritization from "../components/interactiveTools/ProblemPrioritization";
+import ProblemTree from "../components/interactiveTools/ProblemTree";
+import RiskAssumptionMatrix from "../components/interactiveTools/RiskAssumptionMatrix";
+import RiskMitigationPlan from "../components/interactiveTools/RiskMitigationPlan";
+import RiskPlot from "../components/interactiveTools/RiskPlot";
+import TheoryOfChange from "../components/interactiveTools/TheoryOfChange";
 
 import {
   getToolData,
@@ -15,11 +25,21 @@ import {
   toggleEditingTool,
   saveToolPage,
   updateToolPageData
-} from "../../redux/actions";
+} from "../redux/actions";
 
-import ChildSensitiveMatrix from "../../components/interactiveTools/ChildSensitiveMatrix";
+const toolMap = {
+  'child-sensitive-assessment-matrix': ChildSensitiveMatrix,
+  'checklist-engagement-children': EngagementChecklist,
+  'objective-tree': ObjectiveTree,
+  'problem-prioritization-worksheet': ProblemPrioritization,
+  'problem-tree': ProblemTree,
+  'risk-assumption-matrix': RiskAssumptionMatrix,
+  'risk-mitigation-plan': RiskMitigationPlan,
+  'risk-plot': RiskPlot,
+  'theory-of-change': TheoryOfChange
+}
 
-class MatrixPage extends React.Component {
+class InteractiveToolTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -64,6 +84,7 @@ class MatrixPage extends React.Component {
       (this.props.user &&
         this.props.user.interactive_tools &&
         Boolean(this.props.user.interactive_tools[this.state.toolId]));
+    const Tool = toolMap[this.props.data.toolPages.id]
 
     return (
       <Layout>
@@ -115,7 +136,7 @@ class MatrixPage extends React.Component {
             </div>
           </section>
           <section>
-            <ChildSensitiveMatrix
+            <Tool
               tableData={fields}
               title={title}
               handleSave={this.saveTool}
@@ -160,11 +181,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage);
+export default connect(mapStateToProps, mapDispatchToProps)(InteractiveToolTemplate);
 
 export const query = graphql`
-  query {
-    toolPages(id: { eq: "child-sensitive-assessment-matrix" }) {
+  query ($id: String!){
+    toolPages(id: { eq: $id }) {
       id
       title
       header
@@ -172,3 +193,4 @@ export const query = graphql`
     }
   }
 `;
+

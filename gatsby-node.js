@@ -30,6 +30,16 @@ exports.createPages = ({ graphql, actions }) => {
                 }
               }
             }
+            allToolPages {
+              edges {
+                node {
+                  id
+                  title
+                  header
+                  paragraph
+                }
+              }
+            }
           }
         `
       ).then(result => {
@@ -48,6 +58,20 @@ exports.createPages = ({ graphql, actions }) => {
             layout: "index",
             context: {
               slug: edge.node.slug
+            }
+          });
+        });
+
+        result.data.allToolPages.edges.forEach(edge => {
+          const template = path.resolve(
+            `src/templates/interactiveTool.jsx`
+          );
+          createPage({
+            path: `interactive/${edge.node.id}`, // required
+            component: template,
+            layout: "index",
+            context: {
+              id: edge.node.id
             }
           });
         });
