@@ -89,7 +89,7 @@ section {
   }
 }
 
-section.call-to-action {
+section.cta {
   line-height: 1;
   background-color: $primary;
   text-align: center;
@@ -232,6 +232,16 @@ button, .stc-btn {
 
     .para {
       font-size: 2rem;
+    }
+  }
+
+  section.pageNav {
+    .inner-content-container {
+      flex-wrap: wrap;
+
+      .page-nav:first-of-type {
+        margin-bottom: 1rem;
+      }
     }
   }
 }

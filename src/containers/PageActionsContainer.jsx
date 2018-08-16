@@ -27,9 +27,12 @@ const styles = {
     backgroundColor: 'rgba(255,255,255,0.7)',
     padding: '0.2rem 1rem',
     margin: '0.8rem 0.6rem',
+    border: '1px solid rgba(0, 0, 0, 0.14)',
+  },
+  innerItem: {
     display: 'flex',
     alignItems: 'center',
-    border: '1px solid rgba(0, 0, 0, 0.14)',
+    flexWrap: 'wrap',
   },
   button: {
     cursor: 'pointer',
@@ -67,31 +70,37 @@ const PageActionsContainer = (props) => {
   return (
     <Grid container justify="flex-end" style={styles.container}>
       <Grid item style={styles.actions}>
-        <span>Bookmark:</span>
-        <IconButton onClick={() => props.addBookmark(props.pageData.id)} color="secondary" style={styles.iconButton}>
-          <BookmarkIcon style={styles.muiIcon} />
-        </IconButton>
+        <Grid container>
+          <Grid item style={styles.innerItem}>
+            <span>Bookmark:</span>
+            <IconButton onClick={() => props.addBookmark(props.pageData.id)} color="secondary" style={styles.iconButton}>
+              <BookmarkIcon style={styles.muiIcon} />
+            </IconButton>
+          </Grid>
 
-        <span>Share: </span>
-        <WorkplaceShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
-          <WorkplaceIcon size={24} round />
-        </WorkplaceShareButton>
+          <Grid item style={styles.innerItem}>
+            <span>Share: </span>
+            <WorkplaceShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
+              <WorkplaceIcon size={24} round />
+            </WorkplaceShareButton>
 
-        <TwitterShareButton title={props.pageData.title} url={shareUrl} style={styles.button}>
-          <TwitterIcon size={24} round />
-        </TwitterShareButton>
+            <TwitterShareButton title={props.pageData.title} url={shareUrl} style={styles.button}>
+              <TwitterIcon size={24} round />
+            </TwitterShareButton>
 
-        <FacebookShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
-          <FacebookIcon size={24} round />
-        </FacebookShareButton>
+            <FacebookShareButton url={shareUrl} quote={props.pageData.title} style={styles.button}>
+              <FacebookIcon size={24} round />
+            </FacebookShareButton>
 
-        <WhatsappShareButton url={shareUrl} title={props.pageData.title} style={styles.button}>
-          <WhatsappIcon size={24} round />
-        </WhatsappShareButton>
+            <WhatsappShareButton url={shareUrl} title={props.pageData.title} style={styles.button}>
+              <WhatsappIcon size={24} round />
+            </WhatsappShareButton>
 
-        <EmailShareButton url={shareUrl} subject={props.pageData.title} style={styles.button}>
-          <EmailIcon size={24} round />
-        </EmailShareButton>
+            <EmailShareButton url={shareUrl} subject={props.pageData.title} style={styles.button}>
+              <EmailIcon size={24} round />
+            </EmailShareButton>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   )

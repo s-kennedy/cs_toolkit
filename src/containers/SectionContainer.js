@@ -83,9 +83,7 @@ const SectionContainer = props => {
 
   return (
     <section
-      className={`${
-        props.sectionType === "cta" ? "call-to-action" : "section"
-      } ${props.classes}`}
+      className={`${props.sectionType} ${props.classes}`}
     >
       <Grid container style={styles.container} justify="center">
         <Grid item xs={12} sm={10}>

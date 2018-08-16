@@ -132,6 +132,8 @@ export const AccountSectionContent = connect(mapStateToProps, mapDispatchToProps
   return(
     <List
       id="account-dropdown"
+      style={{ flexGrow: '1' }}
+      component="div"
       >
       <MenuItem
         component={Link}

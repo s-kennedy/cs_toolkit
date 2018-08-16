@@ -59,7 +59,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const ConnectedContent = props => {
-
   const deletePage = () => {
     props.deletePage(props.pageData);
     props.closeMenu();
@@ -67,7 +66,7 @@ const ConnectedContent = props => {
 
   const deploy = () => {
     props.deploy();
-    props.closeMenu()
+    props.closeMenu();
   };
 
   if (!props.allowEditing) {
@@ -77,10 +76,13 @@ const ConnectedContent = props => {
   const toggleText = props.isEditingPage ? "Done editing" : "Start editing";
 
   return (
-    <div>
-      <List id="editor-dropdown">
+    <div style={{ width: "100%" }} >
+      <List id="editor-dropdown" style={{ flexGrow: "1" }} component="div">
         <MenuItem
-          onClick={() => { props.onToggleEditing(); props.closeMenu(); }}
+          onClick={() => {
+            props.onToggleEditing();
+            props.closeMenu();
+          }}
           className={props.classes.root}
         >
           {toggleText}
@@ -106,9 +108,7 @@ const ConnectedContent = props => {
         </MenuItem>
       </List>
 
-      <CreatePageModalContainer
-        pages={props.pages}
-      />
+      <CreatePageModalContainer pages={props.pages} />
     </div>
   );
 };

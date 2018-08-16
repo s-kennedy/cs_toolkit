@@ -17,7 +17,6 @@ import MenuContent from "./MenuContent";
 const styles = theme => ({
   drawerPaper: {
     maxWidth: "25vw",
-    minWidth: "280px",
     background: "#f3f7f6"
   },
   toolbar: {

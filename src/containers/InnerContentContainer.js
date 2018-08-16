@@ -147,7 +147,7 @@ const generateContentComponents = (
 
 const InnerContentContainer = props => {
   return (
-    <div style={{ ...props.style }}>
+    <div style={{ ...props.style }} className="inner-content-container">
       {generateContentComponents(
         props.content,
         props.sectionIndex,

@@ -23,13 +23,13 @@ const MenuItemComponent = props => {
     <MenuItem
       key={props.page.id}
       onClick={props.closeMenu}
-      className={`${props.classes.root}`}
+      className={`${props.classes.root} plain`}
       selected={selected}
       style={itemStyle}
+      component="a"
+      href={pageUrl}
     >
-      <a href={pageUrl} className="plain">
-        {pageTitle}
-      </a>
+      {pageTitle}
     </MenuItem>
   );
 };
@@ -54,7 +54,7 @@ const MenuContent = props => {
   }
 
   return (
-    <List>
+    <List style={{ flexGrow: '1' }} component="div">
       {props.menuItems.map(pageNode => {
         const page = pageNode.node;
         return (
