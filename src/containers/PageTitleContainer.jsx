@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { updatePageTitle } from '../redux/actions'
+import { updatePageTitle, saveChanges } from '../redux/actions'
 import Title from '../components/editable/Title'
 
 function mapStateToProps(state) {
@@ -14,10 +14,12 @@ function mapDispatchToProps(dispatch) {
   return {
     onUpdateTitle: (title) => {
       dispatch(updatePageTitle(title))
+    },
+    saveChanges: (innerFunction) => {
+      dispatch(saveChanges(innerFunction))
     }
   }
 }
-
 
 const PageTitleContainer = (props) => {
   const styles = {
@@ -32,10 +34,14 @@ const PageTitleContainer = (props) => {
     }
   }
 
+  const updateTitle = input => {
+    props.saveChanges(() => props.onUpdateTitle(input))
+  }
+
   return (
     <div className='title-container' style={styles.titleContainer}>
       <div className='title' style={styles.title}>
-        <Title text={props.title} updateTitle={props.onUpdateTitle} />
+        <Title text={props.title} updateTitle={updateTitle} isEditing={props.isEditingPage} />
       </div>
     </div>
   )

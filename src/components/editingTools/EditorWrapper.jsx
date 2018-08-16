@@ -2,6 +2,7 @@ import React from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
+import CancelIcon from "@material-ui/icons/Close";
 
 const innerContentStyles = {
   editContainer: {
@@ -9,6 +10,11 @@ const innerContentStyles = {
     border: "1px solid black",
     position: "relative",
     padding: "10px"
+  },
+  editContainerHighlight: {
+    backgroundColor: "rgba(255,255,255,0.9)",
+    border: "3px solid #f7a700",
+    zIndex: "2500",
   },
   actions: {
     position: "absolute",
@@ -20,7 +26,7 @@ const innerContentStyles = {
     fontSize: "16px"
   },
   button: {
-    border: "1px solid black",
+    border: "1px solid #000",
     color: "black",
     backgroundColor: "#fff",
     height: "30px",
@@ -34,6 +40,12 @@ const innerContentStyles = {
     "&:hover": {
       backgroundColor: "grey"
     }
+  },
+  saveButton: {
+    backgroundColor: "#f7a700",
+  },
+  cancelButton: {
+    backgroundColor: "#f7a700",
   },
   icon: {
     fontSize: "16px"
@@ -58,34 +70,34 @@ const EditorWrapper = props => {
     <div
       className="edit-container"
       style={
-        props.isEditing
+        props.active
           ? {
               ...styles.editContainer,
-              backgroundColor: "rgba(255,255,255,0.9)"
+              ...styles.editContainerHighlight
             }
           : styles.editContainer
       }
     >
-      {props.isEditing && (
+      {props.active && (
         <div className="actions" style={styles.actions}>
           <div
-            className="save-icon"
+            className="cancel-icon"
             style={styles.button}
+            onClick={props.toggleEditing}
+          >
+            <CancelIcon />
+          </div>
+          <div
+            className="save-icon"
+            style={{...styles.button, ...styles.saveButton}}
             onClick={props.handleSave}
           >
             <CheckIcon />
           </div>
         </div>
       )}
-      {!props.isEditing && (
+      {!props.active && (
         <div className="actions" style={styles.actions}>
-          <div
-            className="edit-icon"
-            style={styles.button}
-            onClick={props.toggleEditing}
-          >
-            <EditIcon />
-          </div>
           {props.handleDelete &&
             props.disableDelete !== true && (
               <div
@@ -96,6 +108,13 @@ const EditorWrapper = props => {
                 <DeleteIcon />
               </div>
             )}
+          <div
+            className="edit-icon"
+            style={styles.button}
+            onClick={props.toggleEditing}
+          >
+            <EditIcon />
+          </div>
         </div>
       )}
       {props.children}

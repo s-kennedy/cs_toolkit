@@ -131,7 +131,7 @@ class SectionEditingActions extends React.Component {
                 Button
               </MenuItem>
               <MenuItem onClick={this.generateAddContentItemHandler("action")}>
-                Action
+                Link
               </MenuItem>
               <MenuItem onClick={this.generateAddSectionHandler("section")}>
                 Section

@@ -41,7 +41,7 @@ const styles = {
 };
 
 const EditableTable = props => {
-  const handleSave = content => () => {
+  const handleSave = content => {
     props.saveTable(content.tableData)
   }
 

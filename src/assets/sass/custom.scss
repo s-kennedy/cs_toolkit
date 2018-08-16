@@ -89,7 +89,7 @@ section {
   }
 }
 
-section.call-to-action {
+section.cta {
   line-height: 1;
   background-color: $primary;
   text-align: center;
@@ -169,12 +169,16 @@ button, .stc-btn {
 }
 
 .interactive-tool {
-  padding: 2rem;
+
+  section {
+    padding: 2rem;
+  }
 
   .title {
     display: flex;
     justify-content: center;
-    border-bottom: 2px solid rgb(1, 180, 170)
+    border-bottom: 2px solid rgb(1, 180, 170);
+    margin-bottom: 2rem;
   }
 }
 
@@ -189,6 +193,22 @@ button, .stc-btn {
 .pink {
   color: $pink;
 }
+
+.overlay {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background-color: transparentize($black, 0.5);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s linear;
+
+  &.show {
+    z-index: 2300;
+    opacity: 1;
+  }
+}
+
 
 
 /* RESPONSIVE FOR TABLETS */
@@ -212,6 +232,16 @@ button, .stc-btn {
 
     .para {
       font-size: 2rem;
+    }
+  }
+
+  section.pageNav {
+    .inner-content-container {
+      flex-wrap: wrap;
+
+      .page-nav:first-of-type {
+        margin-bottom: 1rem;
+      }
     }
   }
 }

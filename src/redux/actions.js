@@ -162,6 +162,37 @@ export function deploy() {
   };
 }
 
+export function updateToolPageData(data) {
+  return { type: "UPDATE_TOOL_PAGE_DATA", data }
+}
+
+export function saveToolPage(pageId, field, content) {
+  return dispatch => {
+    const db = firebase.database();
+
+    const data = {
+      [field]: content
+    };
+
+    db.ref(`tool_pages/${pageId}`).update(data).then(res => {
+      dispatch(updateToolPageData({ [field]: content }));
+      dispatch(
+        showNotification(
+          "Your changes have been saved. Publish your changes to make them public.",
+          "success"
+        )
+      );
+    }).catch(err => {
+      dispatch(
+        showNotification(
+          `There was an error saving your changes: ${err}`,
+            "danger"
+        )
+      );
+    })
+  };
+}
+
 export function savingPage() {
   return { type: "SAVING_PAGE" };
 }
@@ -266,8 +297,6 @@ export function saveToolData(toolId, toolData, slug, toolType) {
         toolType: toolType
       }
     };
-
-    console.log("dataToUpdate", dataToUpdate);
 
     firebase
       .database()
@@ -535,4 +564,8 @@ export function getCommentsByUser(userId) {
         dispatch(updateComments(comments))
       })
   };
+}
+
+export function toggleOverlay() {
+  return { type: 'TOGGLE_OVERLAY' }
 }

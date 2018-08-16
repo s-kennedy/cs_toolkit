@@ -41,7 +41,11 @@ module.exports = {
           {
             type: "Comments",
             path: "comments"
-          }
+          },
+          {
+            type: "ToolPages",
+            path: "tool_pages"
+          },
         ]
       }
     },

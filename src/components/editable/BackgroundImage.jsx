@@ -17,7 +17,7 @@ const BackgroundImage = props => {
     }
   }
 
-  const handleSave = updatedContent => () => {
+  const handleSave = updatedContent => {
     props.handleSave(updatedContent);
   };
 
@@ -27,6 +27,7 @@ const BackgroundImage = props => {
       handleSave={handleSave}
       content={{ imageSrc: props.imageSrc }}
       editCaption={false}
+      isEditing={props.isEditing}
       showChildren
       fullWidth
     >
