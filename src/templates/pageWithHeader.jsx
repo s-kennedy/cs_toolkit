@@ -33,6 +33,11 @@ class PageWithHeader extends React.Component {
 
   componentDidMount() {
     this.setState({ url: window.location.href })
+    if (window.location.hash) {
+      setTimeout(() => {
+        document.querySelector(`${window.location.hash}`).scrollIntoView();
+      }, 0);
+    }
   }
 
   // componentDidMount() {

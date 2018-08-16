@@ -5,6 +5,7 @@ import { map } from "lodash";
 import Header from "../components/editable/Header";
 import Paragraph from "../components/editable/Paragraph";
 import Name from "../components/editable/Name";
+import Anchor from "../components/editable/Anchor";
 import Image from "../components/editable/Image";
 import FileUpload from "../components/editable/FileUpload";
 import Button from "../components/editable/Button";
@@ -56,6 +57,19 @@ const generateContentComponents = (
       case "name":
         return (
           <Name
+            key={index}
+            index={index}
+            sectionIndex={sectionIndex}
+            updateContent={onUpdate}
+            saveChanges={saveChanges}
+            text={obj.text}
+            deleteContent={onDeleteContentItem}
+            isEditing={isEditing}
+          />
+        );
+      case "anchor":
+        return (
+          <Anchor
             key={index}
             index={index}
             sectionIndex={sectionIndex}

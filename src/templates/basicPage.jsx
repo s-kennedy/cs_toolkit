@@ -32,18 +32,12 @@ class BasicPage extends React.Component {
 
   componentDidMount() {
     this.setState({ url: window.location.href })
+    if (window.location.hash) {
+      setTimeout(() => {
+        document.querySelector(`${window.location.hash}`).scrollIntoView();
+      }, 0);
+    }
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener("beforeunload", this.trackLastVisitedPage);
-  // }
-
-  // trackLastVisitedPage = () => {
-  //   this.props.saveLastVisitedPage(
-  //     this.props.pageData.title,
-  //     this.props.location.pathname
-  //   );
-  // };
 
   render() {
     return (
