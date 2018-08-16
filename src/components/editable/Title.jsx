@@ -5,7 +5,7 @@ import Editable from "./Editable";
 import PlainTextEditor from "../editingTools/PlainTextEditor";
 
 const Title = props => {
-  const handleSave = newContent => () => {
+  const handleSave = newContent => {
     props.updateTitle(newContent.text);
   };
 

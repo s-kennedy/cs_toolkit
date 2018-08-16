@@ -18,8 +18,8 @@ const styles = {
 
 
 const Image = (props) => {
-  const handleSave = content => () => {
-    props.updateContent(props.sectionIndex, props.index, content)
+  const handleSave = content => {
+    props.saveChanges(() => props.updateContent(props.sectionIndex, props.index, content))
   }
 
   return (

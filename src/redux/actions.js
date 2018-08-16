@@ -298,8 +298,6 @@ export function saveToolData(toolId, toolData, slug, toolType) {
       }
     };
 
-    console.log("dataToUpdate", dataToUpdate);
-
     firebase
       .database()
       .ref()

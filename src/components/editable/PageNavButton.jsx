@@ -25,8 +25,8 @@ const styles = {
 };
 
 const PageNavButton = props => {
-  const handleSave = content => () => {
-    props.updateContent(props.sectionIndex, props.index, content)
+  const handleSave = content => {
+    props.saveChanges(() => props.updateContent(props.sectionIndex, props.index, content))
   }
 
   const ArrowIcon = props.direction === 'next' ? ArrowForward : ArrowBack

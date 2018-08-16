@@ -1,92 +1,71 @@
-import React from 'react';
+import React from "react";
 
-import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { connect } from "react-redux";
+import { map } from "lodash";
 
-import { updatePageContent } from '../redux/actions';
+import SectionContainer from "../containers/SectionContainer";
 
-import PageNavigation from '../containers/PageNavigation';
-import SectionContainer from '../containers/SectionContainer';
-import ReferenceContainer from '../containers/ReferenceContainer';
-import SectionEditingActions from '../containers/SectionEditingActions';
-
-
-const generateContentComponents = (contentJson=[], sectionIndex, onUpdate, onAddContentItem, onDeleteContentItem) => {
+const generateContentComponents = (contentJson = []) => {
   return map(contentJson, (obj, index) => {
     if (!obj) {
-      return console.log('Obj is undefined')
+      return console.log("Obj is undefined (PageContentContainer)");
     }
     switch (obj.type) {
-      case 'section':
-      return(
-        <SectionContainer
-          key={index}
-          index={index}
-          sectionIndex={sectionIndex}
-          updateContent={onUpdate}
-          addContent={onAddContentItem}
-          content={obj.content}
-        />);
-      case 'call_to_action':
-      return (
-        <SectionContainer
-          key={index}
-          index={index}
-          sectionIndex={sectionIndex}
-          updateContent={onUpdate}
-          addContent={onAddContentItem}
-          content={obj.content}
-          cta={true}
-        />);
-      case 'reference':
-      return (
-        <ReferenceContainer
-          key={index}
-          index={index}
-          sectionIndex={sectionIndex}
-          updateContent={onUpdate}
-          addContent={onAddContentItem}
-          content={obj.content}
-        />);
-      case 'page_navigation':
-      return (
-        <PageNavigation
-          key={index}
-          index={index}
-          sectionIndex={sectionIndex}
-          updateContent={onUpdate}
-          content={obj.content}
-        />);
+      case "section":
+        return (
+          <SectionContainer
+            key={index}
+            index={index}
+            content={obj.content}
+            sectionType="section"
+          />
+        );
+      case "call_to_action":
+        return (
+          <SectionContainer
+            key={index}
+            index={index}
+            content={obj.content}
+            sectionType="cta"
+          />
+        );
+      case "reference":
+        return (
+          <SectionContainer
+            key={index}
+            index={index}
+            content={obj.content}
+            sectionType="section"
+          />
+        );
+      case "page_navigation":
+        return (
+          <SectionContainer
+            key={index}
+            index={index}
+            content={obj.content}
+            sectionType="pageNav"
+          />
+        );
       default:
-      console.log('No component defined for ' + obj.type)
-      return null;
+        console.log("No section container defined for " + obj.type);
+        return null;
     }
-  })
-}
+  });
+};
 
-const PageContentContainer = (props) => {
-
+const PageContentContainer = props => {
   return (
     <div style={{ position: "relative" }}>
-      { generateContentComponents(props.content, props.sectionIndex, props.onUpdate, props.onAddContentItem, props.onDeleteContentItem) }
-      <SectionEditingActions {...props} />
+      {generateContentComponents(props.content)}
     </div>
   );
-}
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    content: state.content.body,
-    isEditingPage: state.adminTools.isEditingPage,
-  }
-}
+    content: state.content.body
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdatePageContent: (content) => {
-      dispatch(updatePageContent(content))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageContentContainer);
+export default connect(mapStateToProps, null)(PageContentContainer);
