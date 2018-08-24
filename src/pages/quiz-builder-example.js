@@ -1,26 +1,35 @@
 import React, { Component } from "react";
-import * as SurveyJSEditor from "surveyjs-editor";
-import "surveyjs-editor/surveyeditor.css";
-import "bootstrap/dist/css/bootstrap.css";
+import Layout from "../layouts/index";
+import Footer from "../components/Footer";
+import Survey from '../components/editable/Survey';
 
-class SurveyEditor extends Component {
-  editor;
+import { connect } from "react-redux";
 
-  componentDidMount() {
-    let editorOptions = { showEmbededSurveyTab: true };
-    this.editor = new SurveyJSEditor.SurveyEditor(
-      "surveyEditorContainer",
-      editorOptions
-    );
-    this.editor.saveSurveyFunc = this.saveMySurvey;
+class SurveyPage extends Component {
+  state = {
+    surveyData: {pages:[{name:"page1",elements:[{type:"text",name:"question1",title:"What do you think about this?"}]}]}
   }
+
+  saveSurvey = (surveyData) => {
+    this.setState({ surveyData });
+  }
+
   render() {
-    return <div id="surveyEditorContainer" />;
+    return (
+      <Layout>
+        <Survey surveyData={this.state.surveyData} isEditing={this.props.isEditingPage} />
+        <Footer />
+      </Layout>
+    )
   }
-
-  saveMySurvey = () => {
-    console.log(JSON.stringify(this.editor.text));
-  };
 }
 
-export default SurveyEditor;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.adminTools.isLoggedIn,
+    user: state.adminTools.user,
+    isEditingPage: state.adminTools.isEditingPage,
+  };
+};
+
+export default connect(mapStateToProps, null)(SurveyPage);
