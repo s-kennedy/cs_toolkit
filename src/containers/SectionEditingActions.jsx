@@ -133,6 +133,11 @@ class SectionEditingActions extends React.Component {
               <MenuItem onClick={this.generateAddContentItemHandler("action")}>
                 Link
               </MenuItem>
+              <MenuItem
+                onClick={this.generateAddContentItemHandler("survey")}
+              >
+                Quiz
+              </MenuItem>
               <MenuItem onClick={this.generateAddSectionHandler("section")}>
                 Section
               </MenuItem>

@@ -11,6 +11,7 @@ import FileUpload from "../components/editable/FileUpload";
 import Button from "../components/editable/Button";
 import Action from "../components/editable/Action";
 import PageNavButton from "../components/editable/PageNavButton";
+import Survey from "../components/editable/Survey";
 
 import SectionEditingActions from "../containers/SectionEditingActions";
 
@@ -146,6 +147,20 @@ const generateContentComponents = (
             anchor={obj.anchor}
             link={obj.link}
             direction={obj.direction}
+            updateContent={onUpdate}
+            saveChanges={saveChanges}
+            deleteContent={onDeleteContentItem}
+            isEditing={isEditing}
+          />
+        );
+      case "survey":
+        return (
+          <Survey
+            key={index}
+            index={index}
+            sectionIndex={sectionIndex}
+            title={obj.title}
+            text={obj.text}
             updateContent={onUpdate}
             saveChanges={saveChanges}
             deleteContent={onDeleteContentItem}

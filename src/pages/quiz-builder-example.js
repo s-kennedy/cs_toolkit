@@ -7,17 +7,17 @@ import { connect } from "react-redux";
 
 class SurveyPage extends Component {
   state = {
-    surveyData: {pages:[{name:"page1",elements:[{type:"text",name:"question1",title:"What do you think about this?"}]}]}
+    text: {pages:[{name:"page1",elements:[{type:"text",name:"question1",title:"What do you think about this?"}]}]}
   }
 
-  saveSurvey = (surveyData) => {
-    this.setState({ surveyData });
+  saveSurvey = (text) => {
+    this.setState({ text });
   }
 
   render() {
     return (
       <Layout>
-        <Survey surveyData={this.state.surveyData} isEditing={this.props.isEditingPage} />
+        <Survey text={this.state.text} title="Demo Survey" isEditing={this.props.isEditingPage} />
         <Footer />
       </Layout>
     )

@@ -5,9 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 
 class SurveyEditor extends Component {
   editor;
-  state = {
-    content: this.props.content
-  };
 
   componentDidMount() {
     let editorOptions = {
@@ -18,10 +15,8 @@ class SurveyEditor extends Component {
       "surveyEditorContainer",
       editorOptions
     );
-    this.editor.text = JSON.stringify(this.props.content.text);
-    this.editor.saveSurveyFunc = () => {
-      this.setState({ content: { text: this.editor.text }})
-    }
+    const testprops = this.props;
+    this.editor.text = this.props.content.text;
   }
 
   render() {
