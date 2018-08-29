@@ -569,3 +569,45 @@ export function getCommentsByUser(userId) {
 export function toggleOverlay() {
   return { type: 'TOGGLE_OVERLAY' }
 }
+
+// SURVEYS --------------------
+
+export function saveSurveyResult(survey, pageId) {
+  return (dispatch, getState) => {
+    const db = firebase.database();
+    const state = getState();
+
+    if (!state.adminTools.isLoggedIn) {
+      return dispatch(showNotification("Please log in to save your quiz results.", "warning"));
+    }
+
+    const userId = state.adminTools.user.uid;
+    const correctAnswersCount = survey.getCorrectedAnswerCount();
+    const questions = survey.getQuizQuestions();
+
+    const surveyData = {
+      title: survey.title,
+      pageId: pageId,
+      correctAnswersCount: correctAnswersCount,
+      questionsCount: questions.length,
+      timestamp: new Date().toString(),
+    };
+
+    db
+      .ref(`/users/${userId}/surveys/${pageId}`)
+      .set(surveyData)
+      .then(err => {
+        dispatch(
+          showNotification("Your quiz results have been saved. You can view them on your Dashboard.", "success")
+        );
+      })
+      .catch(err => {
+        dispatch(
+          showNotification(
+            `There was an error saving your quiz results: ${err.message}`,
+            "warning"
+          )
+        );
+      })
+  };
+}

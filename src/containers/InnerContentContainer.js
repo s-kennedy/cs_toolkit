@@ -11,6 +11,7 @@ import FileUpload from "../components/editable/FileUpload";
 import Button from "../components/editable/Button";
 import Action from "../components/editable/Action";
 import PageNavButton from "../components/editable/PageNavButton";
+import Survey from "../components/editable/Survey";
 
 import SectionEditingActions from "../containers/SectionEditingActions";
 
@@ -21,7 +22,8 @@ const generateContentComponents = (
   saveChanges,
   onAddContentItem,
   onDeleteContentItem,
-  isEditing
+  isEditing,
+  pageId
 ) => {
   return map(contentJson, (obj, index) => {
     if (!obj) {
@@ -152,6 +154,21 @@ const generateContentComponents = (
             isEditing={isEditing}
           />
         );
+      case "survey":
+        return (
+          <Survey
+            key={index}
+            index={index}
+            sectionIndex={sectionIndex}
+            title={obj.title}
+            text={obj.text}
+            updateContent={onUpdate}
+            saveChanges={saveChanges}
+            deleteContent={onDeleteContentItem}
+            isEditing={isEditing}
+            pageId={pageId}
+          />
+        );
       default:
         console.log("No component defined for " + obj.type);
         return null;
@@ -169,7 +186,8 @@ const InnerContentContainer = props => {
         props.saveChanges,
         props.onAddContentItem,
         props.onDeleteContentItem,
-        props.isEditingPage
+        props.isEditingPage,
+        props.pageId,
       )}
       {props.isEditingPage && <SectionEditingActions {...props} />}
     </div>

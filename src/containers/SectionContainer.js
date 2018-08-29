@@ -98,6 +98,7 @@ const SectionContainer = props => {
             onAddSection={props.onAddSection}
             saveChanges={props.saveChanges}
             style={innerContainerStyles}
+            pageId={props.pageId}
           />
         </Grid>
       </Grid>
