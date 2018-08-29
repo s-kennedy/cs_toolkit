@@ -35,8 +35,8 @@ export const emptyContentItems = {
   },
   survey: {
     type: "survey",
-    title: "Quiz Title",
     text: JSON.stringify({
+      title: "Quiz Title",
       pages: [
         {
           name: "page1",

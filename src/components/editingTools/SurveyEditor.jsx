@@ -23,8 +23,8 @@ class SurveyEditor extends Component {
     SurveyJSEditor.StylesManager.ThemeColors.default = { ...SurveyJSEditor.StylesManager.ThemeColors.default,
       "$main-color": "#01b4aa",
       "$main-hover-color": "#004440",
-      "$header-color": "#01b4aa",
-      "$header-background-color": "#ddf2f1",
+      "$header-color": '#000',
+      "$header-background-color": '#f3f7f6',
     }
 
     SurveyJSEditor.StylesManager.applyTheme();
@@ -33,7 +33,7 @@ class SurveyEditor extends Component {
       "surveyEditorContainer",
       editorOptions
     );
-    const testprops = this.props;
+
     this.editor.text = this.props.content.text;
   }
 
