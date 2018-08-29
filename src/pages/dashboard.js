@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from "gatsby";
 import { StaticQuery, graphql } from "gatsby";
 import { connect } from "react-redux";
-import { map, find } from "lodash";
+import { map, find, filter } from "lodash";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,15 +13,76 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
+import ArrowForward from "@material-ui/icons/ArrowForward";
 
 import Layout from '../layouts/index';
 import { deleteInteractiveTool, deleteBookmark, deleteComment, getCommentsByUser } from '../redux/actions';
 
 const styles = {
+  paper: {
+    overflowX: 'auto'
+  },
   container: {
     marginBottom: '2rem',
+  },
+  header: {
+    backgroundColor: '#f3f7f6',
+    color: '#000',
+    padding: '1rem',
+  },
+  h3: {
+    margin: '0'
+  },
+  body: {
+    padding: '1rem',
+    borderTop: '2px solid #01b4aa',
+    textAlign: 'center',
+    fontSize: '1rem'
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: '2rem'
+  },
+  score: {
+    borderBottom: '1px solid gray',
+    borderTop: '1px solid gray',
   }
+}
+
+const QuizResult = ({ result, slug, title }) => {
+  const date = result ? new Date(result.timestamp).toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric"
+  }) : null;
+
+  const score = result ? `${result.correctAnswersCount} / ${result.questionsCount}` : "?";
+  const cta = result ? 'Take it again' : 'Take the Quiz'
+
+  return (
+    <div>
+      <div style={styles.header}>
+        <h3 style={styles.h3}><span>{title}</span></h3>
+      </div>
+      <div style={styles.body}>
+        <p>Your result:</p>
+        <Typography variant="display1" color="primary">
+          {score}
+        </Typography>
+        <p>{date}</p>
+        <div style={styles.footer}>
+          <Button component="a" href={slug} variant="raised">{cta}<ArrowForward /></Button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 class Dashboard extends React.Component {
@@ -36,6 +97,8 @@ class Dashboard extends React.Component {
     const tools = (props.user && props.user.interactive_tools) ? props.user.interactive_tools : {};
     const bookmarks = (props.user && props.user.bookmarks) ? props.user.bookmarks : {};
     const comments = props.comments || {};
+    const quizzes = filter(props.pages, (p) => p.node.page_type === 'quiz')
+    const surveys = (props.user && props.user.surveys) ? props.user.surveys : {};
 
     return (
       <Layout>
@@ -54,9 +117,35 @@ class Dashboard extends React.Component {
           <Grid container justify="center" style={styles.container}>
             <Grid item xs={12} md={10}>
               <div>
+                <Typography variant="display4" gutterBottom>Quizzes</Typography>
+              </div>
+
+              <Grid container justify="flex-start" spacing={24} style={styles.container}>
+                {
+                  quizzes.map(quizNode => {
+                    const quizPage = quizNode.node;
+                    const userResultData = surveys[quizPage.id];
+
+                    return(
+                      <Grid item xs={12} sm={6} md={4} key={`quiz-${quizPage.id}`}>
+                        <Paper>
+                          <QuizResult result={userResultData} slug={quizPage.slug} title={quizPage.title} />
+                        </Paper>
+                      </Grid>
+                    )
+                  })
+                }
+              </Grid>
+
+            </Grid>
+          </Grid>
+
+          <Grid container justify="center" style={styles.container}>
+            <Grid item xs={12} md={10}>
+              <div>
                 <Typography variant="display4" gutterBottom>Bookmarked pages</Typography>
               </div>
-              <Paper>
+              <Paper style={styles.paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -93,7 +182,7 @@ class Dashboard extends React.Component {
               <div>
                 <Typography variant="display4" gutterBottom>Interactive tools</Typography>
               </div>
-              <Paper>
+              <Paper style={styles.paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -130,7 +219,7 @@ class Dashboard extends React.Component {
               <div>
                 <Typography variant="display4" gutterBottom>Comments</Typography>
               </div>
-              <Paper>
+              <Paper style={styles.paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
