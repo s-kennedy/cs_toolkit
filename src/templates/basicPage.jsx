@@ -45,7 +45,7 @@ class BasicPage extends React.Component {
         <div className={`basic-page ${this.props.pageData.page_type}`}>
           <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
           <PageTitleContainer />
-          <PageContentContainer />
+          <PageContentContainer pageId={this.props.data.pages.id} />
           <CommentsSection pageId={this.props.data.pages.id} />
           <Footer />
         </div>

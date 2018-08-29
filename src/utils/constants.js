@@ -58,11 +58,12 @@ export const DEPLOY_ENDPOINT = "https://toolkit.sharonkennedy.ca";
 export const pageTypes = [
   { label: "About", value: { type: "about", template: "basicPage.jsx" } },
   { label: "Action", value: { type: "action", template: "basicPage.jsx" } },
-  { label: "Tool", value: { type: "tool", template: "basicPage.jsx" } },
   {
     label: "Case Study",
     value: { type: "case-study", template: "basicPage.jsx" }
   },
+  { label: "Quiz", value: { type: "quiz", template: "basicPage.jsx" } },
+  { label: "Tool", value: { type: "tool", template: "basicPage.jsx" } },
   {
     label: "Reference",
     value: { type: "reference", template: "basicPage.jsx" }

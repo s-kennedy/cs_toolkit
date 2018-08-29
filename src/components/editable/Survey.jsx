@@ -1,14 +1,15 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 import * as Survey from "survey-react";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import Editable from "./Editable";
 import SurveyEditor from "../editingTools/SurveyEditor";
 
+import { saveSurveyResult } from '../../redux/actions'
 import "survey-react/survey.css";
 
 const styles = {
@@ -43,6 +44,11 @@ const styles = {
   label: {
     fontWeight: '700',
     marginRight: '0.5rem'
+  },
+  loginPrompt: {
+    padding: '0.5rem',
+    textAlign: 'right',
+    fontSize: '0.9rem',
   }
 }
 
@@ -57,7 +63,7 @@ const SurveyQuestionReview = ({ question }) => (
   </div>
 )
 
-const SurveyResults = ({ survey }) => {
+const SurveyResults = ({ survey, isLoggedIn }) => {
   const correctAnswersCount = survey.getCorrectedAnswerCount();
   const questions = survey.getQuizQuestions();
 
@@ -75,7 +81,7 @@ const SurveyResults = ({ survey }) => {
             <SurveyQuestionReview key={`question-${index}`} question={question} />
           ))
         }
-        <div style={styles.scoreBox}>You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</div>
+        { isLoggedIn && <div style={styles.scoreBox}>You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</div> }
       </div>
     </Paper>
   )
@@ -93,6 +99,7 @@ class EditableSurvey extends React.Component {
 
   handleComplete = completedSurvey => {
     this.setState({ completedSurvey })
+    this.props.saveSurveyResult(completedSurvey, this.props.pageId);
   }
 
   componentDidMount() {
@@ -107,12 +114,12 @@ class EditableSurvey extends React.Component {
 
 
   render() {
-    const { text, ...rest } = this.props;
+    const { text, isLoggedIn, ...rest } = this.props;
     const model = new Survey.Model(text);
-    model.completedHtml = "<h3>That's it for this quiz! You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</h3>"
+    model.completedHtml = "<h3>That's it for this quiz! You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</h3>";
 
     if (this.state.completedSurvey) {
-      return <SurveyResults survey={this.state.completedSurvey} />
+      return <SurveyResults survey={this.state.completedSurvey} isLoggedIn={isLoggedIn} />
     }
 
     return (
@@ -123,6 +130,9 @@ class EditableSurvey extends React.Component {
         surveyEditor={true}
         {...rest}
       >
+        {
+          !isLoggedIn && <div style={styles.loginPrompt}>Please log in if you want to save your quiz results.</div>
+        }
         <Paper>
           <Survey.Survey
             model={model}
@@ -134,4 +144,18 @@ class EditableSurvey extends React.Component {
   }
 };
 
-export default EditableSurvey;
+const mapDispatchToProps = dispatch => {
+  return {
+    saveSurveyResult: (survey, pageId) => {
+      dispatch(saveSurveyResult(survey, pageId))
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.adminTools.isLoggedIn,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditableSurvey);

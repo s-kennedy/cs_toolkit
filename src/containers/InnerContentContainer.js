@@ -22,7 +22,8 @@ const generateContentComponents = (
   saveChanges,
   onAddContentItem,
   onDeleteContentItem,
-  isEditing
+  isEditing,
+  pageId
 ) => {
   return map(contentJson, (obj, index) => {
     if (!obj) {
@@ -165,6 +166,7 @@ const generateContentComponents = (
             saveChanges={saveChanges}
             deleteContent={onDeleteContentItem}
             isEditing={isEditing}
+            pageId={pageId}
           />
         );
       default:
@@ -184,7 +186,8 @@ const InnerContentContainer = props => {
         props.saveChanges,
         props.onAddContentItem,
         props.onDeleteContentItem,
-        props.isEditingPage
+        props.isEditingPage,
+        props.pageId,
       )}
       {props.isEditingPage && <SectionEditingActions {...props} />}
     </div>

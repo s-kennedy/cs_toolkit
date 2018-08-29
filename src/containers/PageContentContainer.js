@@ -5,7 +5,7 @@ import { map } from "lodash";
 
 import SectionContainer from "../containers/SectionContainer";
 
-const generateContentComponents = (contentJson = []) => {
+const generateContentComponents = (contentJson = [], pageId) => {
   return map(contentJson, (obj, index) => {
     if (!obj) {
       return console.log("Obj is undefined (PageContentContainer)");
@@ -18,6 +18,7 @@ const generateContentComponents = (contentJson = []) => {
             index={index}
             content={obj.content}
             sectionType="section"
+            pageId={pageId}
           />
         );
       case "call_to_action":
@@ -57,7 +58,7 @@ const generateContentComponents = (contentJson = []) => {
 const PageContentContainer = props => {
   return (
     <div style={{ position: "relative" }}>
-      {generateContentComponents(props.content)}
+      {generateContentComponents(props.content, props.pageId)}
     </div>
   );
 };
