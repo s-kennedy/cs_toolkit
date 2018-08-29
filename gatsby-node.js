@@ -94,6 +94,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
             test: /surveyjs-editor/,
             use: loaders.null(),
           },
+          {
+            test: /survey-react/,
+            use: loaders.null(),
+          },
         ],
       },
     })

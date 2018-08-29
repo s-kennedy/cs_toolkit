@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import * as Survey from "survey-react";
+import { Survey, Model, StylesManager } from "survey-react";
 import Paper from "@material-ui/core/Paper";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -89,7 +89,7 @@ const SurveyResults = ({ survey, isLoggedIn }) => {
 
 
 class EditableSurvey extends React.Component {
-  state = { completedSurvey: null };
+  state = { completedSurvey: null, model: null };
 
   handleSave = text => {
     this.props.saveChanges(() =>
@@ -103,23 +103,27 @@ class EditableSurvey extends React.Component {
   }
 
   componentDidMount() {
-    Survey.StylesManager.ThemeColors.default = { ...Survey.StylesManager.ThemeColors.default,
+    StylesManager.ThemeColors.default = { ...StylesManager.ThemeColors.default,
       "$main-color": "#01b4aa", //teal
       "$main-hover-color":"#004440", // dark teal
       "$header-color": styles.header.color,
       "$header-background-color": styles.header.backgroundColor,
     }
-    Survey.StylesManager.applyTheme();
+    StylesManager.applyTheme();
+    const model = new Model(this.props.text)
+    this.setState({ model })
   }
 
 
   render() {
     const { text, isLoggedIn, ...rest } = this.props;
-    const model = new Survey.Model(text);
-    model.completedHtml = "<h3>That's it for this quiz! You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</h3>";
 
     if (this.state.completedSurvey) {
       return <SurveyResults survey={this.state.completedSurvey} isLoggedIn={isLoggedIn} />
+    }
+
+    if (!this.state.model) {
+      return <div />
     }
 
     return (
@@ -134,8 +138,8 @@ class EditableSurvey extends React.Component {
           !isLoggedIn && <div style={styles.loginPrompt}>Please log in if you want to save your quiz results.</div>
         }
         <Paper>
-          <Survey.Survey
-            model={model}
+          <Survey
+            model={this.state.model}
             onComplete={this.handleComplete}
           />
         </Paper>
