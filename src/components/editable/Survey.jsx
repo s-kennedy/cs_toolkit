@@ -7,10 +7,19 @@ import Typography from "@material-ui/core/Typography";
 import Editable from "./Editable";
 import SurveyEditor from "../editingTools/SurveyEditor";
 import PlainTextEditor from "../editingTools/PlainTextEditor";
+import { withTheme } from '@material-ui/core/styles';
 
 import "survey-react/survey.css";
 
+
 const EditableSurvey = props => {
+  Survey.StylesManager.ThemeColors.default = { ...Survey.StylesManager.ThemeColors.default,
+    "$main-color": props.theme.palette.primary.main,
+    "$main-hover-color": props.theme.palette.primary.dark,
+    "$header-color": props.theme.palette.primary.dark,
+    "$header-background-color": props.theme.palette.primary.light,
+  }
+
   const handleSaveSurvey = text => {
     props.saveChanges(() =>
       props.updateContent(props.sectionIndex, props.index, { text })
@@ -22,7 +31,7 @@ const EditableSurvey = props => {
       props.updateContent(props.sectionIndex, props.index, { title: content.text })
     );
   }
-
+  Survey.StylesManager.applyTheme();
   const { text, title, ...rest } = props;
   const model = new Survey.Model(text);
 
@@ -58,4 +67,4 @@ const EditableSurvey = props => {
   );
 };
 
-export default EditableSurvey;
+export default withTheme()(EditableSurvey);
