@@ -63,6 +63,19 @@ class PageWithHeader extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.data.pages.id !== this.props.data.pages.id) {
+      const { id, title, slug, page_type, navigation } = this.props.data.pages;
+      const pageData = { id, title, slug, page_type, navigation };
+      const content = {
+        header: this.props.data.pages.page_header,
+        body: JSON.parse(this.props.data.pages.content)
+      };
+      this.props.onUpdatePageContent(content);
+      this.props.onUpdatePageMetaData(pageData);
+    }
+  }
+
   render() {
     return (
       <div style={styles.page}>

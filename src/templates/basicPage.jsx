@@ -60,6 +60,19 @@ class BasicPage extends React.Component {
         document.querySelector(`${window.location.hash}`).scrollIntoView();
       }, 0);
     }
+
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.data.pages.id !== this.props.data.pages.id) {
+      const { id, title, slug, page_type, navigation } = this.props.data.pages;
+      const pageData = { id, title, slug, page_type, navigation };
+      const content = {
+        body: JSON.parse(this.props.data.pages.content)
+      };
+      this.props.onUpdatePageContent(content);
+      this.props.onUpdatePageMetaData(pageData);
+    }
   }
 
   render() {
