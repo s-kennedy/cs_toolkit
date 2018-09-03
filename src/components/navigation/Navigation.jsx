@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "gatsby";
+import { Link } from "gatsby";
 import { filter, orderBy } from "lodash";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -14,12 +14,12 @@ import AccountSection from "./AccountSection";
 import AdminSection from "./AdminSection";
 
 const styles = theme => ({
-  root: {
+  container: {
     flexGrow: 1,
     position: "relative",
     display: "flex"
   },
-  appBar: {
+  root: {
     zIndex: theme.zIndex.drawer + 1000
   },
   drawerPaper: {
@@ -79,7 +79,6 @@ class Navigation extends React.Component {
   };
 
   closeMenu = () => {
-
     this.setState({ openMenu: false, selected: null });
   };
 
@@ -87,20 +86,20 @@ class Navigation extends React.Component {
     const openModal = Boolean(this.props.showRegistrationModal);
 
     return (
-      <div className={this.props.classes.root}>
+      <div className={this.props.classes.container}>
         <AppBar
           color="inherit"
           position="fixed"
-          className={this.props.classes.appBar}
+          className={this.props.classes.root}
         >
           <Toolbar className={this.props.classes.toolbar}>
-            <a href="/">
+            <Link to="/">
               <img
                 className={this.props.classes.logo}
                 src={logo}
                 alt="Save the Children"
               />
-            </a>
+            </Link>
             <div className={this.props.classes.actions}>
               <div
                 className={

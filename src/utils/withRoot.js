@@ -11,7 +11,9 @@ function withRoot(Component) {
     constructor(props) {
       super(props);
 
-      this.pageContext = this.props.pageContext || getPageContext();
+      const themeContext = getPageContext();
+      const pageContext = this.props.pageContext || {};
+      this.pageContext = { ...pageContext, ...themeContext } ;
     }
 
     componentDidMount() {

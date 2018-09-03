@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "gatsby";
+import { Link } from "gatsby";
 import ArrowForward from "@material-ui/icons/ArrowForward";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
@@ -44,10 +44,10 @@ const PageNavButton = props => {
       {...props}
     >
       <div className="page-nav" style={styles.container}>
-        <a href={props.link} style={styles.link} title={props.anchor}>
+        <Link to={props.link} style={styles.link} title={props.anchor}>
           <ArrowIcon style={iconStyles} />
           <span style={styles.text}>{props.anchor}</span>
-        </a>
+        </Link>
       </div>
     </Editable>
   );
