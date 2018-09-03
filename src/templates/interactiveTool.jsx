@@ -1,10 +1,19 @@
 import React from "react";
+
+import Helmet from "react-helmet";
+import NavigationContainer from "../containers/NavigationContainer";
+import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
+import NotificationContainer from "../containers/NotificationContainer";
+import Overlay from "../components/Overlay";
+import Footer from "../components/Footer";
+
+import Grid from "@material-ui/core/Grid";
+import withRoot from '../utils/withRoot';
+
 import { connect } from "react-redux";
 import { graphql } from 'gatsby';
 import uuidv4 from "uuid/v4";
 import Typography from "@material-ui/core/Typography";
-import Layout from "../layouts/index";
-import Footer from "../components/Footer";
 import Editable from "../components/editable/Editable";
 import PlainTextEditor from "../components/editingTools/PlainTextEditor";
 import RichTextEditor from "../components/editingTools/RichTextEditor";
@@ -26,6 +35,23 @@ import {
   saveToolPage,
   updateToolPageData
 } from "../redux/actions";
+
+import "../assets/sass/custom.scss";
+import favicon from '../assets/img/favicon.png'
+
+const styles = {
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  body: {
+    flexGrow: '1',
+  },
+  navbarOffset: {
+    height: '74px'
+  }
+}
 
 const toolMap = {
   'child-sensitive-assessment-matrix': ChildSensitiveMatrix,
@@ -87,66 +113,94 @@ class InteractiveToolTemplate extends React.Component {
     const Tool = toolMap[this.props.data.toolPages.id]
 
     return (
-      <Layout>
-        <div className="interactive-tool">
-          <section>
-            <div className="title">
-              <Typography variant="display1" gutterBottom>
-                <Editable
-                  editor={PlainTextEditor}
-                  handleSave={this.savePageData("title")}
-                  content={{ text: this.props.toolPageData.title }}
-                  isEditing={this.props.isEditingPage}
-                  {...this.props}
-                >
-                  {this.props.toolPageData.title ||
-                    this.props.data.toolPages.title}
-                </Editable>
-              </Typography>
+      <div style={styles.page}>
+        <Helmet>
+          <title>
+            Child Sensitivity in Poverty Alleviation Programming: An Analytical
+            Toolkit
+          </title>
+          <meta
+            charSet="utf-8"
+            description="Child Sensitivity in Poverty Alleviation Programming: An Analytical Toolkit"
+            keywords="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
+            viewport="width=device-width,initial-scale=1.0,maximum-scale=1"
+          />
+          <link rel="icon" href={favicon} type="image/x-icon" />
+        </Helmet>
+        <Overlay />
+        <NotificationContainer />
+        <NavigationContainer />
+        <div style={styles.navbarOffset} />
+        <Grid container>
+          <Grid item md={9} sm={12} xs={12}>
+            <div style={styles.body}>
+
+              <div className="interactive-tool">
+                <section>
+                  <div className="title">
+                    <Typography variant="display1" gutterBottom>
+                      <Editable
+                        editor={PlainTextEditor}
+                        handleSave={this.savePageData("title")}
+                        content={{ text: this.props.toolPageData.title }}
+                        isEditing={this.props.isEditingPage}
+                        {...this.props}
+                      >
+                        {this.props.toolPageData.title ||
+                          this.props.data.toolPages.title}
+                      </Editable>
+                    </Typography>
+                  </div>
+                  <div className="instructions">
+                    <Typography variant="display3" gutterBottom>
+                      <Editable
+                        isEditing={this.props.isEditingPage}
+                        editor={PlainTextEditor}
+                        handleSave={this.savePageData("header")}
+                        content={{ text: this.props.toolPageData.header }}
+                        {...this.props}
+                      >
+                        {this.props.toolPageData.header ||
+                          this.props.data.toolPages.header}
+                      </Editable>
+                    </Typography>
+                    <Editable
+                      isEditing={this.props.isEditingPage}
+                      editor={RichTextEditor}
+                      handleSave={this.savePageData("paragraph")}
+                      content={{ text: this.props.toolPageData.paragraph }}
+                      {...this.props}
+                    >
+                      <div
+                        className="para"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            this.props.toolPageData.paragraph ||
+                            this.props.data.toolPages.paragraph
+                        }}
+                      />
+                    </Editable>
+                  </div>
+                </section>
+                <section>
+                  <Tool
+                    tableData={fields}
+                    title={title}
+                    handleSave={this.saveTool}
+                    allowEditing={allowEditing}
+                    toolId={this.state.toolId}
+                  />
+                </section>
+              </div>
+              <Footer />
+
             </div>
-            <div className="instructions">
-              <Typography variant="display3" gutterBottom>
-                <Editable
-                  isEditing={this.props.isEditingPage}
-                  editor={PlainTextEditor}
-                  handleSave={this.savePageData("header")}
-                  content={{ text: this.props.toolPageData.header }}
-                  {...this.props}
-                >
-                  {this.props.toolPageData.header ||
-                    this.props.data.toolPages.header}
-                </Editable>
-              </Typography>
-              <Editable
-                isEditing={this.props.isEditingPage}
-                editor={RichTextEditor}
-                handleSave={this.savePageData("paragraph")}
-                content={{ text: this.props.toolPageData.paragraph }}
-                {...this.props}
-              >
-                <div
-                  className="para"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      this.props.toolPageData.paragraph ||
-                      this.props.data.toolPages.paragraph
-                  }}
-                />
-              </Editable>
-            </div>
-          </section>
-          <section>
-            <Tool
-              tableData={fields}
-              title={title}
-              handleSave={this.saveTool}
-              allowEditing={allowEditing}
-              toolId={this.state.toolId}
-            />
-          </section>
-        </div>
-        <Footer />
-      </Layout>
+          </Grid>
+          <Grid item md={3}>
+            <SidebarNavigationContainer />
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
@@ -181,7 +235,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InteractiveToolTemplate);
+export default withRoot(connect(mapStateToProps, mapDispatchToProps)(InteractiveToolTemplate));
 
 export const query = graphql`
   query ($id: String!){

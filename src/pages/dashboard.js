@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "gatsby";
+import { Link } from "gatsby";
 import { StaticQuery, graphql } from "gatsby";
 import { connect } from "react-redux";
 import { map, find, filter } from "lodash";
@@ -17,7 +17,17 @@ import Button from '@material-ui/core/Button'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
 import ArrowForward from "@material-ui/icons/ArrowForward";
 
-import Layout from '../layouts/index';
+import Helmet from "react-helmet";
+import NavigationContainer from "../containers/NavigationContainer";
+import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
+import NotificationContainer from "../containers/NotificationContainer";
+import Overlay from "../components/Overlay";
+import Footer from "../components/Footer";
+import withRoot from '../utils/withRoot';
+
+import "../assets/sass/custom.scss";
+import favicon from '../assets/img/favicon.png'
+
 import { deleteInteractiveTool, deleteBookmark, deleteComment, getCommentsByUser } from '../redux/actions';
 
 const styles = {
@@ -35,7 +45,7 @@ const styles = {
   h3: {
     margin: '0'
   },
-  body: {
+  quizCardBody: {
     padding: '1rem',
     borderTop: '2px solid #01b4aa',
     textAlign: 'center',
@@ -50,8 +60,20 @@ const styles = {
   score: {
     borderBottom: '1px solid gray',
     borderTop: '1px solid gray',
+  },
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  body: {
+    flexGrow: '1',
+  },
+  navbarOffset: {
+    height: '74px'
   }
 }
+
 
 const QuizResult = ({ result, slug, title }) => {
   const date = result ? new Date(result.timestamp).toLocaleString("en-US", {
@@ -71,14 +93,14 @@ const QuizResult = ({ result, slug, title }) => {
       <div style={styles.header}>
         <h3 style={styles.h3}><span>{title}</span></h3>
       </div>
-      <div style={styles.body}>
+      <div style={styles.quizCardBody}>
         <p>Your result:</p>
         <Typography variant="display1" color="primary">
           {score}
         </Typography>
         <p>{date}</p>
         <div style={styles.footer}>
-          <Button component="a" href={slug} variant="raised">{cta}<ArrowForward /></Button>
+          <Button component={Link} to={slug} variant="raised">{cta}<ArrowForward /></Button>
         </div>
       </div>
     </div>
@@ -101,171 +123,198 @@ class Dashboard extends React.Component {
     const surveys = (props.user && props.user.surveys) ? props.user.surveys : {};
 
     return (
-      <Layout>
-        <div className={`basic-page dashboard`}>
-          <Grid container justify="center">
-            <Grid item xs={12} className="title">
-              <Typography variant="display1" gutterBottom>Dashboard</Typography>
-              {props.user && (
-                <Typography color="primary" variant="display3" gutterBottom>
-                  {props.user.displayName}
-                </Typography>
-              )}
-            </Grid>
-          </Grid>
+      <div style={styles.page}>
+        <Helmet>
+          <title>
+            Child Sensitivity in Poverty Alleviation Programming: An Analytical
+            Toolkit
+          </title>
+          <meta
+            charSet="utf-8"
+            description="Child Sensitivity in Poverty Alleviation Programming: An Analytical Toolkit"
+            keywords="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
+            viewport="width=device-width,initial-scale=1.0,maximum-scale=1"
+          />
+          <link rel="icon" href={favicon} type="image/x-icon" />
+        </Helmet>
+        <Overlay />
+        <NotificationContainer />
+        <NavigationContainer />
+        <div style={styles.navbarOffset} />
+        <Grid container>
+          <Grid item md={9} sm={12} xs={12}>
+            <div style={styles.body}>
+              <div className={`basic-page dashboard`}>
+                <Grid container justify="center">
+                  <Grid item xs={12} className="title">
+                    <Typography variant="display1" gutterBottom>Dashboard</Typography>
+                    {props.user && (
+                      <Typography color="primary" variant="display3" gutterBottom>
+                        {props.user.displayName}
+                      </Typography>
+                    )}
+                  </Grid>
+                </Grid>
 
-          <Grid container justify="center" style={styles.container}>
-            <Grid item xs={12} md={10}>
-              <div>
-                <Typography variant="display4" gutterBottom>Quizzes</Typography>
-              </div>
+                <Grid container justify="center" style={styles.container}>
+                  <Grid item xs={12} md={10}>
+                    <div>
+                      <Typography variant="display4" gutterBottom>Quizzes</Typography>
+                    </div>
 
-              <Grid container justify="flex-start" spacing={24} style={styles.container}>
-                {
-                  quizzes.map(quizNode => {
-                    const quizPage = quizNode.node;
-                    const userResultData = surveys[quizPage.id];
+                    <Grid container justify="flex-start" spacing={24} style={styles.container}>
+                      {
+                        quizzes.map(quizNode => {
+                          const quizPage = quizNode.node;
+                          const userResultData = surveys[quizPage.id];
 
-                    return(
-                      <Grid item xs={12} sm={6} md={4} key={`quiz-${quizPage.id}`}>
-                        <Paper>
-                          <QuizResult result={userResultData} slug={quizPage.slug} title={quizPage.title} />
-                        </Paper>
-                      </Grid>
-                    )
-                  })
-                }
-              </Grid>
-
-            </Grid>
-          </Grid>
-
-          <Grid container justify="center" style={styles.container}>
-            <Grid item xs={12} md={10}>
-              <div>
-                <Typography variant="display4" gutterBottom>Bookmarked pages</Typography>
-              </div>
-              <Paper style={styles.paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="dense">Page</TableCell>
-                      <TableCell padding="dense">Remove</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {map(bookmarks, (bookmark, uid) => {
-                      const page = find(props.pages, (p) => p.node.id === uid)
-                      if (page) {
-                        return (
-                          <TableRow key={uid}>
-                            <TableCell padding="dense">
-                              <a href={`/${page.node.slug}`}>{page.node.title}</a>
-                            </TableCell>
-                            <TableCell padding="dense">
-                              <IconButton onClick={() => props.deleteBookmark(uid)}>
-                                <RemoveIcon />
-                              </IconButton>
-                            </TableCell>
-                          </TableRow>
-                        );
+                          return(
+                            <Grid item xs={12} sm={6} md={4} key={`quiz-${quizPage.id}`}>
+                              <Paper>
+                                <QuizResult result={userResultData} slug={quizPage.slug} title={quizPage.title} />
+                              </Paper>
+                            </Grid>
+                          )
+                        })
                       }
-                    })}
-                  </TableBody>
-                </Table>
-              </Paper>
-            </Grid>
-          </Grid>
+                    </Grid>
 
-          <Grid container justify="center" style={styles.container}>
-            <Grid item xs={12} md={10}>
-              <div>
-                <Typography variant="display4" gutterBottom>Interactive tools</Typography>
-              </div>
-              <Paper style={styles.paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="dense">Tool</TableCell>
-                      <TableCell padding="dense">Title</TableCell>
-                      <TableCell padding="dense">Remove</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {map(tools, (tool, uid) => {
-                      const type = tool.toolType ? tool.toolType : "Unknown Tool";
-                      return (
-                        <TableRow key={uid}>
-                          <TableCell padding="dense">{type}</TableCell>
-                          <TableCell padding="dense">
-                            <a href={`${tool.slug}?id=${uid}`}>{tool.title}</a>
-                          </TableCell>
-                          <TableCell padding="dense">
-                            <IconButton onClick={() => props.deleteInteractiveTool(uid)}>
-                              <RemoveIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </Paper>
-            </Grid>
-          </Grid>
+                  </Grid>
+                </Grid>
 
-          <Grid container justify="center" style={styles.container}>
-            <Grid item xs={12} md={10}>
-              <div>
-                <Typography variant="display4" gutterBottom>Comments</Typography>
+                <Grid container justify="center" style={styles.container}>
+                  <Grid item xs={12} md={10}>
+                    <div>
+                      <Typography variant="display4" gutterBottom>Bookmarked pages</Typography>
+                    </div>
+                    <Paper style={styles.paper}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell padding="dense">Page</TableCell>
+                            <TableCell padding="dense">Remove</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {map(bookmarks, (bookmark, uid) => {
+                            const page = find(props.pages, (p) => p.node.id === uid)
+                            if (page) {
+                              return (
+                                <TableRow key={uid}>
+                                  <TableCell padding="dense">
+                                    <Link to={`/${page.node.slug}`}>{page.node.title}</Link>
+                                  </TableCell>
+                                  <TableCell padding="dense">
+                                    <IconButton onClick={() => props.deleteBookmark(uid)}>
+                                      <RemoveIcon />
+                                    </IconButton>
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            }
+                          })}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+                  </Grid>
+                </Grid>
+
+                <Grid container justify="center" style={styles.container}>
+                  <Grid item xs={12} md={10}>
+                    <div>
+                      <Typography variant="display4" gutterBottom>Interactive tools</Typography>
+                    </div>
+                    <Paper style={styles.paper}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell padding="dense">Tool</TableCell>
+                            <TableCell padding="dense">Title</TableCell>
+                            <TableCell padding="dense">Remove</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {map(tools, (tool, uid) => {
+                            const type = tool.toolType ? tool.toolType : "Unknown Tool";
+                            return (
+                              <TableRow key={uid}>
+                                <TableCell padding="dense">{type}</TableCell>
+                                <TableCell padding="dense">
+                                  <Link to={`${tool.slug}?id=${uid}`}>{tool.title}</Link>
+                                </TableCell>
+                                <TableCell padding="dense">
+                                  <IconButton onClick={() => props.deleteInteractiveTool(uid)}>
+                                    <RemoveIcon />
+                                  </IconButton>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+                  </Grid>
+                </Grid>
+
+                <Grid container justify="center" style={styles.container}>
+                  <Grid item xs={12} md={10}>
+                    <div>
+                      <Typography variant="display4" gutterBottom>Comments</Typography>
+                    </div>
+                    <Paper style={styles.paper}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell padding="dense">Page</TableCell>
+                            <TableCell padding="dense">Comment</TableCell>
+                            <TableCell padding="dense">Date</TableCell>
+                            <TableCell padding="dense">Remove</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {map(comments, (comment, uid) => {
+                            const page = find(props.pages, (p) => p.node.id === comment.page)
+                            const date = new Date(comment.timestamp).toLocaleString("en-US", {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              hour: "numeric",
+                              minute: "numeric"
+                            });
+                            return (
+                              <TableRow key={uid}>
+                                <TableCell padding="dense">
+                                  <Link to={`${page.node.slug}`}>{page.node.title}</Link>
+                                </TableCell>
+                                <TableCell padding="dense">
+                                  {`"${comment.text}"`}
+                                </TableCell>
+                                <TableCell padding="dense">
+                                  {date}
+                                </TableCell>
+                                <TableCell padding="dense">
+                                  <IconButton onClick={() => props.deleteComment(uid)}>
+                                    <RemoveIcon />
+                                  </IconButton>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+                  </Grid>
+                </Grid>
               </div>
-              <Paper style={styles.paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="dense">Page</TableCell>
-                      <TableCell padding="dense">Comment</TableCell>
-                      <TableCell padding="dense">Date</TableCell>
-                      <TableCell padding="dense">Remove</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {map(comments, (comment, uid) => {
-                      const page = find(props.pages, (p) => p.node.id === comment.page)
-                      const date = new Date(comment.timestamp).toLocaleString("en-US", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "numeric"
-                      });
-                      return (
-                        <TableRow key={uid}>
-                          <TableCell padding="dense">
-                            <a href={`${page.node.slug}`}>{page.node.title}</a>
-                          </TableCell>
-                          <TableCell padding="dense">
-                            {`"${comment.text}"`}
-                          </TableCell>
-                          <TableCell padding="dense">
-                            {date}
-                          </TableCell>
-                          <TableCell padding="dense">
-                            <IconButton onClick={() => props.deleteComment(uid)}>
-                              <RemoveIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </Paper>
-            </Grid>
+            </div>
+            <Footer />
           </Grid>
-        </div>
-      </Layout>
+          <Grid item md={3}>
+            <SidebarNavigationContainer />
+          </Grid>
+        </Grid>
+      </div>
     );
   };
 };
@@ -324,4 +373,4 @@ const DashboardComponent = props => (
   />
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
+export default withRoot(connect(mapStateToProps, mapDispatchToProps)(DashboardComponent));

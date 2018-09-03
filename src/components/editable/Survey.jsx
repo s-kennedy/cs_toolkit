@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { Link } from 'gatsby';
 
 import { Survey, Model, StylesManager } from "survey-react";
 import Paper from "@material-ui/core/Paper";
@@ -81,7 +82,7 @@ const SurveyResults = ({ survey, isLoggedIn }) => {
             <SurveyQuestionReview key={`question-${index}`} question={question} />
           ))
         }
-        { isLoggedIn && <div style={styles.scoreBox}>You can see all your quiz results on your <a href='/dashboard'>Dashboard</a>.</div> }
+        { isLoggedIn && <div style={styles.scoreBox}>You can see all your quiz results on your <Link to='/dashboard'>Dashboard</Link>.</div> }
       </div>
     </Paper>
   )

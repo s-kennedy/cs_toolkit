@@ -1,19 +1,42 @@
 import React from "react";
 import { graphql } from "gatsby";
-import Layout from "../layouts/index";
 
+import Helmet from "react-helmet";
+import Grid from "@material-ui/core/Grid";
+import NavigationContainer from "../containers/NavigationContainer";
+import SidebarNavigationContainer from "../containers/SidebarNavigationContainer";
+import NotificationContainer from "../containers/NotificationContainer";
+import Overlay from "../components/Overlay";
 import PageContentContainer from "../containers/PageContentContainer";
 import PageTitleContainer from "../containers/PageTitleContainer";
 import PageActionsContainer from "../containers/PageActionsContainer";
 import CommentsSection from "../components/comments/CommentsSection";
 import Footer from "../components/Footer";
 
+import withRoot from '../utils/withRoot';
+import "../assets/sass/custom.scss";
+import favicon from '../assets/img/favicon.png'
+
 import { connect } from "react-redux";
 import {
   updatePageContent,
   updatePageMetaData,
-  saveLastVisitedPage
 } from "../redux/actions";
+
+const styles = {
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  body: {
+    flexGrow: '1',
+  },
+  navbarOffset: {
+    height: '74px'
+  }
+}
+
 
 class BasicPage extends React.Component {
   static propTypes = {};
@@ -41,15 +64,41 @@ class BasicPage extends React.Component {
 
   render() {
     return (
-      <Layout>
-        <div className={`basic-page ${this.props.pageData.page_type}`}>
-          <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
-          <PageTitleContainer />
-          <PageContentContainer pageId={this.props.data.pages.id} />
-          <CommentsSection pageId={this.props.data.pages.id} />
-          <Footer />
-        </div>
-      </Layout>
+      <div style={styles.page}>
+        <Helmet>
+          <title>
+            Child Sensitivity in Poverty Alleviation Programming: An Analytical
+            Toolkit
+          </title>
+          <meta
+            charSet="utf-8"
+            description="Child Sensitivity in Poverty Alleviation Programming: An Analytical Toolkit"
+            keywords="children, Save the Children, poverty alleviation, poverty reduction, child sensitivity, toolkit"
+            viewport="width=device-width,initial-scale=1.0,maximum-scale=1"
+          />
+          <link rel="icon" href={favicon} type="image/x-icon" />
+        </Helmet>
+        <Overlay />
+        <NotificationContainer />
+        <NavigationContainer />
+        <div style={styles.navbarOffset} />
+        <Grid container>
+          <Grid item md={9} sm={12} xs={12}>
+            <div style={styles.body}>
+              <div className={`basic-page ${this.props.pageData.page_type}`}>
+                <PageActionsContainer pageData={this.props.pageData} url={this.state.url} />
+                <PageTitleContainer />
+                <PageContentContainer pageId={this.props.data.pages.id} />
+                <CommentsSection pageId={this.props.data.pages.id} />
+                <Footer />
+              </div>
+            </div>
+          </Grid>
+          <Grid item md={3}>
+            <SidebarNavigationContainer />
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
@@ -69,13 +118,10 @@ function mapDispatchToProps(dispatch) {
     onUpdatePageMetaData: pageData => {
       dispatch(updatePageMetaData(pageData));
     },
-    saveLastVisitedPage: (title, pathname) => {
-      dispatch(saveLastVisitedPage(title, pathname));
-    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BasicPage);
+export default withRoot(connect(mapStateToProps, mapDispatchToProps)(BasicPage));
 
 export const query = graphql`
   query BasicPageQuery($slug: String!) {
