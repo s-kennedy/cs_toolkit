@@ -16,6 +16,10 @@ const styles = {
     padding: "1rem",
     height: "100%"
   },
+  warning: {
+    border: "1px solid #f7a700", // $yellow
+    background: "#fef6e7",
+  },
   item: {
     border: "1px solid #404040", // $dark-grey
     padding: "1rem"
@@ -43,6 +47,9 @@ const StyledFlexTable = withStyles(styles)((props) => {
     <Paper className={props.classes.container}>
       <Grid container>
         {props.tableStructure.map(row => {
+          const colorStyle = row.color ? styles[row.color] : {};
+          const headerStyle = {...styles.header, ...colorStyle };
+
           return (
             <Grid item xs={12} key={`row-${row.fieldName}`}>
               <Grid
@@ -52,7 +59,7 @@ const StyledFlexTable = withStyles(styles)((props) => {
                 className={props.classes.row}
               >
                 <Grid item xs={12} md={3}>
-                  <div style={styles.header}>
+                  <div style={headerStyle}>
                     <div>
                       <strong>{row.header}</strong>
                     </div>
