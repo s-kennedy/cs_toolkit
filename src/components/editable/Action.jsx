@@ -20,8 +20,12 @@ const styles = {
 
 const CustomLink = props => {
   const handleSave = content => {
-    props.saveChanges(() => props.updateContent(props.sectionIndex, props.index, content))
-  }
+    props.saveChanges(() =>
+      props.updateContent(props.sectionIndex, props.index, content)
+    );
+  };
+
+  const externalLink = props.link.startsWith("http");
 
   return (
     <Editable
@@ -34,9 +38,15 @@ const CustomLink = props => {
         <span style={styles.icon}>
           <LinkIcon />
         </span>
-        <Link to={props.link} style={styles.text}>
-          {props.anchor}
-        </Link>
+        {externalLink ? (
+          <a href={props.link} style={styles.text}>
+            {props.anchor}
+          </a>
+        ) : (
+          <Link to={props.link} style={styles.text}>
+            {props.anchor}
+          </Link>
+        )}
       </div>
     </Editable>
   );
