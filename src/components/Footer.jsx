@@ -10,10 +10,19 @@ const styles = {
   footer: {
     display: 'flex',
     boxShadow: '0px -2px 4px rgba(0,0,0,0.1)',
-    paddingTop: '20px',
     paddingBottom: '20px',
+    paddingTop: '20px',
     background: '#fff',
     zIndex: '14000'
+  },
+  footerContent: {
+    fontSize: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  copyright: {
+    marginBottom: '8px'
   }
 }
 
@@ -22,20 +31,17 @@ const Footer = (props) => {
     <footer className='footer' style={styles.footer}>
       <Grid container style={styles.container} justify="center">
         <Grid item xs={12} sm={10}>
-          <Grid container>
-            <Grid item xs={12} sm={6} md={8}>
+          <Grid container justify="center">
+            <Grid item xs={11} sm={6} md={8} style={styles.footerContent}>
               <Hidden only={['xs']}>
-                <div className="footer-content">
-                  <Typography variant="display3">Child Sensitivity in Poverty Alleviation Programming</Typography>
+                <div>
+                  <Typography variant="display4">Child Sensitivity in Poverty Alleviation Programming</Typography>
                   <p>An Analytical Toolkit</p>
                 </div>
               </Hidden>
-              <div className="footer-content">
-                <p>© 2017 Save the Children International</p>
-              </div>
+              <p style={styles.copyright}>© 2017 Save the Children International</p>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <div className="footer-content">
+            <Grid item xs={11} sm={6} md={4} style={styles.footerContent}>
                 <Grid container spacing={8} wrap="nowrap">
                   <Grid item>
                     <OfficeIcon />
@@ -62,7 +68,7 @@ const Footer = (props) => {
                     <p>info@savethechildren.org</p>
                   </Grid>
                 </Grid>
-              </div>
+
             </Grid>
           </Grid>
         </Grid>

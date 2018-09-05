@@ -14,29 +14,59 @@ const tableStructure = [
     fieldName: "impact"
   },
   {
+    header: "Risks and Assumptions (Impact)",
+    fieldName: "impactRisks",
+    color: 'warning',
+  },
+  {
     header: "Final Outcome",
     fieldName: "finalOutcome"
+  },
+  {
+    header: "Risks and Assumptions (Final Outcome)",
+    fieldName: "finalOutcomeRisks",
+    color: 'warning',
   },
   {
     header: "Intermediate Outcomes",
     fieldName: "intermediateOutcomes"
   },
   {
+    header: "Risks and Assumptions (Intermediate Outcome)",
+    fieldName: "intermediateOutcomesRisks",
+    color: 'warning',
+  },
+  {
     header: "Outputs",
     fieldName: "outputs"
+  },
+  {
+    header: "Risks and Assumptions (Outputs)",
+    fieldName: "outputsRisks",
+    color: 'warning',
   },
   {
     header: "Activities",
     fieldName: "activities"
   },
+  {
+    header: "Risks and Assumptions (Activities)",
+    fieldName: "activitiesRisks",
+    color: 'warning',
+  },
 ];
 
 const initialTableData = {
   impact: [""],
+  impactRisks: [""],
   finalOutcome: [""],
+  finalOutcomeRisks: [""],
   intermediateOutcomes: [""],
+  intermediateOutcomesRisks: [""],
   outputs: [""],
+  outputsRisks: [""],
   activities: [""],
+  activitiesRisks: [""]
 };
 
 const styles = {

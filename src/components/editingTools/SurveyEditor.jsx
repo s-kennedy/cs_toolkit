@@ -18,6 +18,7 @@ class SurveyEditor extends Component {
     let editorOptions = {
       showEmbededSurveyTab: false,
       showJSONEditorTab: false,
+      questionTypes: ["text", "checkbox", "comment", "radiogroup", "dropdown", "boolean", "rating"]
     };
 
     SurveyJSEditor.StylesManager.ThemeColors.default = { ...SurveyJSEditor.StylesManager.ThemeColors.default,

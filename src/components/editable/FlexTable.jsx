@@ -17,6 +17,10 @@ const styles = {
     padding: "1rem",
     height: "100%"
   },
+  warning: {
+    border: "1px solid #f7a700", // $yellow
+    background: "#fef6e7",
+  },
   item: {
     border: "1px solid #404040", // $dark-grey
     padding: "1rem",
@@ -37,7 +41,7 @@ const styles = {
   deleteButton: {
     width: "30px",
     height: "30px"
-  }
+  },
 };
 
 const FlexTable = props => {
@@ -57,6 +61,9 @@ const FlexTable = props => {
       <Paper className={props.classes.container}>
         <Grid container>
           {tableStructure.map(row => {
+            const colorStyle = row.color ? styles[row.color] : {};
+            const headerStyle = {...styles.header, ...colorStyle };
+
             return (
               <Grid item xs={12} key={`row-${row.fieldName}`}>
                 <Grid
@@ -66,7 +73,7 @@ const FlexTable = props => {
                   className={props.classes.row}
                 >
                   <Grid item xs={12} md={3}>
-                    <div style={styles.header}>
+                    <div style={headerStyle}>
                       <div>
                         <strong>{row.header}</strong>
                       </div>

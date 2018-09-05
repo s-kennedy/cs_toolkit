@@ -210,17 +210,12 @@ button, .stc-btn {
 }
 
 footer {
-  .footer-content {
-    padding: 1rem;
-    font-size: 1rem;
+  p {
+    margin: 0;
+  }
 
-    p {
-      margin: 0;
-    }
-
-    svg {
-      font-size: 20px;
-    }
+  svg {
+    font-size: 20px;
   }
 }
 
