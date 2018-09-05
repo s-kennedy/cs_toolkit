@@ -16,7 +16,7 @@ class Editable extends React.Component {
   };
 
   handleDelete = () => {
-    this.props.deleteContent(this.props.sectionIndex, this.props.index);
+    this.props.saveChanges(() => this.props.deleteContent(this.props.sectionIndex, this.props.index));
   };
 
   handleSave = () => {

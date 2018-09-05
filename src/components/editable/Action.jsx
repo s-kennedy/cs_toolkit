@@ -25,7 +25,7 @@ const CustomLink = props => {
     );
   };
 
-  const externalLink = props.link.startsWith("http");
+  const externalLink = props.link.startsWith('https://') || props.link.startsWith('http://');
 
   return (
     <Editable
