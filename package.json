@@ -29,7 +29,7 @@
     "gatsby-plugin-sass": "next",
     "gatsby-source-firebase": "^1.0.0",
     "jss": "^9.8.7",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "morgan": "^1.9.0",
     "node-sass": "^4.9.2",
     "prop-types": "^15.6.2",
